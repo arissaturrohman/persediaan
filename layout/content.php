@@ -33,6 +33,16 @@ if ($page == "instansi") {
   } elseif ($action == "delete") {
     include "page/barang/delete.php";
   }
+} elseif ($page == "kategori") {
+  if ($action == "") {
+    include "page/kategori/kategori.php";
+  } elseif ($action == "add") {
+    include "page/kategori/add.php";
+  } elseif ($action == "edit") {
+    include "page/kategori/edit.php";
+  } elseif ($action == "delete") {
+    include "page/kategori/delete.php";
+  }
 } elseif ($page == "pembelian") {
   if ($action == "") {
     include "page/pembelian/pembelian.php";

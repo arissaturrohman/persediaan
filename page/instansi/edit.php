@@ -7,12 +7,12 @@
     </div>
     <div class="card-body">
       <?php
-      $id_edit = $_GET['id'];
+      $id_edit = base64_decode(urldecode($_GET['id']));
       $sql = $conn->query("SELECT * FROM tb_instansi WHERE id_instansi = '$id_edit'");
       $data = $sql->fetch_assoc();
       ?>
       <form action="" method="POST">
-        <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
+        <input type="hidden" class="form-control" id="id_instansi" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <div class="form-group">
           <label for="instansi">Nama Instansi</label>
           <input type="text" class="form-control" id="instansi" name="instansi" value="<?= $data['nama_instansi']; ?>" autofocus>
@@ -49,7 +49,7 @@ if (isset($_POST['edit'])) {
   } else {
     $_SESSION['status'] = "Alhamdulillah";
     $_SESSION['desc'] = "Data berhasil diedit";
-    $_SESSION['link'] = "?page=instansi";
+    $_SESSION['link'] = "instansi";
   }
 }
 ?>

@@ -7,7 +7,7 @@
     </div>
     <div class="card-body">
       <?php
-      $instansi = $conn->query("SELECT * FROM tb_instansi");
+      $instansi = $conn->query("SELECT * FROM tb_instansi WHERE id_user = '$_SESSION[id_user]'");
       $data = $instansi->fetch_assoc();
       ?>
       <form action="" method="POST">
@@ -53,7 +53,7 @@ if (isset($_POST['add'])) {
   } else {
     $_SESSION['status'] = "Alhamdulillah";
     $_SESSION['desc'] = "Data berhasil ditambah";
-    $_SESSION['link'] = "?page=pegawai";
+    $_SESSION['link'] = "pegawai";
   }
 }
 ?>

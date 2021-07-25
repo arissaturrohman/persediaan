@@ -43,7 +43,7 @@ if (isset($_POST['add'])) {
   } else {
     $_SESSION['status'] = "Alhamdulillah";
     $_SESSION['desc'] = "Data berhasil ditambah";
-    $_SESSION['link'] = "?page=instansi";
+    $_SESSION['link'] = "instansi";
   }
 }
 ?>

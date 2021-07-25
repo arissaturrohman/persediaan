@@ -1,7 +1,7 @@
 <?php
 $id = base64_decode(urldecode($_GET['id']));
 
-$sql = $conn->query("DELETE FROM tb_barang WHERE id_barang = $id");
+$sql = $conn->query("DELETE FROM tb_kategori WHERE id_kategori = $id");
 
 if ($sql) {
 ?>
@@ -16,7 +16,7 @@ if ($sql) {
       });
     }, 10);
     window.setTimeout(function() {
-      window.location.replace('barang');
+      window.location.replace('kategori');
     }, 3000);
   </script>
 <?php

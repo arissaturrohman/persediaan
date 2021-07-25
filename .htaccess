@@ -2,4 +2,8 @@ RewriteEngine on
 RewriteRule ^instansi$ index.php?page=instansi [QSA]
 RewriteRule ^pegawai$ index.php?page=pegawai [QSA]
 RewriteRule ^barang$ index.php?page=barang [QSA]
+RewriteRule ^kategori$ index.php?page=kategori [QSA]
+RewriteRule ^pembelian$ index.php?page=pembelian [QSA]
+RewriteRule ^pengeluaran$ index.php?page=pengeluaran [QSA]
+RewriteRule ^saldo$ index.php?page=saldo [QSA]
 RewriteRule ^user$ index.php?page=user [QSA]

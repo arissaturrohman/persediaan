@@ -20,9 +20,12 @@
         </thead>
         <tbody>
           <?php
-
+          if ($_SESSION['level'] == "admin") {
+            $sql = $conn->query("SELECT * FROM tb_pegawai");
+          } else {
+            $sql = $conn->query("SELECT * FROM tb_pegawai WHERE id_user = '$_SESSION[id_user]'");
+          }
           $no = 1;
-          $sql = $conn->query("SELECT * FROM tb_pegawai WHERE id_user = '$_SESSION[id_user]'");
           foreach ($sql as $key => $value) :
 
           ?>
@@ -42,8 +45,11 @@
               <td><?= $value['jabatan']; ?></td>
               <td><?= $value['pangkat']; ?></td>
               <td>
-                <a href="?page=pegawai&action=edit&id=<?= $value['id_pegawai']; ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-                <a href="?page=pegawai&action=delete&id=<?= $value['id_pegawai']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
+
+
+
+                <a href="?page=pegawai&action=edit&id=<?= urlencode(base64_encode($value['id_pegawai'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
+                <a href="?page=pegawai&action=delete&id=<?= urlencode(base64_encode($value['id_pegawai'])); ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
 
 
               </td>

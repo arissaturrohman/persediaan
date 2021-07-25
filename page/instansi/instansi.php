@@ -18,9 +18,12 @@
         </thead>
         <tbody>
           <?php
-
+          if ($_SESSION['level'] == "admin") {
+            $sql = $conn->query("SELECT * FROM tb_instansi");
+          } else {
+            $sql = $conn->query("SELECT * FROM tb_instansi WHERE id_user = '$_SESSION[id_user]'");
+          }
           $no = 1;
-          $sql = $conn->query("SELECT * FROM tb_instansi WHERE id_user = '$_SESSION[id_user]'");
           foreach ($sql as $key => $value) :
 
           ?>
@@ -30,8 +33,8 @@
               <td><?= $value['alamat_instansi']; ?></td>
               <td><?= $value['no_telp']; ?></td>
               <td>
-                <a href="?page=instansi&action=edit&id=<?= $value['id_instansi']; ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-                <a href="?page=instansi&action=delete&id=<?= $value['id_instansi']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                <a href="?page=instansi&action=edit&id=<?= urlencode(base64_encode($value['id_instansi'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
+                <a href="?page=instansi&action=delete&id=<?= urlencode(base64_encode($value['id_instansi'])); ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
 
 
               </td>
