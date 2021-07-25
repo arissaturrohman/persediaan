@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule ^instansi$ index.php?page=instansi [QSA]
+RewriteRule ^pegawai$ index.php?page=pegawai [QSA]
+RewriteRule ^barang$ index.php?page=barang [QSA]
+RewriteRule ^user$ index.php?page=user [QSA]
