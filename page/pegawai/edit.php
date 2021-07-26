@@ -30,6 +30,7 @@
           <input type="text" class="form-control" id="pangkat" name="pangkat" value="<?= $data['pangkat']; ?>">
         </div>
         <button type="submit" name="edit" class="btn btn-sm btn-primary">Submit</button>
+        <a href="pegawai" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>

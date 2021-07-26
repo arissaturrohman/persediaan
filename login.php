@@ -55,7 +55,7 @@ if (isset($_POST['login'])) {
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-info">
 
   <div class="container">
 
@@ -72,7 +72,9 @@ if (isset($_POST['login'])) {
               <div class="col">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Aplikasi Persediaan Barang</h1>
+                    <img src="assets/img/logo.png" width="30%" class="mb-2">
+                    <h1 class="h4 text-gray-900 mb-4">Silahkan Login</h1>
                   </div>
                   <?php if (isset($error)) : ?>
                     <p style="color:red; font-style:italic; text-align:center;">Username / Password salah</p>

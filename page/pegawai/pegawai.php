@@ -9,13 +9,13 @@
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
-            <th>No</th>
+            <th width="5%">No</th>
             <th>Instansi</th>
             <th>Nama Pegawai</th>
             <th>NIP</th>
             <th>Jabatan</th>
             <th>Pangkat</th>
-            <th>Opsi</th>
+            <th width="8%">Opsi</th>
           </tr>
         </thead>
         <tbody>

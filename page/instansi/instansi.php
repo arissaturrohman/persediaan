@@ -9,11 +9,11 @@
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
-            <th>No</th>
+            <th  width="5%">No</th>
             <th>Nama Instansi</th>
             <th>Alamat</th>
             <th>No Telp</th>
-            <th>Opsi</th>
+            <th  width="8%">Opsi</th>
           </tr>
         </thead>
         <tbody>

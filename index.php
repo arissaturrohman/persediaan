@@ -8,6 +8,10 @@ if (!isset($_SESSION["login"])) {
 }
 
 error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+
+$uri_path = "//$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$uri_segments = explode('/', $uri_path);
+$uri_segments[1];
 ?>
 
 <?php
@@ -25,7 +29,7 @@ include('layout/header.php');
       <?php
 
       include('layout/sidebar.php');
-     
+
       ?>
 
     </ul>

@@ -26,6 +26,7 @@
           <input type="text" class="form-control" id="telp" name="telp" value="<?= $data['no_telp']; ?>">
         </div>
         <button type="submit" name="edit" class="btn btn-sm btn-primary">Submit</button>
+        <a href="instansi" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>

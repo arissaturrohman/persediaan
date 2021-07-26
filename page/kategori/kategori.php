@@ -11,7 +11,7 @@
           <tr>
             <th width="5%">No</th>
             <th>Nama Kategori</th>
-            <th width="10%">Opsi</th>
+            <th width="8%">Opsi</th>
           </tr>
         </thead>
         <tbody>
