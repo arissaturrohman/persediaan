@@ -3,7 +3,7 @@
   <!-- Default Card Example -->
   <div class="card mb-4">
     <div class="card-header">
-      Add Data Pegawai
+      Add Data Pembelian
     </div>
     <div class="card-body">
       <?php
@@ -13,21 +13,39 @@
       <form action="" method="POST">
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
-        <div class="form-group">
-          <label for="kode_barang">Kode Barang</label>
-          <input type="text" class="form-control" id="kode_barang" name="kode_barang" value="<?= $_POST['kode_barang']; ?>" autofocus>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="kode_barang">Kode Barang</label>
+            <input type="text" class="form-control" id="kode" name="kode" onkeyup="autofill()" autofocus>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="tanggal_beli">Tanggal Beli</label>
+            <input type="date" class="form-control" id="tanggal_beli" name="tanggal_beli">
+          </div>
         </div>
-        <div class="form-group">
-          <label for="volume">Jumlah Barang</label>
-          <input type="text" class="form-control" id="volume" name="volume" value="<?= $_POST['volume']; ?>">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="nama_barang">Nama Barang</label>
+            <input type="text" class="form-control" id="nama_barang" name="nama_barang" readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="satuan_barang">Satuan Barang</label>
+            <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" readonly>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="harga_satuan">Harga Satuan</label>
-          <input type="text" class="form-control" id="harga_satuan" name="harga_satuan" value="<?= $_POST['harga_satuan']; ?>">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="volume">Jumlah Barang</label>
+            <input type="text" class="form-control" id="volume" name="volume" value="<?= $_POST['volume']; ?>">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="harga_satuan">Harga Satuan</label>
+            <input type="text" class="form-control" id="harga_satuan" name="harga_satuan" value="<?= $_POST['harga_satuan']; ?>">
+          </div>
         </div>
         <div class="form-group">
           <label for="jumlah_harga">Jumlah Harga</label>
-          <input type="text" class="form-control" id="jumlah_harga" name="jumlah_harga" value="<?= $_POST['jumlah_harga']; ?>">
+          <input type="text" class="form-control" id="jumlah_harga" name="jumlah_harga" value="<?= $_POST['jumlah_harga']; ?>" readonly>
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
       </form>

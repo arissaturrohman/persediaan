@@ -23,7 +23,9 @@ session_start();
   <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   <link href="assets/vendor/sweetalert/sweetalert.min.css" rel="stylesheet">
-  <!-- Sweetalert -->
-  <script src="assets/vendor/sweetalert/sweetalert.min.js"></script>
+  <link href="assets/vendor/jquery/jquery-ui.css" rel="stylesheet">
+
+
+
 
 </head>

@@ -11,7 +11,7 @@
       $data = $instansi->fetch_assoc();
       ?>
       <form action="" method="POST">
-        <input type="text" name="id_instansi" value="<?= $data['id_instansi']; ?>">
+        <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <div class="form-group">
           <label for="pegawai">Nama Pegawai</label>
           <input type="text" class="form-control" id="pegawai" name="pegawai" value="<?= $_POST['pegawai']; ?>" autofocus>

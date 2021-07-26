@@ -2,7 +2,7 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <a href="?page=pegawai&action=add" class="btn btn-sm btn-outline-primary">Tambah</a>
+    <a href="?page=pembelian&action=add" class="btn btn-sm btn-outline-primary">Tambah</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">

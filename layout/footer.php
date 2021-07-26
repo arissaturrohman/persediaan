@@ -44,7 +44,10 @@
 
 <!-- Bootstrap core JavaScript-->
 <script src="assets/vendor/jquery/jquery.min.js"></script>
-<!-- <script src="assets/vendor/jquery/jquery.3.6.min.js"></script> -->
+<script src="assets/vendor/sweetalert/sweetalert.min.js"></script>
+<script src="assets/vendor/jquery/autocomplete.min.js"></script>
+<script src="assets/vendor/jquery/jquery.ui.js"></script>
+
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
@@ -117,16 +120,29 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
   });
 </script>
 
+<!-- Autocomplete -->
 <script>
-  $(document).ready(function () {
-    $("kode_barang").autocomplete({
-      url: "autocomplete.php",
-      dataType: "JSON",
-      onSelect: function (suggestion) {
-        $("#kode_barang").val("" + suggestion.kode_barang);
-      }
+  $(function() {
+    $("#kode").autocomplete({
+      source: 'autocomplete.php'
     });
-  })
+  });
+</script>
+
+<!-- Autofill -->
+<script>
+  function autofill() {
+    var kode = $("#kode").val();
+    $.ajax({
+      url: "autofill.php",
+      data: "kode=" + kode,
+    }).success(function(data) {
+      var json = data,
+        obj = JSON.parse(json);
+      $("#nama_barang").val(obj.nama_barang);
+      $("#satuan_barang").val(obj.satuan_barang);
+    });
+  }
 </script>
 
 </body>
