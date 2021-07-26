@@ -117,6 +117,18 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
   });
 </script>
 
+<script>
+  $(document).ready(function () {
+    $("kode_barang").autocomplete({
+      url: "autocomplete.php",
+      dataType: "JSON",
+      onSelect: function (suggestion) {
+        $("#kode_barang").val("" + suggestion.kode_barang);
+      }
+    });
+  })
+</script>
+
 </body>
 
 </html>
