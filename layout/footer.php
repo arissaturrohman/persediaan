@@ -122,26 +122,43 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
 
 <!-- Autocomplete -->
 <script>
-  $(function() {
+  $(document).ready(function() {
     $("#kode").autocomplete({
       source: 'autocomplete.php'
     });
   });
 </script>
 
-<!-- Autofill -->
 <script>
-  function autofill() {
-    var kode = $("#kode").val();
-    $.ajax({
-      url: "autofill.php",
-      data: "kode=" + kode,
-    }).success(function(data) {
-      var json = data,
-        obj = JSON.parse(json);
-      $("#nama_barang").val(obj.nama_barang);
-      $("#satuan_barang").val(obj.satuan_barang);
-    });
+  $(document).ready(function() {
+    $("#kode").change(function() {
+      let kode = $('#kode').val();
+      $.ajax({
+        method: "GET",
+        url: "autofill.php",
+        dataType: "JSON",
+        data: {
+          kode: kode
+        }
+      }).done(function(data) {
+        let obj = JSON.parse(data);
+        $('#nama_barang').val(obj.nama_barang);
+        $('#satuan_barang').val(obj.satuan_barang);
+
+      });
+    })
+  });
+</script>
+
+<!-- Fungsi Kali -->
+<script>
+  function kali() {
+    var volume = document.getElementById('volume').value;
+    var harga = document.getElementById('harga_satuan').value;
+    var result = parseInt(volume) * parseInt(harga);
+    if (!isNaN(result)) {
+      document.getElementById('jumlah_harga').value = result;
+    }
   }
 </script>
 

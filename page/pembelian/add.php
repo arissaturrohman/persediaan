@@ -15,8 +15,8 @@
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="kode_barang">Kode Barang</label>
-            <input type="text" class="form-control" id="kode" name="kode" onkeyup="autofill()" autofocus>
+            <label for="kode">Kode Barang</label>
+            <input type="text" class="form-control" id="kode" name="kode" autofocus>
           </div>
           <div class="form-group col-md-6">
             <label for="tanggal_beli">Tanggal Beli</label>
@@ -26,26 +26,26 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="nama_barang">Nama Barang</label>
-            <input type="text" class="form-control" id="nama_barang" name="nama_barang" readonly>
+            <input type="text" class="form-control" id="nama_barang" name="nama_barang" disabled>
           </div>
           <div class="form-group col-md-6">
             <label for="satuan_barang">Satuan Barang</label>
-            <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" readonly>
+            <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" disabled>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="volume">Jumlah Barang</label>
-            <input type="text" class="form-control" id="volume" name="volume" value="<?= $_POST['volume']; ?>">
+            <input type="text" class="form-control" id="volume" name="volume" onkeyup="kali()" value="<?= $_POST['volume']; ?>" placeholder="0">
           </div>
           <div class="form-group col-md-6">
             <label for="harga_satuan">Harga Satuan</label>
-            <input type="text" class="form-control" id="harga_satuan" name="harga_satuan" value="<?= $_POST['harga_satuan']; ?>">
+            <input type="text" class="form-control" id="harga_satuan" onkeyup="kali()" name="harga_satuan" value="<?= $_POST['harga_satuan']; ?>" placeholder="0">
           </div>
         </div>
         <div class="form-group">
           <label for="jumlah_harga">Jumlah Harga</label>
-          <input type="text" class="form-control" id="jumlah_harga" name="jumlah_harga" value="<?= $_POST['jumlah_harga']; ?>" readonly>
+          <input type="text" class="form-control" id="jumlah_harga" name="jumlah_harga" value="0" readonly>
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
       </form>

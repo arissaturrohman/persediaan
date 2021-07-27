@@ -26,6 +26,4 @@ session_start();
   <link href="assets/vendor/jquery/jquery-ui.css" rel="stylesheet">
 
 
-
-
 </head>
