@@ -1,6 +1,6 @@
 <?php
 $id = base64_decode(urldecode($_GET['id']));
-$sql = $conn->query("DELETE FROM tb_pegawai WHERE id_pegawai = $id");
+$sql = $conn->query("DELETE FROM tb_pembelian WHERE id_pembelian = $id");
 
 if ($sql) {
 ?>
@@ -15,7 +15,7 @@ if ($sql) {
       });
     }, 10);
     window.setTimeout(function() {
-      window.location.replace('pegawai');
+      window.location.replace('pembelian');
     }, 3000);
   </script>
 <?php

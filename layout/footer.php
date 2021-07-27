@@ -42,6 +42,109 @@
   </div>
 </div>
 
+<!-- Modal Barang -->
+<div class="modal fade" id="kodeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered" id="dataTable" width="100%">
+          <thead>
+            <tr>
+              <th>Kode Barang</th>
+              <th>Nama Barang</th>
+              <th>Satuan</th>
+              <th>Opsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+
+            $sql = $conn->query("SELECT * FROM tb_barang");
+            while ($data = $sql->fetch_assoc()) {
+
+            ?>
+              <tr>
+                <td><?= $data['kode_barang']; ?></td>
+                <td><?= $data['nama_barang']; ?></td>
+                <td><?= $data['satuan_barang']; ?></td>
+                <td>
+                  <button class="btn btn-sm btn-info" id="beli" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-satuan="<?= $data['satuan_barang']; ?>">
+                    <i class=" fas fa-check"></i>
+                  </button>
+                  </span>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal Pengeluaran -->
+<div class="modal fade" id="keluarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered" id="tableKeluar" width="100%">
+          <thead>
+            <tr>
+              <th>Kode Barang</th>
+              <th>Nama Barang</th>
+              <th>Satuan</th>
+              <th>Jumlah</th>
+              <th>Opsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+
+            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0");
+            while ($data = $sql->fetch_assoc()) {
+
+            ?>
+              <tr>
+                <td><?= $data['kode_barang']; ?></td>
+                <?php
+                $kode_barang = $data['kode_barang'];
+                $barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$kode_barang'");
+                $data_barang = $barang->fetch_assoc();
+
+                ?>
+                <td><?= $data_barang['nama_barang']; ?></td>
+                <td><?= $data_barang['satuan_barang']; ?></td>
+                <td><?= $data['volume']; ?></td>
+
+                <td>
+                  <button class="btn btn-sm btn-info" id="keluar" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>">
+                    <i class=" fas fa-check"></i>
+                  </button>
+                  </span>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- Bootstrap core JavaScript-->
 <script src="assets/vendor/jquery/jquery.min.js"></script>
 <script src="assets/vendor/sweetalert/sweetalert.min.js"></script>
@@ -136,12 +239,12 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       $.ajax({
         method: "GET",
         url: "autofill.php",
-        dataType: "JSON",
+        // dataType: "JSON",
         data: {
           kode: kode
         }
       }).done(function(data) {
-        let obj = JSON.parse(data);
+        // let obj = JSON.parse(data);
         $('#nama_barang').val(obj.nama_barang);
         $('#satuan_barang').val(obj.satuan_barang);
 
@@ -160,6 +263,45 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       document.getElementById('jumlah_harga').value = result;
     }
   }
+</script>
+
+<!-- Autoload Barang -->
+<script>
+  $(document).ready(function() {
+    $(document).on('click', '#beli', function() {
+      var kode_barang = $(this).data('kode');
+      var nama_barang = $(this).data('barang');
+      var satuan_barang = $(this).data('satuan');
+      $('#kode').val(kode_barang);
+      $('#nama_barang').val(nama_barang);
+      $('#satuan_barang').val(satuan_barang);
+      $('#kodeModal').modal('hide');
+    })
+  })
+</script>
+
+<!-- Autoload Pengeluaran -->
+<script>
+  $(document).ready(function() {
+    $(document).on('click', '#keluar', function() {
+      var kode_barang = $(this).data('kode');
+      var nama_barang = $(this).data('barang');
+      var satuan_barang = $(this).data('satuan');
+      var harga_satuan = $(this).data('harga');
+      $('#kode').val(kode_barang);
+      $('#nama_barang').val(nama_barang);
+      $('#satuan_barang').val(satuan_barang);
+      $('#harga_satuan').val(harga_satuan);
+      $('#keluarModal').modal('hide');
+    })
+  })
+</script>
+
+<script>
+  $('#tableKeluar').DataTable({
+    ordering: true,
+    info: true,
+  });
 </script>
 
 </body>

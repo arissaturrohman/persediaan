@@ -16,6 +16,7 @@
             <th>Jumlah</th>
             <th>Harga</th>
             <th>Jumlah Harga</th>
+            <th>Tanggal Beli</th>
             <th width="8%">Opsi</th>
           </tr>
         </thead>
@@ -39,8 +40,10 @@
               }
               ?>
 
-              <td><?= $value['harga_satuan']; ?></td>
-              <td><?= $value['jumlah_harga']; ?></td>
+              <td><?= $value['volume']; ?></td>
+              <td><?= number_format($value['harga_satuan']); ?></td>
+              <td><?= number_format($value['jumlah_harga']); ?></td>
+              <td><?= TanggalIndo($value['tanggal_beli']); ?></td>
               <td>
 
 
