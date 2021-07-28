@@ -13,7 +13,7 @@ $urutan++;
 // membentuk kode barang baru
 // perintah sprintf("%03s", $urutan); berguna untuk membuat string menjadi 3 karakter
 // misalnya perintah sprintf("%03s", 15); maka akan menghasilkan '015'
-// angka yang diambil tadi digabungkan dengan kode huruf yang kita inginkan, misalnya BRG 
+// angka yang diambil tadi digabungkan dengan kode huruf yang kita inginkan, misalnya TRX 
 $huruf = "TRX";
 $trx = $huruf . sprintf("%03s", $urutan);
 // echo $trx;

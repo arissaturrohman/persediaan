@@ -19,26 +19,26 @@
           <div class="form-group col-md-6">
             <label for="kode">Kode Barang</label>
             <span data-toggle="tooltip" title="Klik disini">
-              <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#keluarModal" value="<?= $$_POST['kode']; ?>" autofocus required readonly>
+              <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#keluarModal" value="<?= $_POST['kode']; ?>" autofocus required readonly>
             </span>
           </div>
           <div class="form-group col-md-6">
             <label for="tanggal_spb">Tanggal Permintaan</label>
-            <input type="date" class="form-control" id="tanggal_spb" name="tanggal_spb" value="<?= $$_POST['tanggal_spb']; ?>" required>
+            <input type="date" class="form-control" id="tanggal_spb" name="tanggal_spb" value="<?= $_POST['tanggal_spb']; ?>" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="nama_barang">Nama Barang</label>
-            <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= $$_POST['nama_barang']; ?>" disabled>
+            <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= $_POST['nama_barang']; ?>" disabled>
           </div>
           <div class="form-group col-md-3">
             <label for="stok">Sisa Stok</label>
-            <input type="text" class="form-control" id="stok" name="stok" value="<?= $$_POST['satuan_barang']; ?>" disabled>
+            <input type="text" class="form-control" id="stok" name="stok" value="<?= $_POST['satuan_barang']; ?>" disabled>
           </div>
           <div class="form-group col-md-3">
             <label for="satuan_barang">Satuan Barang</label>
-            <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" value="<?= $$_POST['satuan_barang']; ?>" disabled>
+            <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" value="<?= $_POST['satuan_barang']; ?>" disabled>
           </div>
         </div>
         <div class="form-row">
@@ -116,7 +116,7 @@
         <tbody>
           <?php
           $no = 1;
-          echo $trx = $_GET['trx'];
+          $trx = $_GET['trx'];
           $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$trx'");
           foreach ($sql as $key => $value) :
           ?>

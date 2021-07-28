@@ -18,7 +18,7 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="kode">Kode Barang</label>
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Klik disini">
+            <span data-toggle="tooltip" title="Klik disini">
               <input type="text" class="form-control" id="kode" name="kode" value="<?= $data['kode_barang']; ?>" data-placement="top" data-toggle="modal" data-target="#kodeModal" autofocus required readonly>
             </span>
           </div>
