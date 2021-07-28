@@ -12,6 +12,7 @@
           <input type="text" class="form-control" id="kategori" name="kategori" value="<?= $_POST['kategori']; ?>" autofocus>
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
+        <a href="kategori" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>

@@ -33,6 +33,7 @@
           <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" value="<?= $_POST['satuan_barang']; ?>">
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
+        <a href="barang" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>

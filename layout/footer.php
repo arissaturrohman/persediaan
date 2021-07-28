@@ -130,7 +130,7 @@
                 <td><?= $data['volume']; ?></td>
 
                 <td>
-                  <button class="btn btn-sm btn-info" id="keluar" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>">
+                  <button class="btn btn-sm btn-info" id="keluar" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-stok="<?= $data['volume']; ?>">
                     <i class=" fas fa-check"></i>
                   </button>
                   </span>
@@ -189,7 +189,6 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
   unset($_SESSION['status']);
 }
 ?>
-
 
 <!-- Sweetalert Hapus -->
 <script>
@@ -284,14 +283,18 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
 <script>
   $(document).ready(function() {
     $(document).on('click', '#keluar', function() {
+      var idbeli = $(this).data('idbeli');
       var kode_barang = $(this).data('kode');
       var nama_barang = $(this).data('barang');
       var satuan_barang = $(this).data('satuan');
       var harga_satuan = $(this).data('harga');
+      var volume = $(this).data('stok');
+      $('#id_pembelian').val(idbeli);
       $('#kode').val(kode_barang);
       $('#nama_barang').val(nama_barang);
       $('#satuan_barang').val(satuan_barang);
       $('#harga_satuan').val(harga_satuan);
+      $('#stok').val(volume);
       $('#keluarModal').modal('hide');
     })
   })
@@ -301,6 +304,15 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
   $('#tableKeluar').DataTable({
     ordering: true,
     info: true,
+  });
+</script>
+
+<script>
+  $('#tambahData').DataTable({
+    ordering: false,
+    info: false,
+    searching: false,
+    paging: false,
   });
 </script>
 

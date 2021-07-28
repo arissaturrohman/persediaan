@@ -16,7 +16,7 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="kode">Kode Barang</label>
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Klik disini">
+            <span data-toggle="tooltip" title="Klik disini">
               <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#kodeModal" autofocus required readonly>
             </span>
           </div>
@@ -66,6 +66,7 @@
           <input type="text" class="form-control" id="no_dokumen" name="no_dokumen">
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
+        <a href="pembelian" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>

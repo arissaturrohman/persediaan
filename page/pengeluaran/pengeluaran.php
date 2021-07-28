@@ -1,8 +1,29 @@
+<?php
+$query = mysqli_query($conn, "SELECT max(trx) as kodeTerbesar FROM tb_pengeluaran");
+$data = mysqli_fetch_array($query);
+$trx = $data['kodeTerbesar'];
+
+// mengambil angka dari kode barang terbesar, menggunakan fungsi substr
+// dan diubah ke integer dengan (int)
+$urutan = (int) substr($trx, 3, 3);
+
+// bilangan yang diambil ini ditambah 1 untuk menentukan nomor urut berikutnya
+$urutan++;
+
+// membentuk kode barang baru
+// perintah sprintf("%03s", $urutan); berguna untuk membuat string menjadi 3 karakter
+// misalnya perintah sprintf("%03s", 15); maka akan menghasilkan '015'
+// angka yang diambil tadi digabungkan dengan kode huruf yang kita inginkan, misalnya BRG 
+$huruf = "TRX";
+$trx = $huruf . sprintf("%03s", $urutan);
+// echo $trx;
+?>
+
 <h5 class="h5 mb-4 text-gray-800">Data Pengadaan</h5>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <a href="?page=pengeluaran&action=add" class="btn btn-sm btn-outline-primary">Tambah</a>
+    <a href="?page=pengeluaran&action=add&trx=<?= $trx; ?>" class="btn btn-sm btn-outline-primary">Tambah</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -51,7 +72,7 @@
                 echo "<td>$data[nama_pegawai]</td>";
               }
               ?>
-              <td><?= $value['no_spb']; ?></td>
+              <td><?= "00" . $value['no_spb'] . " / spb / " . BulanRomawi($value['tanggal_spb']) ?></td>
               <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
               <td>
 

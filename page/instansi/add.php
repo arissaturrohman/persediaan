@@ -20,6 +20,7 @@
           <input type="text" class="form-control" id="telp" name="telp" value="<?= $_POST['telp']; ?>">
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
+        <a href="instansi" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>

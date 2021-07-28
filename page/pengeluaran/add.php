@@ -11,12 +11,14 @@
       $data = $instansi->fetch_assoc();
       ?>
       <form action="" method="POST">
+        <input type="hidden" name="trx" value="<?= $_GET['trx']; ?>">
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
+        <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="kode">Kode Barang</label>
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Klik disini">
+            <span data-toggle="tooltip" title="Klik disini">
               <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#keluarModal" value="<?= $$_POST['kode']; ?>" autofocus required readonly>
             </span>
           </div>
@@ -30,7 +32,11 @@
             <label for="nama_barang">Nama Barang</label>
             <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= $$_POST['nama_barang']; ?>" disabled>
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-3">
+            <label for="stok">Sisa Stok</label>
+            <input type="text" class="form-control" id="stok" name="stok" value="<?= $$_POST['satuan_barang']; ?>" disabled>
+          </div>
+          <div class="form-group col-md-3">
             <label for="satuan_barang">Satuan Barang</label>
             <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" value="<?= $$_POST['satuan_barang']; ?>" disabled>
           </div>
@@ -63,34 +69,105 @@
               <?php endforeach; ?>
             </select>
           </div>
-          <?php
+          <div class="form-group col-md-6">
+            <label for="no_spb">No Keluar</label>
+            <select class="form-control" id="no_spb" name="no_spb" required>
+              <option>-- Pilih --</option>
+              <?php
+              $no = "001";
+              for ($no = 1; $no <= 200; $no++) {
+                echo "<option value='$no'>$no</option>";
+              }
 
-          $query = $conn->query("SELECT MAX(no_spb) AS spb FROM tb_pengeluaran");
-          $data = $query->fetch_assoc();
-          $kodeBarang = $data['spb'];
-          $urutan = (int) substr($kodeBarang, 9, 4) + 1;
-          $kodeBarang = sprintf("%', 04d", $urutan);
-          $kode_spb = "00" . $urutan . " / SPB / " . date('Y');
-          // echo $invoice;
-
-          ?>
-          <div class="form-group">
-            <label for="no_spb">No SPB</label>
-            <input type="text" class="form-control" value="<?= $kode_spb; ?>" id="no_spb" name="no_spb">
+              ?>
+            </select>
           </div>
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
+        <a href="pengeluaran" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>
 
 </div>
 
+<div class="card mb-4">
+  <div class="card-header">
+    Data Pengeluaran
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="tambahData" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th width="5%">No</th>
+            <th>Kode Barang</th>
+            <th>Nama Barang</th>
+            <th>Satuan</th>
+            <th>Jumlah</th>
+            <th>Harga</th>
+            <th>Jumlah Harga</th>
+            <th>Penanggungjawab</th>
+            <th>No SPB</th>
+            <th>Tanggal SPB</th>
+            <th width="8%">Opsi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $no = 1;
+          echo $trx = $_GET['trx'];
+          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$trx'");
+          foreach ($sql as $key => $value) :
+          ?>
+            <tr>
+              <td><?= $no++; ?></td>
+              <?php
+              $kode_barang = $value['kode_barang'];
+              $barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$kode_barang'");
+              foreach ($barang as $key => $data) {                # code...
+                echo "<td>$data[kode_barang]</td>";
+                echo "<td>$data[nama_barang]</td>";
+                echo "<td>$data[satuan_barang]</td>";
+              }
+              ?>
+
+              <td><?= $value['volume']; ?></td>
+              <td><?= number_format($value['harga_satuan']); ?></td>
+              <td><?= number_format($value['jumlah_harga']); ?></td>
+              <?php
+              $id_pegawai = $value['penanggungjawab'];
+              $pegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$id_pegawai'");
+              foreach ($pegawai as $key => $data) {
+                echo "<td>$data[nama_pegawai]</td>";
+              }
+              ?>
+              <td><?= "00" . $value['no_spb'] . " / spb / " . BulanRomawi($value['tanggal_spb']) ?></td>
+              <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
+              <td>
+
+
+
+                <a href="?page=pengeluaran&action=edit&id=<?= urlencode(base64_encode($value['id_pengeluaran'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
+                <a href="?page=pengeluaran&action=delete&id=<?= urlencode(base64_encode($value['id_pengeluaran'])); ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
+
+
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- Proses Simpan -->
 <?php
 if (isset($_POST['add'])) {
+  $trx = $_POST['trx'];
   $id_instansi = $_POST['id_instansi'];
   $id_user = $_POST['id_user'];
+  $id_pembelian = $_POST['id_pembelian'];
   $kode = $_POST['kode'];
   $volume = $_POST['volume'];
   $harga_satuan = $_POST['harga_satuan'];
@@ -112,7 +189,7 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user,kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb')");
+    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx')");
 
     if (!$sql) {
       // die();
@@ -121,7 +198,7 @@ if (isset($_POST['add'])) {
     } else {
       $_SESSION['status'] = "Alhamdulillah";
       $_SESSION['desc'] = "Data berhasil ditambah";
-      $_SESSION['link'] = "pengeluaran";
+      $_SESSION['link'] = "";
 
       $update_barang = $conn->query("UPDATE tb_pembelian SET volume = '$sisa' WHERE kode_barang = '$kode'");
     }
