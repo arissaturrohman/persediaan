@@ -10,6 +10,7 @@
         <thead>
           <tr>
             <th width="5%">No</th>
+            <th>Id Kategori</th>
             <th>Nama Kategori</th>
             <th width="8%">Opsi</th>
           </tr>
@@ -23,6 +24,7 @@
           ?>
             <tr>
               <td><?= $no++; ?></td>
+              <td><?= $value['id_kategori']; ?></td>
               <td><?= $value['kategori']; ?></td>
               <td>
                 <a href="?page=kategori&action=edit&id=<?= urlencode(base64_encode($value['id_kategori'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>

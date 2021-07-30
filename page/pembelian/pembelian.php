@@ -22,8 +22,13 @@
         </thead>
         <tbody>
           <?php
+          if ($_SESSION['level'] == "admin") {
+
+            $sql = $conn->query("SELECT * FROM tb_pembelian");
+          } else {
+            $sql = $conn->query("SELECT * FROM tb_pembelian  WHERE id_user = '$_SESSION[id_user]'");
+          }
           $no = 1;
-          $sql = $conn->query("SELECT * FROM tb_pembelian");
           foreach ($sql as $key => $value) :
 
           ?>

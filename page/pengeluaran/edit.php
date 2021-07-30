@@ -140,27 +140,25 @@ if (isset($_POST['edit'])) {
       alert('Oops! Jumlah pengeluaran lebih besar dari stok ...');
     </script>
 <?php
+
+  } else {
+
     // Cek apakah stok bertambah atau berkurang
     $cekStok = $conn->query("SELECT * FROM tb_pengeluaran WHERE id_pengeluaran = '$id_pengeluaran'");
     $dataCek = $cekStok->fetch_assoc();
     $stokAwal = $dataCek['volume'];
-
-    if ($stokAwal > $volume) {
-      echo $stokAkhir = $stok - $stokAwal;
-    } else {
-      echo $stokAkhir = $stok + $stokAwal;
-    }
-  } else {
-
+    $cekVolume = $stokAwal - $volume;
+    $stokAkhir = $cekVolume + $stok;
+    // var_dump($stokAkhir);
+    // die;
     $sql = $conn->query("UPDATE tb_pengeluaran SET id_instansi = '$id_instansi', id_user = '$id_user', id_pembelian = '$id_pembelian', kode_barang = '$kode', volume = '$volume', harga_satuan = '$harga_satuan', jumlah_harga = '$jumlah_harga', penanggungjawab = '$penanggungjawab', no_spb = '$no_spb', tanggal_spb = '$tanggal_spb', trx = '$trx' WHERE id_pengeluaran = '$id_pengeluaran'");
 
-    $pembelian = $conn->query("SELECT * FROM tb_pembelian WHERE id_pembelian = '$id_pembelian'");
-    $dataBeli = $pembelian->fetch_assoc();
-    // $volume = $dataBeli['volume'];
-
-    // $tambahStok = $stok + $volume;
-
-    $update_stok = $conn->query("UPDATE tb_pembelian SET volume = '$stokAkhir' WHERE id_pembelian = '$id_pembelian'");
+    if ($stokAwal < $volume) {
+      $update_stok = $conn->query("UPDATE tb_pembelian SET volume = '$cekVolume' WHERE id_pembelian = '$id_pembelian'");
+    }
+    if ($stokAwal > $volume) {
+      $update_stok = $conn->query("UPDATE tb_pembelian SET volume = '$stokAkhir' WHERE id_pembelian = '$id_pembelian'");
+    }
 
     if (!$sql) {
       // die();
@@ -173,4 +171,6 @@ if (isset($_POST['edit'])) {
     }
   }
 }
+
+
 ?>

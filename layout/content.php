@@ -32,6 +32,8 @@ if ($page == "instansi") {
     include "page/barang/edit.php";
   } elseif ($action == "delete") {
     include "page/barang/delete.php";
+  } elseif ($action == "import") {
+    include "page/barang/import.php";
   }
 } elseif ($page == "kategori") {
   if ($action == "") {
@@ -60,6 +62,8 @@ if ($page == "instansi") {
     include "page/pengeluaran/add.php";
   } elseif ($action == "edit") {
     include "page/pengeluaran/edit.php";
+  } elseif ($action == "edit_trx") {
+    include "page/pengeluaran/edit_trx.php";
   } elseif ($action == "delete") {
     include "page/pengeluaran/delete.php";
   }

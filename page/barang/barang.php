@@ -2,7 +2,8 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <a href="?page=barang&action=add" class="btn btn-sm btn-outline-primary">Tambah</a>
+    <a href="?page=barang&action=add" class="btn btn-sm btn-outline-primary float-left">Tambah</a>
+    <a href="?page=barang&action=import" class="btn btn-sm btn-outline-dark float-right">Import</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">
