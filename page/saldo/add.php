@@ -1,11 +1,5 @@
 <div class="col-lg-6 offset-3">
 
-  <?php
-  $query = mysqli_query($conn, "SELECT max(id_pembelian) as kodeTerbesar FROM tb_pembelian");
-  $data = mysqli_fetch_array($query);
-  $kode_beli = $data['kodeTerbesar'] + 1;
-  ?>
-
   <!-- Default Card Example -->
   <div class="card mb-4">
     <div class="card-header">
@@ -18,7 +12,6 @@
       ?>
       <form action="" method="POST">
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
-        <input type="text" name="id_pembelian" value="<?= $kode_beli; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <div class="form-row">
           <div class="form-group col-md-6">
@@ -84,7 +77,6 @@
 <?php
 if (isset($_POST['add'])) {
   $id_instansi = $_POST['id_instansi'];
-  $id_pembelian = $_POST['id_pembelian'];
   $id_user = $_POST['id_user'];
   $kode = $_POST['kode'];
   $volume = $_POST['volume'];
@@ -96,9 +88,7 @@ if (isset($_POST['add'])) {
   $tanggal_dokomen = $_POST['tanggal_dokomen'];
   $tahun = date('Y');
 
-  $sql = $conn->query("INSERT INTO tb_pembelian (id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal_beli, nama_rekanan, no_dokumen, tanggal_dokumen, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_beli', '$nama_rekanan', '$no_dokumen', '$tanggal_dokumen', '$tahun')");
-
-  $sql_saldo = $conn->query("INSERT INTO tb_saldo_awal (id_pembelian, id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tahun) VALUES ('$id_pembelian', '$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tahun')");
+  $sql = $conn->query("INSERT INTO tb_pembelian (id_instansi, id_user,kode_barang, volume, harga_satuan, jumlah_harga, tanggal_beli, nama_rekanan, no_dokumen, tanggal_dokumen, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_beli', '$nama_rekanan', '$no_dokumen', '$tanggal_dokumen', '$tahun')");
 
   if (!$sql) {
     // die();

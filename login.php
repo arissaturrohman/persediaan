@@ -6,6 +6,7 @@ error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 if (isset($_POST['login'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
+  $tahun = date('Y');
 
   $sql = $conn->query("SELECT * FROM tb_user WHERE username = '$username'");
 
@@ -17,12 +18,14 @@ if (isset($_POST['login'])) {
         $_SESSION['nama'] = $row['nama_user'];
         $_SESSION['id_user'] = $row['id_user'];
         $_SESSION['level'] = "admin";
+        $_SESSION['tahun'] = $tahun;
         header('location: index.php');
         exit();
       } elseif ($row['level'] == "user") {
         $_SESSION['nama'] = $row['nama_user'];
         $_SESSION['id_user'] = $row['id_user'];
         $_SESSION['level'] = "user";
+        $_SESSION['tahun'] = $tahun;
         header('location: index.php');
         exit();
       }
@@ -85,6 +88,18 @@ if (isset($_POST['login'])) {
                     </div>
                     <div class="form-group">
                       <input type="password" name="password" class="form-control form-control-user" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <select class="form-control" id="tahun" name="tahun" required>
+                        <option>Tahun</option>
+                        <?php
+                        // $no = "001";
+                        for ($i = date('Y'); $i >= date('Y') - 1; $i -= 1) {
+                          echo "<option value='$i'>$i</option>";
+                        }
+
+                        ?>
+                      </select>
                     </div>
                     <button type="submit" name="login" class="btn btn-sm btn-primary btn-user btn-block">Login</button>
                   </form>

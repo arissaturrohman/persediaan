@@ -24,7 +24,7 @@
           <?php
           if ($_SESSION['level'] == "admin") {
 
-            $sql = $conn->query("SELECT * FROM tb_pembelian");
+            $sql = $conn->query("SELECT * FROM tb_pembelian ");
           } else {
             $sql = $conn->query("SELECT * FROM tb_pembelian  WHERE id_user = '$_SESSION[id_user]'");
           }

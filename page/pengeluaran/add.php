@@ -200,7 +200,9 @@ if (isset($_POST['add'])) {
       $_SESSION['desc'] = "Data berhasil ditambah";
       $_SESSION['link'] = "";
 
-      $update_barang = $conn->query("UPDATE tb_pembelian SET volume = '$sisa' WHERE kode_barang = '$kode'");
+      $update_barang = $conn->query("UPDATE tb_pembelian SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
+
+      $update_barang = $conn->query("UPDATE tb_saldo_awal SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
     }
   }
 }
