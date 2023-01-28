@@ -16,13 +16,20 @@
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="kode">Kode Barang</label>
-            <span data-toggle="tooltip" title="Klik disini">
-              <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#keluarModal" value="<?= $_POST['kode']; ?>" autofocus required readonly>
+          <div class="form-group col-md-4">
+            <label for="kode">Cari Barang</label>
+            <!-- <span data-toggle="tooltip" title="Klik disini"> -->
+            <a href="" class="btn btn-outline-primary" data-placement="top" data-toggle="modal" data-target="#keluarModal">Cari Barang</a>
+            <!-- <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#keluarModal" value="<?= $_POST['kode']; ?>" autofocus required readonly> -->
             </span>
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
+            <label for="kode">Kode Barang</label>
+            <!-- <span data-toggle="tooltip" title="Klik disini"> -->
+            <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#keluarModal" value="<?= $_POST['kode']; ?>" autofocus required readonly>
+            </span>
+          </div>
+          <div class="form-group col-md-4">
             <label for="tanggal_spb">Tanggal Permintaan</label>
             <input type="date" class="form-control" id="tanggal_spb" name="tanggal_spb" value="<?= $_POST['tanggal_spb']; ?>" required>
           </div>
@@ -148,8 +155,8 @@
 
 
 
-                <a href="?page=pengeluaran&action=edit_trx&id=<?= urlencode(base64_encode($value['id_pengeluaran'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-                <a href="?page=pengeluaran&action=delete&id=<?= urlencode(base64_encode($value['id_pengeluaran'])); ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                <!-- <a href="?page=pengeluaran&action=edit_trx&id=<?= urlencode(base64_encode($value['id_pengeluaran'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a> -->
+                <a href="?page=pengeluaran&action=delete&id=<?= $value['id_pengeluaran']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
 
 
               </td>

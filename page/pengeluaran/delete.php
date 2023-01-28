@@ -1,5 +1,5 @@
 <?php
-$id = base64_decode(urldecode($_GET['id']));
+$id = $_GET['id'];
 
 $keluar = $conn->query("SELECT * FROM tb_pengeluaran WHERE id_pengeluaran = '$id'");
 $dataKeluar = $keluar->fetch_assoc();

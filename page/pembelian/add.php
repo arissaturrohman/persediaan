@@ -98,7 +98,7 @@ if (isset($_POST['add'])) {
 
   $sql = $conn->query("INSERT INTO tb_pembelian (id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal_beli, nama_rekanan, no_dokumen, tanggal_dokumen, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_beli', '$nama_rekanan', '$no_dokumen', '$tanggal_dokumen', '$tahun')");
 
-  $sql_saldo = $conn->query("INSERT INTO tb_saldo_awal (id_pembelian, id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tahun) VALUES ('$id_pembelian', '$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tahun')");
+  // $sql_saldo = $conn->query("INSERT INTO tb_saldo_awal (id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tahun')");
 
   if (!$sql) {
     // die();
