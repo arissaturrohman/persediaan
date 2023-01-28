@@ -44,7 +44,7 @@
 
 <!-- Modal Barang -->
 <div class="modal fade" id="kodeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
@@ -56,7 +56,7 @@
         <table class="table table-bordered" id="dataTable" width="100%">
           <thead>
             <tr>
-              <th>Kode Barang</th>
+              <th width="20%">Kode Barang</th>
               <th>Nama Barang</th>
               <th>Satuan</th>
               <th>Opsi</th>
@@ -91,7 +91,7 @@
 
 <!-- Modal Pengeluaran -->
 <div class="modal fade" id="keluarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>

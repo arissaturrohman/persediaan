@@ -5,7 +5,7 @@
 
 
   
-    <a href="?page=saldo&action=add" class="btn btn-sm btn-outline-primary">Klik untuk Saldo Awal Tahun <?= date('Y') + 1; ?></a>
+    <a href="?page=saldo&action=add" class="btn btn-sm btn-outline-primary">Klik untuk Saldo Awal Tahun <?= date('Y'); ?></a>
   </div>
   <div class="card-body">
     <div class="table-responsive">

@@ -18,9 +18,7 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="kode">Cari Barang</label>
-            <!-- <span data-toggle="tooltip" title="Klik disini"> -->
             <a href="" class="btn btn-outline-primary" data-placement="top" data-toggle="modal" data-target="#keluarModal">Cari Barang</a>
-            <!-- <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#keluarModal" value="<?= $_POST['kode']; ?>" autofocus required readonly> -->
             </span>
           </div>
           <div class="form-group col-md-4">

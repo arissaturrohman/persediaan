@@ -80,6 +80,8 @@ if ($page == "instansi") {
 } elseif ($page == "saldo") {
   if ($action == "") {
     include "page/saldo/saldo.php";
+  } elseif ($action == "add") {
+    include "page/saldo/add.php";
   }
 } else {
   include "layout/dashboard.php";

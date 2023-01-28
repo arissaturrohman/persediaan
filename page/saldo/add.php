@@ -14,13 +14,18 @@
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <div class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
+            <label for="kode">Cari Barang</label>
+            <a href="" class="btn btn-outline-primary" data-placement="top" data-toggle="modal" data-target="#keluarModal">Cari Barang</a>
+            </span>
+          </div>
+          <div class="form-group col-md-4">
             <label for="kode">Kode Barang</label>
             <span data-toggle="tooltip" title="Klik disini">
               <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#kodeModal" autofocus required readonly>
             </span>
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
             <label for="tanggal_beli">Tanggal Beli</label>
             <input type="date" class="form-control" id="tanggal_beli" name="tanggal_beli" required>
           </div>
