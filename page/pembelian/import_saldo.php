@@ -11,19 +11,18 @@
       $data = $instansi->fetch_assoc();
       ?>
       <form action="" method="POST">
-        <input type="text" name="id_instansi" value="<?= $data['id_instansi']; ?>">
-        <input type="text" name="id_user" value="<?= $_SESSION['id_user']; ?>">
-        <input type="text" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
+        <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
+        <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
+        <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="kode">Cari Barang</label>
-            <a href="" class="btn btn-outline-info" data-placement="top" data-toggle="modal" data-target="#saldoModal">Cari Barang</a>
+            <a href="" class="btn btn-outline-info" data-placement="top" data-toggle="modal" data-target="#importModal">Cari Barang</a>
             </span>
           </div>
           <div class="form-group col-md-4">
             <label for="kode">Kode Barang</label>
-            <span data-toggle="tooltip" title="Klik disini">
-              <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#kodeModal" required readonly>
+            <input type="text" class="form-control" id="kode" name="kode" required readonly>
             </span>
           </div>
           <div class="form-group col-md-4">
@@ -76,33 +75,18 @@ if (isset($_POST['add'])) {
   $tanggal_input = $_POST['tanggal_input'];
   $tahun = date('Y');
 
-  $sql_stok = $conn->query("SELECT * FROM tb_pembelian WHERE kode_barang = '$kode'");
-  $result = $sql_stok->fetch_assoc();
-  $stok = $result['volume'];
-  $sisa = $stok - $volume;
+  $sql = $conn->query("INSERT INTO tb_pembelian (id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal_beli, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_input','$tahun')");
 
-  if ($stok < $volume) {
-?>
-    <script language="JavaScript">
-      alert('Oops! Jumlah pengeluaran lebih besar dari stok ...');
-    </script>
-<?php
+  if (!$sql) {
+    echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");
+    $conn->close();
   } else {
+    $_SESSION['status'] = "Alhamdulillah";
+    $_SESSION['desc'] = "Saldo berhasil ditambah";
+    $_SESSION['link'] = "pembelian";
 
-    $sql = $conn->query("INSERT INTO tb_saldo_awal (id_pembelian,id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal) VALUES ('$id_pembelian','$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_input')");
-
-    $sql1 = $conn->query("INSERT INTO tb_saldo_awal_detail (id_pembelian,id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal) VALUES ('$id_pembelian','$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_input')");
-
-    if (!$sql && $sql1) {
-      echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");
-      $conn->close();
-    } else {
-      $_SESSION['status'] = "Alhamdulillah";
-      $_SESSION['desc'] = "Saldo berhasil ditambah";
-      $_SESSION['link'] = "saldo";
-
-      $hapusBarang = $conn->query("DELETE FROM tb_pembelian WHERE id_pembelian = '$id_pembelian'");
-    }
+    $hapusSaldo = $conn->query("DELETE FROM tb_saldo_awal_detail WHERE id_pembelian = '$id_pembelian'");
   }
 }
+
 ?>

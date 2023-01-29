@@ -3,6 +3,7 @@
 <div class="card shadow mb-4">
   <div class="card-header py-3">
     <a href="?page=pembelian&action=add" class="btn btn-sm btn-outline-primary">Tambah</a>
+    <a href="?page=pembelian&action=import" class="btn btn-sm btn-outline-info float-right">Import Saldo Awal</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -24,9 +25,9 @@
           <?php
           if ($_SESSION['level'] == "admin") {
 
-            $sql = $conn->query("SELECT * FROM tb_pembelian ");
+            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE tahun = '$_SESSION[tahun]'");
           } else {
-            $sql = $conn->query("SELECT * FROM tb_pembelian  WHERE id_user = '$_SESSION[id_user]'");
+            $sql = $conn->query("SELECT * FROM tb_pembelian  WHERE id_user = '$_SESSION[id_user]' AND tahun = '$_SESSION[tahun]'");
           }
           $no = 1;
           foreach ($sql as $key => $value) :

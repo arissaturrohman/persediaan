@@ -54,6 +54,8 @@ if ($page == "instansi") {
     include "page/pembelian/edit.php";
   } elseif ($action == "delete") {
     include "page/pembelian/delete.php";
+  } elseif ($action == "import") {
+    include "page/pembelian/import_saldo.php";
   }
 } elseif ($page == "pengeluaran") {
   if ($action == "") {

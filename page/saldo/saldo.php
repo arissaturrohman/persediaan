@@ -4,7 +4,7 @@
   <div class="card-header py-3">
 
 
-  
+
     <a href="?page=saldo&action=add" class="btn btn-sm btn-outline-primary">Klik untuk Saldo Awal Tahun <?= date('Y'); ?></a>
   </div>
   <div class="card-body">
@@ -24,7 +24,7 @@
         </thead>
         <tbody>
           <?php
-          $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0 AND tahun = '$_SESSION[tahun]' AND id_user = '$_SESSION[id_user]'");
+          $sql = $conn->query("SELECT * FROM tb_saldo_awal WHERE volume > 0 AND id_user = '$_SESSION[id_user]'");
 
           $no = 1;
           foreach ($sql as $key => $value) :

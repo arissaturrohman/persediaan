@@ -145,6 +145,116 @@
   </div>
 </div>
 
+<!-- Modal Saldo Awal -->
+<div class="modal fade" id="saldoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered" id="tableKeluar" width="100%">
+          <thead>
+            <tr>
+              <th>Kode Barang</th>
+              <th>Nama Barang</th>
+              <th>Satuan</th>
+              <th>Jumlah</th>
+              <th>Opsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+
+            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0");
+            while ($data = $sql->fetch_assoc()) {
+
+            ?>
+              <tr>
+                <td><?= $data['kode_barang']; ?></td>
+                <?php
+                $kode_barang = $data['kode_barang'];
+                $barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$kode_barang'");
+                $data_barang = $barang->fetch_assoc();
+
+                ?>
+                <td><?= $data_barang['nama_barang']; ?></td>
+                <td><?= $data_barang['satuan_barang']; ?></td>
+                <td><?= $data['volume']; ?></td>
+
+                <td>
+                  <button class="btn btn-sm btn-info" id="saldo" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-volume="<?= $data['volume']; ?>">
+                    <i class=" fas fa-check"></i>
+                  </button>
+                  </span>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Import Saldo Awal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered" id="tableKeluar" width="100%">
+          <thead>
+            <tr>
+              <th>Kode Barang</th>
+              <th>Nama Barang</th>
+              <th>Satuan</th>
+              <th>Jumlah</th>
+              <th>Opsi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+
+            $sql = $conn->query("SELECT * FROM tb_saldo_awal WHERE volume > 0");
+            while ($data = $sql->fetch_assoc()) {
+
+            ?>
+              <tr>
+                <td><?= $data['kode_barang']; ?></td>
+                <?php
+                $kode_barang = $data['kode_barang'];
+                $barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$kode_barang'");
+                $data_barang = $barang->fetch_assoc();
+
+                ?>
+                <td><?= $data_barang['nama_barang']; ?></td>
+                <td><?= $data_barang['satuan_barang']; ?></td>
+                <td><?= $data['volume']; ?></td>
+
+                <td>
+                  <button class="btn btn-sm btn-info" id="import" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-volume="<?= $data['volume']; ?>">
+                    <i class=" fas fa-check"></i>
+                  </button>
+                  </span>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Bootstrap core JavaScript-->
 <script src="assets/vendor/jquery/jquery.min.js"></script>
 <script src="assets/vendor/sweetalert/sweetalert.min.js"></script>
@@ -296,6 +406,48 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       $('#harga_satuan').val(harga_satuan);
       $('#stok').val(volume);
       $('#keluarModal').modal('hide');
+    })
+  })
+</script>
+
+<!-- Autoload Saldo Awal -->
+<script>
+  $(document).ready(function() {
+    $(document).on('click', '#saldo', function() {
+      var idbeli = $(this).data('idbeli');
+      var kode_barang = $(this).data('kode');
+      var nama_barang = $(this).data('barang');
+      var satuan_barang = $(this).data('satuan');
+      var harga_satuan = $(this).data('harga');
+      var volume = $(this).data('volume');
+      $('#id_pembelian').val(idbeli);
+      $('#kode').val(kode_barang);
+      $('#nama_barang').val(nama_barang);
+      $('#satuan_barang').val(satuan_barang);
+      $('#harga_satuan').val(harga_satuan);
+      $('#volume').val(volume);
+      $('#saldoModal').modal('hide');
+    })
+  })
+</script>
+
+<!-- Autoload Import Saldo Awal -->
+<script>
+  $(document).ready(function() {
+    $(document).on('click', '#import', function() {
+      var idbeli = $(this).data('idbeli');
+      var kode_barang = $(this).data('kode');
+      var nama_barang = $(this).data('barang');
+      var satuan_barang = $(this).data('satuan');
+      var harga_satuan = $(this).data('harga');
+      var volume = $(this).data('volume');
+      $('#id_pembelian').val(idbeli);
+      $('#kode').val(kode_barang);
+      $('#nama_barang').val(nama_barang);
+      $('#satuan_barang').val(satuan_barang);
+      $('#harga_satuan').val(harga_satuan);
+      $('#volume').val(volume);
+      $('#importModal').modal('hide');
     })
   })
 </script>
