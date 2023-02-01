@@ -1,9 +1,8 @@
-<h5 class="h5 mb-4 text-gray-800">Data Pengadaan</h5>
+<h5 class="h5 mb-4 text-gray-800">Data Penerimaan</h5>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-header py-3">
     <a href="?page=pembelian&action=add" class="btn btn-sm btn-outline-primary">Tambah</a>
-    <!-- <a href="?page=pembelian&action=import" class="btn btn-sm btn-outline-info float-right">Import Saldo Awal</a> -->
   </div>
   <div class="card-body">
     <div class="table-responsive">

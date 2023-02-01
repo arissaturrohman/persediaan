@@ -51,10 +51,23 @@ $trx = $huruf . sprintf("%03s", $urutan);
               <td><?= $bulanTrx = BulanIndo($value['tanggal_spb']); ?></td>
               <td><?= $value['trx']; ?></td>
               <?php $sqlTotal = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran WHERE trx = '$kodeTrx'");
-              $datatotal = $sqlTotal->fetch_assoc(); ?>
+              $datatotal = $sqlTotal->fetch_assoc();
+              $ket = $datatotal['ket']; ?>
               <td><?= number_format($datatotal['total']); ?></td>
               <td>
-                <a href="?page=pengeluaran&action=add&trx=<?= $value['trx']; ?>" class="btn btn-sm btn-circle btn-info" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-eye"></i></a>
+                <?php
+                if ($ket == '-') {
+                ?>
+
+                  <a href="?page=pengeluaran&action=add&trx=<?= $value['trx']; ?>" class="btn btn-sm btn-circle btn-info" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-eye"></i></a>
+                <?php
+                } else {
+                ?>
+                  <a href="?page=pengeluaran&action=import&trx=<?= $value['trx']; ?>" class="btn btn-sm btn-circle btn-info" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-eye"></i></a>
+
+                <?php
+                }
+                ?>
               </td>
             </tr>
           <?php endforeach; ?>

@@ -184,7 +184,8 @@ if (isset($_POST['add'])) {
   $harga_satuan = $_POST['harga_satuan'];
   $jumlah_harga = $_POST['jumlah_harga'];
   $penanggungjawab = $_POST['penanggungjawab'];
-  $no_spb = $_POST['no_spb'];
+  $no_spb = $tampil;
+  $ket = "-";
   $tanggal_spb = $_POST['tanggal_spb'];
 
   $sql_stok = $conn->query("SELECT * FROM tb_pembelian WHERE kode_barang = '$kode'");
@@ -200,7 +201,7 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx')");
+    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket')");
 
     if (!$sql) {
       // die();
