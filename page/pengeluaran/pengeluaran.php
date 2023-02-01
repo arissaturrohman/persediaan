@@ -24,6 +24,7 @@ $trx = $huruf . sprintf("%03s", $urutan);
 <div class="card shadow mb-4">
   <div class="card-header py-3">
     <a href="?page=pengeluaran&action=add&trx=<?= $trx; ?>" class="btn btn-sm btn-outline-primary">Tambah</a>
+    <a href="?page=pengeluaran&action=import&trx=<?= $trx; ?>" class="btn btn-sm btn-outline-info float-right">Saldo Awal</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">

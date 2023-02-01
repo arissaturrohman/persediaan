@@ -156,7 +156,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered" id="tableKeluar" width="100%">
+        <table class="table table-bordered" id="tableSaldo" width="100%">
           <thead>
             <tr>
               <th>Kode Barang</th>
@@ -211,7 +211,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered" id="tableKeluar" width="100%">
+        <table class="table table-bordered" id="tableImport" width="100%">
           <thead>
             <tr>
               <th>Kode Barang</th>
@@ -224,7 +224,7 @@
           <tbody>
             <?php
 
-            $sql = $conn->query("SELECT * FROM tb_saldo_awal WHERE volume > 0");
+            $sql = $conn->query("SELECT * FROM tb_saldo_awal_detail WHERE volume > 0");
             while ($data = $sql->fetch_assoc()) {
 
             ?>
@@ -454,6 +454,20 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
 
 <script>
   $('#tableKeluar').DataTable({
+    ordering: true,
+    info: true,
+  });
+</script>
+
+<script>
+  $('#tableSaldo').DataTable({
+    ordering: true,
+    info: true,
+  });
+</script>
+
+<script>
+  $('#tableImport').DataTable({
     ordering: true,
     info: true,
   });

@@ -3,7 +3,7 @@
   <!-- Default Card Example -->
   <div class="card mb-4">
     <div class="card-header">
-      Add Data Pembelian
+      Add Data Saldo Awal
     </div>
     <div class="card-body">
       <?php
@@ -11,13 +11,13 @@
       $data = $instansi->fetch_assoc();
       ?>
       <form action="" method="POST">
-        <input type="text" name="id_instansi" value="<?= $data['id_instansi']; ?>">
-        <input type="text" name="id_user" value="<?= $_SESSION['id_user']; ?>">
-        <input type="text" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
+        <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
+        <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
+        <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="kode">Cari Barang</label>
-            <a href="" class="btn btn-outline-info" data-placement="top" data-toggle="modal" data-target="#saldoModal">Cari Barang</a>
+            <a href="" class="btn btn-outline-info btn-block" data-placement="top" data-toggle="modal" data-target="#saldoModal">Klik disini</a>
             </span>
           </div>
           <div class="form-group col-md-4">
@@ -32,13 +32,17 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
             <label for="nama_barang">Nama Barang</label>
             <input type="text" class="form-control" id="nama_barang" name="nama_barang" disabled>
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
             <label for="satuan_barang">Satuan Barang</label>
             <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" disabled>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="satuan_barang">Sisa Stok</label>
+            <input type="text" class="form-control" id="volume" name="sisa" disabled>
           </div>
         </div>
         <div class="form-row">

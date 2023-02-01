@@ -1,4 +1,4 @@
-<div class="col-lg-6 offset-3">
+<div class="col-lg-8 offset-2">
 
   <?php
   $query = mysqli_query($conn, "SELECT max(id_pembelian) as kodeTerbesar FROM tb_pembelian");
@@ -18,17 +18,20 @@
       ?>
       <form action="" method="POST">
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
-        <input type="text" name="id_pembelian" value="<?= $kode_beli; ?>">
+        <input type="hidden" name="id_pembelian" value="<?= $kode_beli; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="kode">Kode Barang</label>
-            <span data-toggle="tooltip" title="Klik disini">
-              <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#kodeModal" autofocus required readonly>
+        <div class="form-group col-md-4">
+            <label for="kode">Cari Barang</label>
+            <a href="" class="btn btn-outline-info btn-block" data-placement="top" data-toggle="modal" data-target="#kodeModal">Klik disini</a>
             </span>
           </div>
-          <div class="form-group col-md-6">
-            <label for="tanggal_beli">Tanggal Beli</label>
+          <div class="form-group col-md-4">
+            <label for="kode">Kode Barang</label>
+              <input type="text" class="form-control" id="kode" name="kode"  required readonly>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="tanggal_beli">Tanggal Penerimaan</label>
             <input type="date" class="form-control" id="tanggal_beli" name="tanggal_beli" required>
           </div>
         </div>

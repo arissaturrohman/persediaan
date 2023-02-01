@@ -5,6 +5,7 @@ $no1 =  $arr[4];
 $no2 = $arr[5];
 $tampil = $no1 . $no2;
 ?>
+
 <div class="col-lg-8 offset-2">
 
   <!-- Default Card Example -->
@@ -25,13 +26,13 @@ $tampil = $no1 . $no2;
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="kode">Cari Barang</label>
-            <a href="" class="btn btn-outline-info btn-block" data-placement="top" data-toggle="modal" data-target="#keluarModal">Cari Barang</a>
+            <a href="" class="btn btn-outline-info btn-block" data-placement="top" data-toggle="modal" data-target="#importModal">Cari Barang</a>
             </span>
           </div>
           <div class="form-group col-md-4">
             <label for="kode">Kode Barang</label>
             <!-- <span data-toggle="tooltip" title="Klik disini"> -->
-            <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#keluarModal" value="<?= $_POST['kode']; ?>" required readonly>
+            <input type="text" class="form-control" id="kode" name="kode" data-placement="top" data-toggle="modal" data-target="#importModal" value="<?= $_POST['kode']; ?>" required readonly>
             </span>
           </div>
           <div class="form-group col-md-4">
@@ -40,15 +41,15 @@ $tampil = $no1 . $no2;
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
             <label for="nama_barang">Nama Barang</label>
             <input type="text" class="form-control" id="nama_barang" name="nama_barang" value="<?= $_POST['nama_barang']; ?>" disabled>
           </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4">
             <label for="stok">Sisa Stok</label>
-            <input type="text" class="form-control" id="stok" name="stok" value="<?= $_POST['satuan_barang']; ?>" disabled>
+            <input type="text" class="form-control" id="volume" name="stok" value="<?= $_POST['satuan_barang']; ?>" disabled>
           </div>
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-4">
             <label for="satuan_barang">Satuan Barang</label>
             <input type="text" class="form-control" id="satuan_barang" name="satuan_barang" value="<?= $_POST['satuan_barang']; ?>" disabled>
           </div>
@@ -62,7 +63,7 @@ $tampil = $no1 . $no2;
             <label for="harga_satuan">Harga Satuan</label>
             <input type="text" class="form-control" id="harga_satuan" onkeyup="kali()" name="harga_satuan" value="<?= $_POST['harga_satuan']; ?>" placeholder="0" readonly>
           </div>
-          <div class="form-group  col-md-4">
+          <div class="form-group col-md-4">
             <label for="jumlah_harga">Jumlah Harga</label>
             <input type="text" class="form-control" id="jumlah_harga" name="jumlah_harga" value="0" readonly>
           </div>
@@ -92,8 +93,8 @@ $tampil = $no1 . $no2;
 
               ?>
             </select>
-          </div>
-        </div> -->
+          </div> -->
+        <!-- </div> -->
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
         <a href="pengeluaran" class="btn btn-sm btn-dark">Cancel</a>
       </form>
@@ -153,14 +154,14 @@ $tampil = $no1 . $no2;
                 echo "<td>$data[nama_pegawai]</td>";
               }
               ?>
-              <td><?= "00" . $value['no_spb'] . " / spb / " . BulanRomawi($value['tanggal_spb']) ?></td>
+              <td><?= "0" . $value['no_spb'] . " / spb / " . BulanRomawi($value['tanggal_spb']) ?></td>
               <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
               <td>
 
 
 
                 <!-- <a href="?page=pengeluaran&action=edit_trx&id=<?= urlencode(base64_encode($value['id_pengeluaran'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a> -->
-                <a href="?page=pengeluaran&action=delete&id=<?= $value['id_pengeluaran']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                <a href="?page=pengeluaran&action=deletesaldo&id=<?= $value['id_pengeluaran']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
 
 
               </td>
@@ -184,10 +185,10 @@ if (isset($_POST['add'])) {
   $harga_satuan = $_POST['harga_satuan'];
   $jumlah_harga = $_POST['jumlah_harga'];
   $penanggungjawab = $_POST['penanggungjawab'];
-  $no_spb = $_POST['no_spb'];
+  $no_spb = $tampil;
   $tanggal_spb = $_POST['tanggal_spb'];
 
-  $sql_stok = $conn->query("SELECT * FROM tb_pembelian WHERE kode_barang = '$kode'");
+  $sql_stok = $conn->query("SELECT * FROM tb_saldo_awal_detail WHERE kode_barang = '$kode'");
   $result = $sql_stok->fetch_assoc();
   $stok = $result['volume'];
   $sisa = $stok - $volume;
@@ -211,9 +212,11 @@ if (isset($_POST['add'])) {
       $_SESSION['desc'] = "Data berhasil ditambah";
       $_SESSION['link'] = "";
 
-      $update_barang = $conn->query("UPDATE tb_pembelian SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
+      // $update_barang = $conn->query("UPDATE tb_pembelian SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
 
-      $update_barang = $conn->query("UPDATE tb_saldo_awal SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
+      // $update_barang = $conn->query("UPDATE tb_saldo_awal SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
+
+      $hapusSaldo = $conn->query("UPDATE tb_saldo_awal_detail SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
     }
   }
 }

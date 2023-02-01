@@ -54,8 +54,6 @@ if ($page == "instansi") {
     include "page/pembelian/edit.php";
   } elseif ($action == "delete") {
     include "page/pembelian/delete.php";
-  } elseif ($action == "import") {
-    include "page/pembelian/import_saldo.php";
   }
 } elseif ($page == "pengeluaran") {
   if ($action == "") {
@@ -68,6 +66,10 @@ if ($page == "instansi") {
     include "page/pengeluaran/edit_trx.php";
   } elseif ($action == "delete") {
     include "page/pengeluaran/delete.php";
+  } elseif ($action == "import") {
+    include "page/pengeluaran/import_saldo.php";
+  } elseif ($action == "deletesaldo") {
+    include "page/pengeluaran/deletesaldo.php";
   }
 } elseif ($page == "user") {
   if ($action == "") {
