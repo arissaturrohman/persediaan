@@ -6,7 +6,7 @@ error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 if (isset($_POST['login'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
-  $tahun = date('Y');
+  $tahun = $_POST['tahun'];
 
   $sql = $conn->query("SELECT * FROM tb_user WHERE username = '$username'");
 

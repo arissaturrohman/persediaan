@@ -128,7 +128,7 @@ $tampil = $no1 . $no2;
           <?php
           $no = 1;
           $trx = $_GET['trx'];
-          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$trx'");
+          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$trx' AND ket = '-'");
           foreach ($sql as $key => $value) :
           ?>
             <tr>
@@ -187,6 +187,7 @@ if (isset($_POST['add'])) {
   $no_spb = $tampil;
   $ket = "-";
   $tanggal_spb = $_POST['tanggal_spb'];
+  // $tahun = $tanggal_spb;
 
   $sql_stok = $conn->query("SELECT * FROM tb_pembelian WHERE kode_barang = '$kode'");
   $result = $sql_stok->fetch_assoc();
@@ -201,7 +202,7 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket')");
+    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
 
     if (!$sql) {
       // die();

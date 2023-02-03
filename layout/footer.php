@@ -113,7 +113,7 @@
           <tbody>
             <?php
 
-            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0");
+            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0 AND year(tahun) = '$_SESSION[tahun]'");
             while ($data = $sql->fetch_assoc()) {
 
             ?>

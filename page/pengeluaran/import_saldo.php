@@ -81,20 +81,6 @@ $tampil = $no1 . $no2;
             <?php endforeach; ?>
           </select>
         </div>
-        <!-- <div class="form-group col-md-6">
-            <label for="no_spb">No Keluar</label>
-            <select class="form-control" id="no_spb" name="no_spb" required>
-              <option>-- Pilih --</option>
-              <?php
-              $no = "001";
-              for ($no = 1; $no <= 200; $no++) {
-                echo "<option value='$no'>$no</option>";
-              }
-
-              ?>
-            </select>
-          </div> -->
-        <!-- </div> -->
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
         <a href="pengeluaran" class="btn btn-sm btn-dark">Cancel</a>
       </form>
@@ -129,7 +115,7 @@ $tampil = $no1 . $no2;
           <?php
           $no = 1;
           $trx = $_GET['trx'];
-          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$trx'");
+          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$trx' AND ket = 'saldo'");
           foreach ($sql as $key => $value) :
           ?>
             <tr>
@@ -202,7 +188,7 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket')");
+    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
 
     if (!$sql) {
       // die();

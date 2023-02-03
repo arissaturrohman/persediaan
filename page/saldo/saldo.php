@@ -24,7 +24,7 @@
         </thead>
         <tbody>
           <?php
-          $sql = $conn->query("SELECT * FROM tb_saldo_awal WHERE volume > 0 AND id_user = '$_SESSION[id_user]'");
+          $sql = $conn->query("SELECT * FROM tb_saldo_awal WHERE volume > 0 AND id_user = '$_SESSION[id_user]' AND year(tanggal) = '$_SESSION[tahun]'");
 
           $no = 1;
           foreach ($sql as $key => $value) :

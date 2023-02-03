@@ -1,5 +1,6 @@
 <?php
-$query = mysqli_query($conn, "SELECT max(trx) as kodeTerbesar FROM tb_pengeluaran");
+$tahun = $_SESSION['tahun'];
+$query = mysqli_query($conn, "SELECT max(trx) as kodeTerbesar FROM tb_pengeluaran WHERE year(tahun) = '$tahun'");
 $data = mysqli_fetch_array($query);
 $trx = $data['kodeTerbesar'];
 
@@ -19,7 +20,7 @@ $trx = $huruf . sprintf("%03s", $urutan);
 // echo $trx;
 ?>
 
-<h5 class="h5 mb-4 text-gray-800">Data Pengadaan</h5>
+<h5 class="h5 mb-4 text-gray-800">Data Pengeluaran</h5>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-header py-3">
@@ -41,9 +42,10 @@ $trx = $huruf . sprintf("%03s", $urutan);
         <tbody>
           <?php
           $no = 1;
-          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE id_user = '$_SESSION[id_user]' GROUP BY trx");
+          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]' GROUP BY trx");
           foreach ($sql as $key => $value) :
             $kodeTrx = $value['trx'];
+            $ket = $value['ket'];
 
           ?>
             <tr>
@@ -52,7 +54,7 @@ $trx = $huruf . sprintf("%03s", $urutan);
               <td><?= $value['trx']; ?></td>
               <?php $sqlTotal = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran WHERE trx = '$kodeTrx'");
               $datatotal = $sqlTotal->fetch_assoc();
-              $ket = $datatotal['ket']; ?>
+              ?>
               <td><?= number_format($datatotal['total']); ?></td>
               <td>
                 <?php

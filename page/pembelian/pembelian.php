@@ -24,9 +24,9 @@
           <?php
           if ($_SESSION['level'] == "admin") {
 
-            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE tahun = '$_SESSION[tahun]'");
+            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE year(tahun) = '$_SESSION[tahun]'");
           } else {
-            $sql = $conn->query("SELECT * FROM tb_pembelian  WHERE id_user = '$_SESSION[id_user]' AND tahun = '$_SESSION[tahun]'");
+            $sql = $conn->query("SELECT * FROM tb_pembelian  WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
           }
           $no = 1;
           foreach ($sql as $key => $value) :
