@@ -1,8 +1,9 @@
 <?php
 $id = $_GET['id'];
 $sql = $conn->query("DELETE FROM tb_pembelian WHERE id_pembelian = $id");
+$sql1 = $conn->query("DELETE FROM tb_pembelian_detail WHERE id_pembelian = $id");
 
-if ($sql) {
+if ($sql && $sql1) {
 ?>
   <script>
     setTimeout(function() {

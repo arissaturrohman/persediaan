@@ -21,14 +21,14 @@
         <input type="hidden" name="id_pembelian" value="<?= $kode_beli; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <div class="form-row">
-        <div class="form-group col-md-4">
+          <div class="form-group col-md-4">
             <label for="kode">Cari Barang</label>
             <a href="" class="btn btn-outline-info btn-block" data-placement="top" data-toggle="modal" data-target="#kodeModal">Klik disini</a>
             </span>
           </div>
           <div class="form-group col-md-4">
             <label for="kode">Kode Barang</label>
-              <input type="text" class="form-control" id="kode" name="kode"  required readonly>
+            <input type="text" class="form-control" id="kode" name="kode" required readonly>
           </div>
           <div class="form-group col-md-4">
             <label for="tanggal_beli">Tanggal Penerimaan</label>
@@ -101,9 +101,11 @@ if (isset($_POST['add'])) {
 
   $sql = $conn->query("INSERT INTO tb_pembelian (id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal_beli, nama_rekanan, no_dokumen, tanggal_dokumen, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_beli', '$nama_rekanan', '$no_dokumen', '$tanggal_dokumen', '$tahun')");
 
+  $sql1 = $conn->query("INSERT INTO tb_pembelian_detail (id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal_beli, nama_rekanan, no_dokumen, tanggal_dokumen, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_beli', '$nama_rekanan', '$no_dokumen', '$tanggal_dokumen', '$tahun')");
+
   // $sql_saldo = $conn->query("INSERT INTO tb_saldo_awal (id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tahun')");
 
-  if (!$sql) {
+  if (!$sql && $sql1) {
     // die();
     echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");
     $conn->close();

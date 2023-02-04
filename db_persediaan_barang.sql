@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Feb 2023 pada 18.20
+-- Waktu pembuatan: 04 Feb 2023 pada 18.36
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 7.4.26
 
@@ -129,6 +129,41 @@ CREATE TABLE `tb_pembelian` (
   `tahun` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `tb_pembelian`
+--
+
+INSERT INTO `tb_pembelian` (`id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal_beli`, `nama_rekanan`, `no_dokumen`, `tanggal_dokumen`, `tahun`) VALUES
+(8, 7, 1, '11001', '10', '68000', '680000', '2023-01-03', 'Toko Anjar', '', '2023-02-01', '2023-01-03');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_pembelian_detail`
+--
+
+CREATE TABLE `tb_pembelian_detail` (
+  `id_pembelian` int(11) NOT NULL,
+  `id_instansi` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `kode_barang` varchar(50) NOT NULL,
+  `volume` varchar(10) NOT NULL,
+  `harga_satuan` varchar(20) NOT NULL,
+  `jumlah_harga` varchar(20) NOT NULL,
+  `tanggal_beli` date NOT NULL,
+  `nama_rekanan` varchar(100) NOT NULL,
+  `no_dokumen` varchar(50) NOT NULL,
+  `tanggal_dokumen` date NOT NULL,
+  `tahun` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_pembelian_detail`
+--
+
+INSERT INTO `tb_pembelian_detail` (`id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal_beli`, `nama_rekanan`, `no_dokumen`, `tanggal_dokumen`, `tahun`) VALUES
+(8, 7, 1, '11001', '10', '68000', '680000', '2023-01-03', 'Toko Anjar', '', '2023-02-01', '2023-01-03');
+
 -- --------------------------------------------------------
 
 --
@@ -208,7 +243,7 @@ CREATE TABLE `tb_user` (
 
 INSERT INTO `tb_user` (`id_user`, `nama_user`, `username`, `password`, `level`) VALUES
 (1, 'Admin', 'admin', '$2y$10$F4/LPUsdSi4KhqirDET2..tJAXXTyI.XYcqZxxhvvLiX/FQumVxeS', 'admin'),
-(2, 'User', 'ngadmin', '$2y$10$06WOAEjDfLoa.maDGbGHZeTvSXq/f3VACWVPTQSHE1y4hSMb0fL6a', 'user');
+(2, 'User', 'ngadmin', '$2y$10$SpNSa9YmtzMyv/y8rH/CA.b59eqmNQY.qHpc9BSBuT1.naY949JWu', 'user');
 
 --
 -- Indexes for dumped tables
@@ -242,6 +277,12 @@ ALTER TABLE `tb_pegawai`
 -- Indeks untuk tabel `tb_pembelian`
 --
 ALTER TABLE `tb_pembelian`
+  ADD PRIMARY KEY (`id_pembelian`);
+
+--
+-- Indeks untuk tabel `tb_pembelian_detail`
+--
+ALTER TABLE `tb_pembelian_detail`
   ADD PRIMARY KEY (`id_pembelian`);
 
 --
@@ -300,7 +341,13 @@ ALTER TABLE `tb_pegawai`
 -- AUTO_INCREMENT untuk tabel `tb_pembelian`
 --
 ALTER TABLE `tb_pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_pembelian_detail`
+--
+ALTER TABLE `tb_pembelian_detail`
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengeluaran`

@@ -483,6 +483,15 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
 </script>
 
 <script>
+  $('#tableLap').DataTable({
+    ordering: false,
+    info: false,
+    searching: false,
+    paging: true,
+  });
+</script>
+
+<script>
   $('#customFile').on('change', function() {
     // Ambil nama file 
     let fileName = $(this).val().split('\\').pop();

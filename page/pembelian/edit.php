@@ -93,12 +93,14 @@ if (isset($_POST['edit'])) {
   $tanggal_beli = $_POST['tanggal_beli'];
   $nama_rekanan = $_POST['nama_rekanan'];
   $no_dokumen = $_POST['no_dokumen'];
-  $tanggal_dokomen = $_POST['tanggal_dokomen'];
+  $tanggal_dokumen = $_POST['tanggal_dokumen'];
   $tahun = $_POST['tanggal_beli'];
 
   $sql = $conn->query("UPDATE tb_pembelian SET id_instansi = '$id_instansi', id_user = '$id_user', kode_barang = '$kode', volume = '$volume', harga_satuan = '$harga_satuan', jumlah_harga = '$jumlah_harga', tanggal_beli = '$tanggal_beli', nama_rekanan = '$nama_rekanan', no_dokumen = '$no_dokumen', tanggal_dokumen = '$tanggal_dokumen', tahun = '$tahun' WHERE id_pembelian = '$id_pembelian'");
 
-  if (!$sql) {
+  $sql1 = $conn->query("UPDATE tb_pembelian_detail SET id_instansi = '$id_instansi', id_user = '$id_user', kode_barang = '$kode', volume = '$volume', harga_satuan = '$harga_satuan', jumlah_harga = '$jumlah_harga', tanggal_beli = '$tanggal_beli', nama_rekanan = '$nama_rekanan', no_dokumen = '$no_dokumen', tanggal_dokumen = '$tanggal_dokumen', tahun = '$tahun' WHERE id_pembelian = '$id_pembelian'");
+
+  if (!$sql && $sql1) {
     // die();
     echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");
     $conn->close();
