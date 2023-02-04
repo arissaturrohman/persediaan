@@ -71,6 +71,10 @@ if ($page == "instansi") {
   } elseif ($action == "deletesaldo") {
     include "page/pengeluaran/deletesaldo.php";
   }
+} elseif ($page == "lapPenerimaan") {
+  if ($action == "") {
+    include "page/laporan/lapPenerimaan.php";
+  }
 } elseif ($page == "user") {
   if ($action == "") {
     include "page/user/user.php";

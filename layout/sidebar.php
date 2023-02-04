@@ -133,7 +133,120 @@ if ($_SESSION['level'] == "admin") {
 </li>
 
 <!-- Divider -->
-<hr class="sidebar-divider my-0 <?= $display; ?>">
+<hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+  Laporan
+</div>
+
+<!-- Nav Item - Pages Collapse Menu -->
+<!-- <li class="nav-item active"> -->
+<li class="nav-item
+<?php if ($uri_segments[4] == "lapPenerimaan") {
+  echo 'active';
+} elseif ($uri_segments[4] == "lapPengeluaran") {
+  echo 'active';
+} elseif ($uri_segments[4] == "terimaKeluar") {
+  echo 'active';
+} elseif ($uri_segments[4] == "spmb") {
+  echo 'active';
+} elseif ($uri_segments[4] == "sppb") {
+  echo 'active';
+} elseif ($uri_segments[4] == "sbpb") {
+  echo 'active';
+} elseif ($uri_segments[4] == "bast") {
+  echo 'active';
+} elseif ($uri_segments[4] == "kartuBarang") {
+  echo 'active';
+} elseif ($uri_segments[4] == "kartuPersediaan") {
+  echo 'active';
+} elseif ($uri_segments[4] == "rekapPersediaan") {
+  echo 'active';
+} elseif ($uri_segments[4] == "stockOpname") {
+  echo 'active';
+} ?>">
+  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLap" aria-expanded="true" aria-controls="collapseLap">
+    <i class="fas fa-fw fa-list"></i>
+    <span>Laporan</span>
+  </a>
+  <!-- <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar"> -->
+  <div id="collapseLap" class="collapse
+  <?php if ($uri_segments[4] == "lapPenerimaan") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "lapPengeluaran") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "terimaKeluar") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "spmb") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "sppb") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "sbpb") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "bast") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "kartuBarang") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "kartuPersediaan") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "rekapPersediaan") {
+    echo 'show';
+  } elseif ($uri_segments[4] == "stockOpname") {
+    echo 'show';
+  } ?>" aria-labelledby="headingLap" data-parent="#accordionSidebar">
+    <div class="bg-white py-2 collapse-inner rounded">
+      <h6 class="collapse-header">Data Laporan:</h6>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "lapPenerimaan") {
+        echo 'active';
+      } ?>" href="lapPenerimaan">Penerimaan</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "lapPengeluaran") {
+        echo 'active';
+      } ?>" href="lapPengeluaran">Pengeluaran</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "terimaKeluar") {
+        echo 'active';
+      } ?>" href="terimaKeluar">Penerimaan & Pengeluaran</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "spmb") {
+        echo 'active';
+      } ?>" href="spmb">SPmB</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "sppb") {
+        echo 'active';
+      } ?>" href="sppb">SPPB</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "sbpb") {
+        echo 'active';
+      } ?>" href="sbpb">SPBP</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "bast") {
+        echo 'active';
+      } ?>" href="bast">BAST</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "kartuBarang") {
+        echo 'active';
+      } ?>" href="kartuBarang">Kartu Barang</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "kartuPersediaan") {
+        echo 'active';
+      } ?>" href="kartuPersediaan">Kartu Persediaan</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "rekapPersediaan") {
+        echo 'active';
+      } ?>" href="rekapPersediaan">Rekap Persediaan</a>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "stockOpname") {
+        echo 'active';
+      } ?>" href="stockOpname">Stock Opname</a>
+    </div>
+  </div>
+</li>
+
+<!-- Divider -->
+<hr class="sidebar-divider <?= $display; ?>">
 
 <div class="sidebar-heading <?= $display; ?>">
   User
