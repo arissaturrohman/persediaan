@@ -80,6 +80,8 @@ if ($page == "instansi") {
     include "page/user/edit.php";
   } elseif ($action == "delete") {
     include "page/user/delete.php";
+  } elseif ($action == "gantiPass") {
+    include "page/user/gantiPass.php";
   }
 } elseif ($page == "saldo") {
   if ($action == "") {

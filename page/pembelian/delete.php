@@ -1,5 +1,5 @@
 <?php
-$id = base64_decode(urldecode($_GET['id']));
+$id = $_GET['id'];
 $sql = $conn->query("DELETE FROM tb_pembelian WHERE id_pembelian = $id");
 
 if ($sql) {

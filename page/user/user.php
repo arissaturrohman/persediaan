@@ -13,7 +13,7 @@
             <th>Nama</th>
             <th>Username</th>
             <th>Level</th>
-            <th width="8%">Opsi</th>
+            <th width="15%">Opsi</th>
           </tr>
         </thead>
         <tbody>
@@ -32,6 +32,7 @@
               <td>
                 <a href="?page=user&action=edit&id=<?= $value['id_user']; ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
                 <a href="?page=user&action=delete&id=<?= $value['id_user']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
+                <a href="?page=user&action=gantiPass&id=<?= $value['id_user']; ?>" class=" btn btn-sm btn-circle btn-warning" data-toggle="tooltip" data-placement="top" title="Ganti Password"><i class="fas fa-cogs"></i></a>
 
 
               </td>

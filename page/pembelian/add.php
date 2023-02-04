@@ -97,7 +97,7 @@ if (isset($_POST['add'])) {
   $nama_rekanan = $_POST['nama_rekanan'];
   $no_dokumen = $_POST['no_dokumen'];
   $tanggal_dokomen = $_POST['tanggal_dokomen'];
-  $tahun = date('Y');
+  $tahun = $_POST['tanggal_beli'];
 
   $sql = $conn->query("INSERT INTO tb_pembelian (id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal_beli, nama_rekanan, no_dokumen, tanggal_dokumen, tahun) VALUES ('$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_beli', '$nama_rekanan', '$no_dokumen', '$tanggal_dokumen', '$tahun')");
 

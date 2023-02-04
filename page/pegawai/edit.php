@@ -54,7 +54,7 @@ if (isset($_POST['edit'])) {
     $conn->close();
   } else {
     $_SESSION['status'] = "Alhamdulillah";
-    $_SESSION['desc'] = "Data berhasil ditambah";
+    $_SESSION['desc'] = "Data berhasil diubah";
     $_SESSION['link'] = "pegawai";
   }
 }

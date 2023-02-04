@@ -50,13 +50,8 @@
               <td><?= number_format($value['jumlah_harga']); ?></td>
               <td><?= TanggalIndo($value['tanggal_beli']); ?></td>
               <td>
-
-
-
-                <a href="?page=pembelian&action=edit&id=<?= urlencode(base64_encode($value['id_pembelian'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-                <a href="?page=pembelian&action=delete&id=<?= urlencode(base64_encode($value['id_pembelian'])); ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
-
-
+                <a href="?page=pembelian&action=edit&id=<?= $value['id_pembelian']; ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
+                <a href="?page=pembelian&action=delete&id=<?= $value['id_pembelian']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
               </td>
             </tr>
           <?php endforeach; ?>

@@ -34,12 +34,12 @@
         <img class="img-profile rounded-circle" src="assets/img/logo.png">
       </a>
       <!-- Dropdown - User Information -->
+      <?php
+      $sql = $conn->query("SELECT * FROM tb_user WHERE id_user = '$_SESSION[id_user]'");
+      $data = $sql->fetch_assoc();
+      ?>
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="#">
-          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-          Profile
-        </a>
-        <a class="dropdown-item" href="#">
+        <a class="dropdown-item" href="?page=user&action=gantiPass&id=<?= $data['id_user']; ?>">
           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
           Ganti Password
         </a>

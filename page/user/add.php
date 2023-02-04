@@ -28,10 +28,10 @@
           </select>
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
+        <a href="user" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>
-
 </div>
 
 <!-- Proses Simpan -->

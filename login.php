@@ -19,14 +19,14 @@ if (isset($_POST['login'])) {
         $_SESSION['id_user'] = $row['id_user'];
         $_SESSION['level'] = "admin";
         $_SESSION['tahun'] = $tahun;
-        header('location: index.php');
+        header('location: ./');
         exit();
       } elseif ($row['level'] == "user") {
         $_SESSION['nama'] = $row['nama_user'];
         $_SESSION['id_user'] = $row['id_user'];
         $_SESSION['level'] = "user";
         $_SESSION['tahun'] = $tahun;
-        header('location: index.php');
+        header('location: ./');
         exit();
       }
     }
