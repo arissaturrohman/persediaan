@@ -17,7 +17,7 @@ ob_start();
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laporan Penerimaan</title>
+  <title>Laporan Pengeluaran</title>
   <link rel="shortcut icon" href="../../assets/img/logo.png" type="image/x-icon">
   <!-- <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet"> -->
   <style>
@@ -58,33 +58,28 @@ ob_start();
   </table>
   <hr>
 
-  <h5 class="b">BUKU PENERIMAAN BARANG PERSEDIAAN</h5>
+  <h5 class="b">BUKU PENGELUARAN BARANG PERSEDIAAN</h5>
   <h5 class="text">TAHUN ANGGARAN <?= $_SESSION['tahun']; ?></h5>
   <table border="1" width="100%" cellspacing="0">
     <thead>
       <tr>
-        <th class="text-center align-middle" rowspan="2">No</th>
+        <th class="text-center align-middle" rowspan="2" width="5%">No</th>
         <th class="text-center align-middle" rowspan="2">Tanggal</th>
-        <th class="text-center align-middle" rowspan="2">Nama Rekanan</th>
-        <th class="text-center align-middle" colspan="2">Dokumen Pengadaan</th>
+        <th class="text-center align-middle" colspan="2">Surat Permintaan Brg</th>
+        <th class="text-center align-middle" rowspan="2">Penanggungjawab</th>
         <th class="text-center align-middle" rowspan="2">Kode Barang</th>
         <th class="text-center align-middle" rowspan="2">Nama Barang</th>
         <th class="text-center align-middle" rowspan="2">Satuan</th>
         <th class="text-center align-middle" rowspan="2">Volume</th>
         <th class="text-center align-middle" rowspan="2">Harga Satuan</th>
         <th class="text-center align-middle" rowspan="2">Jumlah Harga</th>
-        <th class="text-center align-middle" colspan="2">Bukti Penerimaan</th>
+        <th class="text-center align-middle" rowspan="2">Tanggal Penyerahan</th>
+        <th class="text-center align-middle" rowspan="2">Nama Pengambil Brg</th>
         <th class="text-center align-middle" rowspan="2">Keterangan</th>
       </tr>
       <tr>
-        <!-- <th></th>
-            <th></th>
-            <th></th> -->
         <th class="text-center align-middle">No</th>
         <th class="text-center align-middle">Tanggal</th>
-        <th class="text-center align-middle">No</th>
-        <th class="text-center align-middle">Tanggal</th>
-        <!-- <th></th> -->
       </tr>
     </thead>
     <tbody>
@@ -96,7 +91,6 @@ ob_start();
         <tr>
           <td align="center"><?= $no++; ?></td>
           <td><?= TanggalIndo($value['tanggal_beli']); ?></td>
-          <td><?= $value['nama_rekanan']; ?></td>
           <td><?= $value['no_dokumen']; ?></td>
           <?php
           if ($value['tanggal_dokumen'] == '0000-00-00') {
@@ -107,6 +101,7 @@ ob_start();
           <?php
           }
           ?>
+          <td>penanggungjawab</td>
           <td align="center"><?= $value['kode_barang']; ?></td>
           <?php
           $kd = $value['kode_barang'];

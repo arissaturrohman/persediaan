@@ -75,6 +75,10 @@ if ($page == "instansi") {
   if ($action == "") {
     include "page/laporan/lapPenerimaan.php";
   }
+} elseif ($page == "lapPengeluaran") {
+  if ($action == "") {
+    include "page/laporan/lapPengeluaran.php";
+  }
 } elseif ($page == "user") {
   if ($action == "") {
     include "page/user/user.php";
