@@ -32,23 +32,20 @@
         <tbody>
           <?php
           $no = 1;
-          $sql = $conn->query("SELECT * FROM tb_pembelian_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
+          $sql = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
           foreach ($sql as $key => $value) :
           ?>
             <tr>
               <td align="center"><?= $no++; ?></td>
-              <td><?= TanggalIndo($value['tanggal_beli']); ?></td>
-              <td><?= $value['no_dokumen']; ?></td>
+              <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
+              <td><?= "0" . $value['no_spb'] . " / SPB / " . BulanRomawi($value['tanggal_spb']) ?></td>
+              <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
               <?php
-              if ($value['tanggal_dokumen'] == '0000-00-00') {
-                echo "<td></td>";
-              } else {
+              $p = $value['penanggungjawab'];
+              $sqlPegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$p'");
+              $dataNamaPegawai = $sqlPegawai->fetch_assoc();
+              echo "<td>$dataNamaPegawai[nama_pegawai]</td>";
               ?>
-                <td><?= TanggalIndo($value['tanggal_dokumen']); ?></td>
-              <?php
-              }
-              ?>
-              <td>penanggungjawab</td>
               <td><?= $value['kode_barang']; ?></td>
               <?php
               $kd = $value['kode_barang'];
@@ -60,13 +57,13 @@
               <td><?= $dataBarang['satuan_barang']; ?></td>
               <td><?= number_format($value['harga_satuan']); ?></td>
               <td><?= number_format($value['jumlah_harga']); ?></td>
+              <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
               <td></td>
-              <td></td>
-              <td></td>
+              <td><?= $value['ket']; ?></td>
             </tr>
           <?php endforeach; ?>
           <?php
-          $hitung = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pembelian_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
+          $hitung = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
           $dataHitung = $hitung->fetch_assoc();
           ?>
           <tr>

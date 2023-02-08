@@ -17,8 +17,9 @@ $update_stok = $conn->query("UPDATE tb_pembelian SET volume = '$tambahStok' WHER
 
 
 $sql = $conn->query("DELETE FROM tb_pengeluaran WHERE id_pengeluaran = $id");
+$sql1 = $conn->query("DELETE FROM tb_pengeluaran_detail WHERE id_pengeluaran = $id");
 
-if ($sql) {
+if ($sql && $sql1) {
 
 ?>
   <script>

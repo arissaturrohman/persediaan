@@ -79,6 +79,10 @@ if ($page == "instansi") {
   if ($action == "") {
     include "page/laporan/lapPengeluaran.php";
   }
+} elseif ($page == "terimaKeluar") {
+  if ($action == "") {
+    include "page/laporan/terimaKeluar.php";
+  }
 } elseif ($page == "user") {
   if ($action == "") {
     include "page/user/user.php";

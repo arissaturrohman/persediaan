@@ -118,7 +118,7 @@ if ($_SESSION['level'] == "admin") {
       <a class="collapse-item 
       <?php if ($uri_segments[4] == "pembelian") {
         echo 'active';
-      } ?>" href="pembelian">Pembelian</a>
+      } ?>" href="pembelian">Penerimaan</a>
       <a class="collapse-item 
       <?php if ($uri_segments[4] == "pengeluaran") {
         echo 'active';
@@ -208,7 +208,7 @@ if ($_SESSION['level'] == "admin") {
       <a class="collapse-item 
       <?php if ($uri_segments[4] == "terimaKeluar") {
         echo 'active';
-      } ?>" href="terimaKeluar">Penerimaan & Pengeluaran</a>
+      } ?>" href="terimaKeluar">Terima & Keluar</a>
       <a class="collapse-item 
       <?php if ($uri_segments[4] == "spmb") {
         echo 'active';

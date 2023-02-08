@@ -153,7 +153,7 @@ $tampil = $no1 . $no2;
                 echo "<td>$data[nama_pegawai]</td>";
               }
               ?>
-              <td><?= "00" . $value['no_spb'] . " / spb / " . BulanRomawi($value['tanggal_spb']) ?></td>
+              <td><?= "00" . $value['no_spb'] . " / SPB / " . BulanRomawi($value['tanggal_spb']) ?></td>
               <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
               <td>
 
@@ -203,8 +203,9 @@ if (isset($_POST['add'])) {
   } else {
 
     $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
 
-    if (!$sql) {
+    if (!$sql && !$sql1) {
       // die();
       echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");
       $conn->close();
