@@ -331,6 +331,9 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
     $('[data-toggle="tooltip"]').tooltip()
   });
 </script>
+<script>
+  $('.dropdown-toggle').dropdown()
+</script>
 
 <!-- Autocomplete -->
 <script>

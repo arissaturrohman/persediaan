@@ -165,6 +165,8 @@ if ($_SESSION['level'] == "admin") {
   echo 'active';
 } elseif ($uri_segments[4] == "stockOpname") {
   echo 'active';
+} elseif ($uri_segments[4] == "laporan") {
+  echo 'active';
 } ?>">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLap" aria-expanded="true" aria-controls="collapseLap">
     <i class="fas fa-fw fa-list"></i>
@@ -194,9 +196,15 @@ if ($_SESSION['level'] == "admin") {
     echo 'show';
   } elseif ($uri_segments[4] == "stockOpname") {
     echo 'show';
+  }  elseif ($uri_segments[4] == "laporan") {
+    echo 'show';
   } ?>" aria-labelledby="headingLap" data-parent="#accordionSidebar">
     <div class="bg-white py-2 collapse-inner rounded">
       <h6 class="collapse-header">Data Laporan:</h6>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "laporan") {
+        echo 'active';
+      } ?>" href="laporan">Laporan</a>
       <a class="collapse-item 
       <?php if ($uri_segments[4] == "lapPenerimaan") {
         echo 'active';

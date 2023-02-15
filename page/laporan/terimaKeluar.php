@@ -1,6 +1,6 @@
 <div class="card shadow mb-4 col-6">
   <div class="card-body">
-    <form action="" method="get">
+    <form action="" method="GET">
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Semester</label>
         <div class="col-sm-9">
@@ -38,7 +38,11 @@ if (isset($_GET['pilih'])) {
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <a href="page/cetak/lapTerimaKeluar.php&pilih=<?= $smt; ?>" class="btn btn-sm btn-outline-primary float-right" target="_blank"><i class="fas fa-fw fa-print"></i> Print</a>
+      <form action="page/cetak/lapTerimaKeluar.php" method="POST" target="_blank">
+        <input type="hidden" name="cetak" value="<?= $smt; ?>">
+        <button type="submit" name="submit" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-fw fa-print"></i> Print</button>
+      </form>
+     
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -67,13 +71,23 @@ if (isset($_GET['pilih'])) {
           <tbody>
             <?php
             $no = 1;
-            $sql = $conn->query("SELECT * FROM tb_barang");
+            $sql = $conn->query("SELECT * FROM tb_pembelian_detail WHERE month(tahun) <= '$smt'");
             foreach ($sql as $key => $value) :
             ?>
               <tr>
-                <td><?= $value['kode_barang']; ?></td>
-                <td><?= $value['nama_barang']; ?></td>
-                <td><?= $value['satuan_barang']; ?></td>
+                <?php
+                if ($value['volume'] <= 0) {
+                  $tampil = "d-none";
+                }
+                ?>
+                <td class="<?= $tampil; ?>"><?= $value['kode_barang']; ?></td>
+                <?php
+                $barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$value[kode_barang]'");
+                $dataBrg = $barang->fetch_assoc();
+
+                ?>
+                <td><?= $dataBrg['nama_barang']; ?></td>
+                <td><?= $dataBrg['satuan_barang']; ?></td>
 
                 <!-- Jumlah Saldo Awal -->
                 <?php
@@ -136,7 +150,7 @@ if (isset($_GET['pilih'])) {
             <tr>
               <th colspan="10" align="right">JUMLAH</th>
               <th align="right"><?= number_format($total); ?></th>
-              <th colspan="3"></th>
+              <th colspan="2"></th>
             </tr>
           </tbody>
         </table>

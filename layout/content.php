@@ -71,7 +71,11 @@ if ($page == "instansi") {
   } elseif ($action == "deletesaldo") {
     include "page/pengeluaran/deletesaldo.php";
   }
-} elseif ($page == "lapPenerimaan") {
+} elseif ($page == "laporan") {
+  if ($action == "") {
+    include "page/laporan/laporan.php";
+  }
+}  elseif ($page == "lapPenerimaan") {
   if ($action == "") {
     include "page/laporan/lapPenerimaan.php";
   }
@@ -82,6 +86,10 @@ if ($page == "instansi") {
 } elseif ($page == "terimaKeluar") {
   if ($action == "") {
     include "page/laporan/terimaKeluar.php";
+  }
+} elseif ($page == "spmb") {
+  if ($action == "") {
+    include "page/laporan/spmb.php";
   }
 } elseif ($page == "user") {
   if ($action == "") {
