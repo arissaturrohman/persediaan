@@ -1,9 +1,14 @@
 <?php
-$trx = $_GET['trx'];
-$arr = str_split($trx);
-$no1 =  $arr[4];
-$no2 = $arr[5];
-$tampil = $no1 . $no2;
+if (isset($_POST['trx'])) {
+  $trx = $_POST['trx'];
+  $penanggungjawab = $_POST['penanggungjawab'];
+  $_SESSION['trx'] = $trx;
+  $_SESSION['penanggungjawab'] = $penanggungjawab;
+  $arr = str_split($trx);
+  $no1 =  $arr[4];
+  $no2 = $arr[5];
+  $tampil = $no1 . $no2;
+}
 ?>
 <div class="col-lg-8 offset-2">
 
@@ -18,7 +23,7 @@ $tampil = $no1 . $no2;
       $data = $instansi->fetch_assoc();
       ?>
       <form action="" method="POST">
-        <input type="hidden" name="trx" value="<?= $_GET['trx']; ?>">
+        <input type="hidden" name="trx" value="<?= $_SESSION['trx']; ?>">
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
@@ -69,16 +74,19 @@ $tampil = $no1 . $no2;
         </div>
         <div class="form-group">
           <label for="penanggungjawab">Penanggungjawab</label>
-          <select class="form-control" id="penanggungjawab" name="penanggungjawab" required>
+          <!-- <select class="form-control" id="penanggungjawab" name="penanggungjawab" required>
             <option>-- Pilih --</option>
+              <option value="<?= $data['id_pegawai']; ?>"><?= $data['nama_pegawai']; ?></option>
+            
+          </select> -->
             <?php
-            $sql_pegawai = $conn->query("SELECT * FROM tb_pegawai");
-            foreach ($sql_pegawai as $key => $data) :
+            $sql_pegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$_SESSION[penanggungjawab]'");
+            $dataPegawai = $sql_pegawai->fetch_assoc();
+            
 
             ?>
-              <option value="<?= $data['id_pegawai']; ?>"><?= $data['nama_pegawai']; ?></option>
-            <?php endforeach; ?>
-          </select>
+          <input type="hidden" class="form-control" name="penanggungjawab" value="<?= $_SESSION['penanggungjawab']; ?>" readonly>
+          <input type="text" class="form-control" value="<?= $dataPegawai['nama_pegawai']; ?>" readonly>
         </div>
         <!-- <div class="form-group col-md-6">
             <label for="no_spb">No Keluar</label>
@@ -127,8 +135,8 @@ $tampil = $no1 . $no2;
         <tbody>
           <?php
           $no = 1;
-          $trx = $_GET['trx'];
-          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$trx' AND ket = '-'");
+          // $trx = $_GET['trx'];
+          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$_SESSION[trx]' AND ket = '-'");
           foreach ($sql as $key => $value) :
           ?>
             <tr>
@@ -153,16 +161,10 @@ $tampil = $no1 . $no2;
                 echo "<td>$data[nama_pegawai]</td>";
               }
               ?>
-              <td><?= "00" . $value['no_spb'] . " / SPB / " . BulanRomawi($value['tanggal_spb']) ?></td>
+              <td><?= "0" . $value['no_spb'] . " / SPB / " . BulanRomawi($value['tanggal_spb']) ?></td>
               <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
               <td>
-
-
-
-                <!-- <a href="?page=pengeluaran&action=edit_trx&id=<?= urlencode(base64_encode($value['id_pengeluaran'])); ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a> -->
                 <a href="?page=pengeluaran&action=delete&id=<?= $value['id_pengeluaran']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
-
-
               </td>
             </tr>
           <?php endforeach; ?>

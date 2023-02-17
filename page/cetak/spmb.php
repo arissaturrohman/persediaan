@@ -1,10 +1,8 @@
 <?php
 
-if ($_POST) {
-  echo $smt = $_POST['smt'];
-  echo $spmb = $_POST['spmb'];
-
- }
+session_start();
+echo $jenis = $_SESSION['jenis'];
+echo $spmb = $_SESSION['spmb'];
 
 include('../../inc/config.php');
 include('../../inc/tgl_indo.php');
@@ -69,7 +67,7 @@ ob_start();
   <hr>
 
   <h5 class="b"><u>SURAT PERMINTAAN BARANG (SPB)</u></h5>
-  <?php 
+  <?php
   $no_spb = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE no_spb = '$spmb'");
   $dataSpb = $no_spb->fetch_assoc();
   ?>
@@ -86,70 +84,67 @@ ob_start();
       <td>Jl. Raya Gajah No. 45 Telp. 0291-685250 Kode Pos 59581</td>
     </tr>
   </table>
-  <?php 
+  <?php
   $jabatan = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$dataSpb[penanggungjawab]'");
   $dataJab = $jabatan->fetch_assoc();
   ?>
   <p align="left">Mohon dikeluarkan barang dari gudang/tempat penyimpanan barang dan disalurkan barang tersebut untuk <?= $dataJab['jabatan']; ?> Kec. Gajah, sebagaimana daftar dibawah ini :</p>
   <table border="1" width="100%" cellspacing="0">
-  <thead>
-            <tr>
-              <th class="text-center align-middle">No</th>
-              <th class="text-center align-middle">Kode Brg</th>
-              <th class="text-center align-middle">Nama Brg</th>
-              <th class="text-center align-middle">Satuan</th>
-              <th class="text-center align-middle">Vol</th>
-              <th class="text-center align-middle">Harga</th>
-              <th class="text-center align-middle">Jumlah Harga</th>
-              <th class="text-center align-middle">Ket</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $no = 1;
-            $sql = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE year(tahun) = '$_SESSION[tahun]' AND no_spb = '$spmb'");
-            foreach ($sql as $key => $value) :
-            ?>
-              <tr>
-                <td><?= $no++; ?></td>
-                <td><?= $value['kode_barang']; ?></td>
-                <?php
-                $barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$value[kode_barang]'");
-                $dataBrg = $barang->fetch_assoc();
+    <thead>
+      <tr>
+        <th class="text-center align-middle">No</th>
+        <th class="text-center align-middle">Kode Brg</th>
+        <th class="text-center align-middle">Nama Brg</th>
+        <th class="text-center align-middle">Satuan</th>
+        <th class="text-center align-middle">Vol</th>
+        <th class="text-center align-middle">Harga</th>
+        <th class="text-center align-middle">Jumlah Harga</th>
+        <th class="text-center align-middle">Ket</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $no = 1;
+      $sql = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE year(tahun) = '$_SESSION[tahun]' AND no_spb = '$spmb'");
+      foreach ($sql as $key => $value) :
+      ?>
+        <tr>
+          <td><?= $no++; ?></td>
+          <td><?= $value['kode_barang']; ?></td>
+          <?php
+          $barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$value[kode_barang]'");
+          $dataBrg = $barang->fetch_assoc();
 
-                ?>
-                <td><?= $dataBrg['nama_barang']; ?></td>
-                <td><?= $dataBrg['satuan_barang']; ?></td>
-                <td align="right"><?= $value['volume']; ?></td>
-                <td align="right"><?= number_format($value['harga_satuan']); ?></td>
-                <td align="right"><?= number_format($value['jumlah_harga']); ?></td>                
-                <td><?= $value['ket']; ?></td>
-              </tr>
-            <?php endforeach; ?>
-            <tr>
-              <th align="center" colspan="6">JUMLAH</th>
-              <th align="right">
-                <?php
-                $hitungKeluar = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]' GROUP BY no_spb");
-                $dataHitungKeluar = $hitungKeluar->fetch_assoc();
-                echo $sisaKeluar = number_format($dataHitungKeluar['total']);
-                ?>
+          ?>
+          <td><?= $dataBrg['nama_barang']; ?></td>
+          <td><?= $dataBrg['satuan_barang']; ?></td>
+          <td align="right"><?= $value['volume']; ?></td>
+          <td align="right"><?= number_format($value['harga_satuan']); ?></td>
+          <td align="right"><?= number_format($value['jumlah_harga']); ?></td>
+          <td><?= $value['ket']; ?></td>
+        </tr>
+      <?php endforeach; ?>
+      <tr>
+        <th align="center" colspan="6">JUMLAH</th>
+        <th align="right">
+          <?php
+          $hitungKeluar = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]' GROUP BY no_spb");
+          $dataHitungKeluar = $hitungKeluar->fetch_assoc();
+          echo $sisaKeluar = number_format($dataHitungKeluar['total']);
+          ?>
 
-              </th>
-              <th></th>
-            </tr>
+        </th>
+        <th></th>
+      </tr>
     </tbody>
   </table>
   <br>
   <table align="right">
     <tr>
-    <td align="center">Demak, <?= TanggalIndo($dataSpb['tanggal_spb']); ?></td>
+      <td align="center">Demak, <?= TanggalIndo($dataSpb['tanggal_spb']); ?></td>
     </tr>
     <tr>
-    <td align="center"><?= $dataJab['jabatan']; ?> Kec. Gajah</td>
-    </tr>
-    <tr>
-      <td height="20%">&nbsp; </td>
+      <td align="center"><?= $dataJab['jabatan']; ?> Kec. Gajah</td>
     </tr>
     <tr>
       <td height="20%">&nbsp; </td>
@@ -158,11 +153,14 @@ ob_start();
       <td height="20%">&nbsp; </td>
     </tr>
     <tr>
-    <td align="center"><b><u><?= $dataJab['nama_pegawai']; ?></u></b></td>
-  </tr>
-  <tr>
-    <td align="center"><?= "NIP. " . $dataJab['nip']; ?></td>
-  </tr>
+      <td height="20%">&nbsp; </td>
+    </tr>
+    <tr>
+      <td align="center"><b><u><?= $dataJab['nama_pegawai']; ?></u></b></td>
+    </tr>
+    <tr>
+      <td align="center"><?= "NIP. " . $dataJab['nip']; ?></td>
+    </tr>
   </table>
 </body>
 
@@ -187,7 +185,7 @@ ob_end_clean();
 $mpdf->WriteHTML(utf8_encode($html));
 
 //Membuat output file
-$content = $mpdf->OutputHttpInline("Laporan Pengeluaran.pdf", "I");
+$content = $mpdf->OutputHttpInline("SPmB.pdf", "I");
 // $mpdf->OverWrite('Lap.pdf', 'S');
 // $content = $mpdf->Output("CETAK.pdf", "I");
 

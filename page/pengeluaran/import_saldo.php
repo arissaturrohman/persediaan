@@ -1,9 +1,14 @@
 <?php
-$trx = $_GET['trx'];
-$arr = str_split($trx);
-$no1 =  $arr[4];
-$no2 = $arr[5];
-$tampil = $no1 . $no2;
+if (isset($_POST['trx'])) {
+  $trx = $_POST['trx'];
+  $penanggungjawab = $_POST['penanggungjawab'];
+  echo $_SESSION['trx'] = $trx;
+  echo $_SESSION['penanggungjawab'] = $penanggungjawab;
+  $arr = str_split($trx);
+  $no1 =  $arr[4];
+  $no2 = $arr[5];
+  $tampil = $no1 . $no2;
+}
 ?>
 
 <div class="col-lg-8 offset-2">
@@ -19,7 +24,7 @@ $tampil = $no1 . $no2;
       $data = $instansi->fetch_assoc();
       ?>
       <form action="" method="POST">
-        <input type="hidden" name="trx" value="<?= $_GET['trx']; ?>">
+        <input type="hidden" name="trx" value="<?= $_SESSION['trx']; ?>">
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
@@ -70,7 +75,7 @@ $tampil = $no1 . $no2;
         </div>
         <div class="form-group">
           <label for="penanggungjawab">Penanggungjawab</label>
-          <select class="form-control" id="penanggungjawab" name="penanggungjawab" required>
+          <!-- <select class="form-control" id="penanggungjawab" name="penanggungjawab" required>
             <option>-- Pilih --</option>
             <?php
             $sql_pegawai = $conn->query("SELECT * FROM tb_pegawai");
@@ -79,7 +84,16 @@ $tampil = $no1 . $no2;
             ?>
               <option value="<?= $data['id_pegawai']; ?>"><?= $data['nama_pegawai']; ?></option>
             <?php endforeach; ?>
-          </select>
+          </select> -->
+          <?php
+          $sql_pegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$_SESSION[penanggungjawab]'");
+          $dataPegawai = $sql_pegawai->fetch_assoc();
+
+
+          ?>
+          <input type="hidden" class="form-control" name="penanggungjawab" value="<?= $_SESSION['penanggungjawab']; ?>" readonly>
+          <input type="text" class="form-control" value="<?= $dataPegawai['nama_pegawai']; ?>" readonly>
+
         </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
         <a href="pengeluaran" class="btn btn-sm btn-dark">Cancel</a>
@@ -114,8 +128,8 @@ $tampil = $no1 . $no2;
         <tbody>
           <?php
           $no = 1;
-          $trx = $_GET['trx'];
-          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$trx' AND ket = 'saldo'");
+          // $trx = $_GET['trx'];
+          $sql = $conn->query("SELECT * FROM tb_pengeluaran WHERE trx = '$_SESSION[trx]' AND ket = 'Saldo Awal'");
           foreach ($sql as $key => $value) :
           ?>
             <tr>
@@ -172,7 +186,7 @@ if (isset($_POST['add'])) {
   $jumlah_harga = $_POST['jumlah_harga'];
   $penanggungjawab = $_POST['penanggungjawab'];
   $no_spb = $tampil;
-  $ket = 'saldo';
+  $ket = 'Saldo Awal';
   $tanggal_spb = $_POST['tanggal_spb'];
 
   $sql_stok = $conn->query("SELECT * FROM tb_saldo_awal_detail WHERE kode_barang = '$kode'");
@@ -189,6 +203,8 @@ if (isset($_POST['add'])) {
   } else {
 
     $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+
+    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
 
     if (!$sql) {
       // die();

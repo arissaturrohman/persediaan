@@ -58,6 +58,10 @@ if ($page == "instansi") {
 } elseif ($page == "pengeluaran") {
   if ($action == "") {
     include "page/pengeluaran/pengeluaran.php";
+  } elseif ($action == "addJab") {
+    include "page/pengeluaran/addJab.php";
+  } elseif ($action == "addImport") {
+    include "page/pengeluaran/addImport.php";
   } elseif ($action == "add") {
     include "page/pengeluaran/add.php";
   } elseif ($action == "edit") {

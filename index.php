@@ -1,6 +1,7 @@
 <?php
 include('inc/config.php');
 include('inc/tgl_indo.php');
+include('inc/terbilang.php');
 include('inc/romawi.php');
 include('inc/bulan.php');
 include('vendor/autoload.php');

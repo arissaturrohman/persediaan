@@ -5,7 +5,7 @@
         <label class="col-sm-3 col-form-label">Semester</label>
         <div class="col-sm-9">
           <select class="form-control form-control-sm" name="smt">
-            <option></option>
+            <option>--Pilih--</option>
             <option value="06">I (Satu)</option>
             <option value="12">II (Dua)</option>
           </select>

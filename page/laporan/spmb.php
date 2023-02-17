@@ -1,9 +1,9 @@
 <div class="card shadow mb-4 col-6">
   <div class="card-body">
     <form action="" method="GET">
-      <div class="form-row mb-3">
+      <div class="form-row mb-6">
         <div class="col">
-          <select class="form-control form-control-sm" id="spmb" name="spmb">
+          <select class="form-control form-control-sm mb-2" id="spmb" name="spmb">
             <option>Pilih No SPB</option>
             <?php
             $noSpb = $conn->query("SELECT * FROM tb_pengeluaran_detail GROUP BY no_spb");
@@ -17,46 +17,69 @@
             ?>
           </select>
         </div>
-        <div class="col">
-          <select class="form-control form-control-sm" id="smt" name="smt">
-            <option selected>Semester</option>
-            <option value="1">1 (Satu)</option>
-            <option value="2">2 (Dua)</option>
-          </select>
-        </div>
       </div>
       <div class="form-group float-right">
-        <button type="submit" name="pilih" class="btn btn-sm btn-info ">Pilih</button>
         <a href="spmb" class="btn btn-sm btn-dark ">Reset</a>
+        <button type="submit" name="pilih" class="btn btn-sm btn-info ">Pilih</button>
       </div>
     </form>
   </div>
 </div>
-
 <?php
 if (isset($_GET['pilih'])) {
   $smt = $_GET['smt'];
   $spmb = $_GET['spmb'];
 ?>
+
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+        <?php
+        $sqlSpb = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE no_spb = '$spmb'");
+        $result = $sqlSpb->fetch_assoc();
+        ?>
+        <table width="100%">
+          <tr>
+            <td width="10%">No SPB</td>
+            <td width="1%">:</td>
+            <td><?= "0" . $result['no_spb'] . " / SPB / " . BulanRomawi($result['tanggal_spb']) ?></td>
+          </tr>
+          <tr>
+            <td width="10%">Tanggal</td>
+            <td width="1%">:</td>
+            <td><?= TanggalIndo($result['tanggal_spb']); ?></td>
+          </tr>
+          <?php 
+          $namaPegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$result[penanggungjawab]'");
+          $resultPegawai = $namaPegawai->fetch_assoc();
+          ?>
+          <tr>
+            <td width="10%">Bidang</td>
+            <td width="1%">:</td>
+            <td><?= $resultPegawai['jabatan']; ?></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
   <hr>
-  <h5 class="h5 mb-0 text-center text-gray-800">LAPORAN PENERIMAAN DAN PENGELUARAN BARANG</h5>
-  <h5 class="h5 mb-4 text-center text-gray-800">SEMESTER
+  <!-- <h5 class="h5 mb-0 text-center text-gray-800">LAPORAN</h5> -->
+  <!-- <h5 class="h5 mb-4 text-center text-gray-800">SEMESTER
     <?php
-    // $smt = date('m');
     if ($smt <= 06) {
       echo "I (SATU)";
     } else {
       echo "II (DUA)";
     }
     ?>
-    TAHUN ANGGARAN <?= $_SESSION['tahun']; ?></h5>
+    TAHUN ANGGARAN <?= $_SESSION['tahun']; ?></h5> -->
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
       <!-- Example single danger button -->
       <div class="btn-group float-right">
         <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        <i class="fas fa-fw fa-print"></i> Print
+          <i class="fas fa-fw fa-print"></i> Print
         </button>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="">
@@ -64,28 +87,28 @@ if (isset($_GET['pilih'])) {
               <input type="hidden" name="smt" value="<?= $smt; ?>">
               <input type="hidden" name="spmb" value="<?= $spmb; ?>">
               <button type="submit" name="submit" class="btn btn-link">SPmB</button>
-            </form>            
+            </form>
           </a>
           <a class="dropdown-item" href="#">
-          <form action="page/cetak/sppb.php" method="POST" target="_blank">
+            <form action="page/cetak/sppb.php" method="POST" target="_blank">
               <input type="hidden" name="smt" value="<?= $smt; ?>">
               <input type="hidden" name="spmb" value="<?= $spmb; ?>">
               <button type="submit" name="submit" class="btn btn-link">SPPB</button>
-            </form> 
+            </form>
           </a>
           <a class="dropdown-item" href="#">
-          <form action="page/cetak/bbKeluar.php" method="POST" target="_blank">
+            <form action="page/cetak/bbKeluar.php" method="POST" target="_blank">
               <input type="hidden" name="smt" value="<?= $smt; ?>">
               <input type="hidden" name="spmb" value="<?= $spmb; ?>">
               <button type="submit" name="submit" class="btn btn-link">BB Keluar</button>
-            </form> 
+            </form>
           </a>
           <a class="dropdown-item" href="#">
-          <form action="page/cetak/bast.php" method="POST" target="_blank">
+            <form action="page/cetak/bast.php" method="POST" target="_blank">
               <input type="hidden" name="smt" value="<?= $smt; ?>">
               <input type="hidden" name="spmb" value="<?= $spmb; ?>">
               <button type="submit" name="submit" class="btn btn-link">BAST</button>
-            </form> 
+            </form>
           </a>
         </div>
       </div>

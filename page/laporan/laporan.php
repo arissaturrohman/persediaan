@@ -1,13 +1,21 @@
 <div class="card shadow mb-4 col-6">
   <div class="card-body">
-    <form action="page/cetak/tes1.php" method="POST">
+    <form action="" method="POST" target="_blank">
       <div class="form-row mb-3">
         <div class="col">
           <select onChange="coba(this)" class="form-control form-control-sm" id="jenis" name="jenis">
             <option value="0">Jenis Laporan</option>
-            <option value="1">Laporan 1</option>
-            <option value="2">Laporan 2</option>
-            <option value="3">Laporan 3</option>
+            <option value="1">Penerimaan</option>
+            <option value="2">Pengeluaran</option>
+            <option value="3">Laporan Barang</option>
+            <option value="4">SPmB</option>
+            <option value="5">SPPB</option>
+            <option value="6">BB Keluar</option>
+            <option value="7">BAST</option>
+            <option value="8">Kartu Barang</option>
+            <option value="9">Kartu Persediaan</option>
+            <option value="10">Rekap Persediaan</option>
+            <option value="11">Stock Opname</option>
           </select>
         </div>
         <div class="col">
@@ -20,81 +28,191 @@
       </div>
       <div class="form-row mb-3">
         <div class="col">
-          <select class="form-control form-control-sm" id="trx" name="trx">
-            <option selected>No Trx</option>
-            <option value="1">001</option>
-            <option value="2">002</option>
+          <select class="form-control form-control-sm mb-2" id="spmb" name="spmb">
+            <option>Pilih No SPB</option>
+            <?php
+            $noSpb = $conn->query("SELECT * FROM tb_pengeluaran_detail GROUP BY no_spb");
+            while ($dataSpb = $noSpb->fetch_assoc()) {
+
+            ?>
+              <option value="<?= $dataSpb['no_spb']; ?>"><?= $dataSpb['no_spb']; ?></option>
+
+            <?php
+            }
+            ?>
           </select>
         </div>
         <div class="col">
           <select class="form-control form-control-sm" id="brg" name="brg">
             <option selected>Pilih Barang</option>
-            <option value="1">1 (Satu)</option>
-            <option value="2">2 (Dua)</option>
+            <?php
+            $brg = $conn->query("SELECT * FROM tb_barang");
+            while ($dataBrg = $brg->fetch_assoc()) {
+
+            ?>
+              <option value="<?= $dataBrg['kode_barang']; ?>"><?= $dataBrg['nama_barang']; ?></option>
+            <?php } ?>
           </select>
         </div>
       </div>
       <div class="form-row float-right">
-        <button type="submit" id="jajal" class="btn btn-sm btn-info ">Pilih</button>
+        <button type="submit" name="pilih" id="jajal" class="btn btn-sm btn-info ">Pilih</button>
       </div>
   </div>
   </form>
 </div>
 
-<script>
-  $(document).ready(function() {
-    $("#jajal").click(function(e) {
-      e.preventDefault();
-      var jenis = document.getElementById('jenis').value;
-      var jen = $(this).attr('jenis');
-      window.open(jen, '_blank');
-    });
-  });
-  // document.getElementById("form").submit();
-  // const form = document.querySelector('form');
-  // form.addEventListener('submit', (e) => {
-  //   e.preventDefault();
-  //   const fd = new FormData(form);
-  //   const obj = Object.fromEntries(fd);
 
-  //   const json = JSON.stringify(obj);
-  //   localStorage.setItem('form', json);
+<!-- Urutan Jenis
 
-  //   window.location.href = "page/cetak/tes1.php";
-  // })
-  // function jajal() {
+1. Penerimaan
+2. Pengeluaran
+3. Laporan Barang
+4. SPmB
+5. SPPB
+6. BB Keluar
+7. BAST
+8. Kartu Barang
+9. Kartu Persediaan
+10. Rekap Persediaan
+11. Stock Opname
+-->
 
-  //   var jenis = document.getElementById("jenis").value;
-  //   var smt = document.getElementById("smt").value;
-  //   var trx = document.getElementById("trx").value;
-  //   var brg = document.getElementById("brg").value;
 
-  //   if(jenis == 1){
+<?php
+if (isset($_POST['pilih'])) {
+  $jenis = $_POST['jenis'];
+  $smt = $_POST['smt'];
+  $spmb = $_POST['spmb'];
+  $brg = $_POST['brg'];
 
-  //   }
-  // }
-</script>
+  if ($jenis == 1) {
+    $_SESSION['smt'] = $smt;
+    $_SESSION['spmb'] = $spmb;
+    header('location: page/cetak/laPenerimaan.php');
+  }
+  if ($jenis == 2) {
+    $_SESSION['smt'] = $smt;
+    $_SESSION['spmb'] = $spmb;
+    header('location: page/cetak/laPengeluaran.php');
+  }
+  if ($jenis == 3) {
+    $_SESSION['smt'] = $smt;
+    $_SESSION['spmb'] = $spmb;
+    header('location: page/cetak/laTerimaKeluar.php');
+  }
+  if ($jenis == 4) {
+    $_SESSION['spmb'] = $spmb;
+    header('location: page/cetak/spmb.php');
+  }
+  if ($jenis == 5) {
+    $_SESSION['spmb'] = $spmb;
+    header('location: page/cetak/sppb.php');
+  }
+  if ($jenis == 6) {
+    $_SESSION['spmb'] = $spmb;
+    header('location: page/cetak/bbKeluar.php');
+  }
+  if ($jenis == 7) {
+    $_SESSION['spmb'] = $spmb;
+    header('location: page/cetak/bast.php');
+  }
+  if ($jenis == 8) {
+    $_SESSION['smt'] = $smt;
+    $_SESSION['brg'] = $brg;
+    header('location: page/cetak/kartuBarang.php');
+  }
+  if ($jenis == 9) {
+    $_SESSION['smt'] = $smt;
+    $_SESSION['brg'] = $brg;
+    header('location: page/cetak/kartuPersediaan.php');
+  }
+  if ($jenis == 10) {
+    $_SESSION['smt'] = $smt;
+    header('location: page/cetak/rekapPersediaan.php');
+  }
+  if ($jenis == 11) {
+    $_SESSION['smt'] = $smt;
+    header('location: page/cetak/stockOpname.php');
+  }
+}
+?>
+
+<!-- Urutan Jenis
+
+1. Penerimaan
+2. Pengeluaran
+3. Laporan Barang
+4. SPmB
+5. SPPB
+6. BB Keluar
+7. BAST
+8. Kartu Barang
+9. Kartu Persediaan
+10. Rekap Persediaan
+11. Stock Opname
+-->
 
 <script>
   function coba(pilihan) {
     if (pilihan.value == 1) {
       document.getElementById('smt').disabled = false;
-      document.getElementById('trx').disabled = true;
+      document.getElementById('spmb').disabled = true;
       document.getElementById('brg').disabled = true;
     }
     if (pilihan.value == 2) {
-      document.getElementById('smt').disabled = true;
-      document.getElementById('trx').disabled = false;
+      document.getElementById('smt').disabled = false;
+      document.getElementById('spmb').disabled = true;
       document.getElementById('brg').disabled = true;
     }
     if (pilihan.value == 3) {
+      document.getElementById('smt').disabled = false;
+      document.getElementById('spmb').disabled = true;
+      document.getElementById('brg').disabled = true;
+    }
+    if (pilihan.value == 4) {
       document.getElementById('smt').disabled = true;
-      document.getElementById('trx').disabled = true;
+      document.getElementById('spmb').disabled = false;
+      document.getElementById('brg').disabled = true;
+    }
+    if (pilihan.value == 5) {
+      document.getElementById('smt').disabled = true;
+      document.getElementById('spmb').disabled = false;
+      document.getElementById('brg').disabled = true;
+    }
+    if (pilihan.value == 6) {
+      document.getElementById('smt').disabled = true;
+      document.getElementById('spmb').disabled = false;
+      document.getElementById('brg').disabled = true;
+    }
+    if (pilihan.value == 7) {
+      document.getElementById('smt').disabled = true;
+      document.getElementById('spmb').disabled = false;
+      document.getElementById('brg').disabled = true;
+    }
+    if (pilihan.value == 8) {
+      document.getElementById('smt').disabled = false;
+      document.getElementById('spmb').disabled = true;
       document.getElementById('brg').disabled = false;
+    }
+    if (pilihan.value == 9) {
+      document.getElementById('smt').disabled = false;
+      document.getElementById('spmb').disabled = true;
+      document.getElementById('brg').disabled = false;
+    }
+    if (pilihan.value == 10) {
+      document.getElementById('smt').disabled = false;
+      document.getElementById('spmb').disabled = true;
+      document.getElementById('brg').disabled = true;
+    }
+    if (pilihan.value == 11) {
+      document.getElementById('smt').disabled = false;
+      document.getElementById('spmb').disabled = true;
+      document.getElementById('brg').disabled = true;
     }
     if (pilihan.value == 0) {
       document.getElementById('smt').disabled = false;
-      document.getElementById('trx').disabled = false;
+      document.getElementById('spmb').disabled = false;
       document.getElementById('brg').disabled = false;
     }
   }
