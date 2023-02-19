@@ -13,6 +13,16 @@ if ($page == "instansi") {
   } elseif ($action == "delete") {
     include "page/instansi/delete.php";
   }
+} elseif ($page == "setting") {
+  if ($action == "") {
+    include "page/setting/setting.php";
+  } elseif ($action == "add") {
+    include "page/setting/add.php";
+  } elseif ($action == "edit") {
+    include "page/setting/edit.php";
+  } elseif ($action == "delete") {
+    include "page/setting/delete.php";
+  }
 } elseif ($page == "pegawai") {
   if ($action == "") {
     include "page/pegawai/pegawai.php";

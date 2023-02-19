@@ -39,8 +39,12 @@
       $data = $sql->fetch_assoc();
       ?>
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="?page=user&action=gantiPass&id=<?= $data['id_user']; ?>">
+        <a class="dropdown-item" href="setting">
           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+          Setting
+        </a>
+        <a class="dropdown-item" href="?page=user&action=gantiPass&id=<?= $data['id_user']; ?>">
+          <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
           Ganti Password
         </a>
         <div class="dropdown-divider"></div>

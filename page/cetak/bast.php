@@ -1,9 +1,8 @@
 <?php
 
-if ($_POST) {
-  $smt = $_POST['smt'];
-  $spmb = $_POST['spmb'];
-}
+session_start();
+$jenis = $_SESSION['jenis'];
+$spmb = $_SESSION['spmb'];
 
 include('../../inc/config.php');
 include('../../inc/tgl_indo.php');
@@ -17,6 +16,8 @@ ob_start();
 
 $opd = $conn->query("SELECT * FROM tb_instansi WHERE id_user = '$_SESSION[id_user]'");
 $dataOpd = $opd->fetch_assoc();
+$setting = $conn->query("SELECT * FROM tb_setting WHERE id_user = '$_SESSION[id_user]' AND jabatan = 'Pengurus Barang'");
+$dataSet = $setting->fetch_assoc();
 
 ?>
 
@@ -69,8 +70,8 @@ $dataOpd = $opd->fetch_assoc();
       <td align="center">
         <h4>PEMERINTAH KABUPATEN DEMAK</h4>
         <h3 class="upper"><?= $dataOpd['nama_instansi']; ?></h3>
-        <p><?= $dataOpd['alamat_instansi'] . " Telp. ".$dataOpd['no_telp']; ?></p>
-        <p>Website : https://kecgajah.demakkab.go.id - Email : office.kec.gajah@gmail.com</p>
+        <p><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></p>
+        <p>Website : <?= $dataOpd['website']; ?> - Email : <?= $dataOpd['email']; ?></p>
       </td>
     </tr>
   </table>
@@ -95,25 +96,25 @@ $dataOpd = $opd->fetch_assoc();
   $tgl = date('d', strtotime($dataSpb['tanggal_spb']));
 
   ?>
-  <p align="left">Pada hari ini <?= hariIndo($namahari); ?> tanggal <?= terbilang($tgl); ?> bulan <?= BulanIndo($dataSpb['tanggal_spb']); ?> tahun <?= terbilang($_SESSION['tahun']) . " (" . date("d-m-Y", strtotime($dataSpb['tanggal_spb'])) . ")"; ?> bertempat di <?= $dataOpd['nama_instansi']; ?> Kab. Demak, kami yang bertanda tangan dibawah ini:</p>
+  <p align="justify">Pada hari ini <?= hariIndo($namahari); ?> tanggal <?= terbilang($tgl); ?> bulan <?= BulanIndo($dataSpb['tanggal_spb']); ?> tahun <?= terbilang($_SESSION['tahun']) . " (" . date("d-m-Y", strtotime($dataSpb['tanggal_spb'])) . ")"; ?> bertempat di <?= $dataOpd['nama_instansi']; ?> Kab. Demak, kami yang bertanda tangan dibawah ini:</p>
   <table width="100%">
     <tr>
       <td width="5%"></td>
       <td>Nama</td>
       <td width="1%">:</td>
-      <td>HARTINI</td>
+      <td><?= $dataSet['nama']; ?></td>
     </tr>
     <tr>
       <td width="5%"></td>
       <td>NIP</td>
       <td width="1%">:</td>
-      <td>1515456</td>
+      <td><?= $dataSet['nip']; ?></td>
     </tr>
     <tr>
       <td width="5%"></td>
       <td>Jabatan</td>
       <td width="1%">:</td>
-      <td>CAMAT</td>
+      <td><?= $dataSet['jabatan']; ?></td>
     </tr>
     <tr>
       <td width="5%"></td>
@@ -127,23 +128,28 @@ $dataOpd = $opd->fetch_assoc();
       <td height="10%">&nbsp; </td>
       <td height="10%">&nbsp; </td>
     </tr>
+    <?php
+    $namaPegawai = $dataSpb['penanggungjawab'];
+    $sqlPegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$namaPegawai'");
+    $result = $sqlPegawai->fetch_assoc();
+    ?>
     <tr>
       <td width="5%"></td>
       <td>Nama</td>
       <td width="1%">:</td>
-      <td>HARTINI</td>
+      <td><?= $result['nama_pegawai']; ?></td>
     </tr>
     <tr>
       <td width="5%"></td>
       <td>NIP</td>
       <td width="1%">:</td>
-      <td>1515456</td>
+      <td><?= $result['nip']; ?></td>
     </tr>
     <tr>
       <td width="5%"></td>
       <td>Jabatan</td>
       <td width="1%">:</td>
-      <td>CAMAT</td>
+      <td><?= $result['jabatan']; ?></td>
     </tr>
     <tr>
       <td width="5%"></td>
@@ -156,7 +162,7 @@ $dataOpd = $opd->fetch_assoc();
   $jabatan = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$dataSpb[penanggungjawab]'");
   $dataJab = $jabatan->fetch_assoc();
   ?>
-  <p align="left">Kami sepakat menyatakan bahwa telah melakukan serah terima barang dari Pihak I (Kesatu) kepada Pihak II (Kedua), sesuai dengan Surat Permintaan Barang (SPB) Nomor <?= "0" . $dataSpb['no_spb'] . " / SPB / " . BulanRomawi($dataSpb['tanggal_spb']); ?> Tanggal <?= TanggalIndo($dataSpb['tanggal_spb']); ?> yang berupa barang persediaan, sebagaimana daftar dibawah ini :</p>
+  <p align="justify">Kami sepakat menyatakan bahwa telah melakukan serah terima barang dari Pihak I (Kesatu) kepada Pihak II (Kedua), sesuai dengan Surat Permintaan Barang (SPB) Nomor <?= "0" . $dataSpb['no_spb'] . " / SPB / " . BulanRomawi($dataSpb['tanggal_spb']); ?> Tanggal <?= TanggalIndo($dataSpb['tanggal_spb']); ?> yang berupa barang persediaan, sebagaimana daftar dibawah ini :</p>
   <table border="1" width="100%" cellspacing="0">
     <thead>
       <tr>
@@ -196,7 +202,7 @@ $dataOpd = $opd->fetch_assoc();
         <th align="center" colspan="6">JUMLAH</th>
         <th align="right">
           <?php
-          $hitungKeluar = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]' GROUP BY no_spb");
+          $hitungKeluar = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]' AND no_spb = '$_SESSION[spmb]' GROUP BY no_spb");
           $dataHitungKeluar = $hitungKeluar->fetch_assoc();
           echo $sisaKeluar = number_format($dataHitungKeluar['total']);
           ?>
@@ -209,24 +215,26 @@ $dataOpd = $opd->fetch_assoc();
   <br>
   <table align="center">
     <tr>
-      <td align="center">Mengetahui,</td>
+      <td align="center">Yang Menerima,</td>
       <td></td>
       <td></td>
-      <td align="center">Demak, <?= TanggalIndo($dataSpb['tanggal_spb']); ?></td>
+      <td align="center">Yang Menyerahkan,</td>
     </tr>
     <?php
-    $camat = $conn->query("SELECT * FROM tb_pegawai WHERE jabatan = 'Camat'");
-    $dataPegawai = $camat->fetch_assoc();
-    ?>
-    <?php
-    $pengurus = $conn->query("SELECT * FROM tb_pegawai WHERE jabatan = 'Pengurus Barang'");
-    $dataPegawai1 = $pengurus->fetch_assoc();
+    $camat = $conn->query("SELECT * FROM tb_setting WHERE jabatan = 'Pengguna Barang' AND id_user = '$_SESSION[id_user]'");
+    $dataPengguna = $camat->fetch_assoc();
+
+    $pengurus = $conn->query("SELECT * FROM tb_setting WHERE jabatan = 'Pengurus Barang' AND id_user = '$_SESSION[id_user]'");
+    $dataPengurus = $pengurus->fetch_assoc();
+
+    $penata = $conn->query("SELECT * FROM tb_setting WHERE jabatan = 'Penatausaha Barang' AND id_user = '$_SESSION[id_user]'");
+    $dataTU = $penata->fetch_assoc();
     ?>
     <tr>
-      <td align="center">Pengguna Barang</td>
+      <td align="center"><?= $result['jabatan']; ?></td>
       <td width="40%"></td>
       <td></td>
-      <td align="center">Pengurus Barang</td>
+      <td align="center">Penyimpan/Pengurus Barang</td>
     </tr>
     <tr>
       <td height="30%">&nbsp; </td>
@@ -239,40 +247,32 @@ $dataOpd = $opd->fetch_assoc();
     </tr>
 
     <tr>
-      <td align="center" width="30%"><b><u><?= $dataPegawai['nama_pegawai']; ?></u></b></td>
+      <td align="center" width="30%"><b><u><?= $result['nama_pegawai']; ?></u></b></td>
       <td width="20%"></td>
       <td></td>
-      <td align="center"><b><u><?= $dataPegawai1['nama_pegawai']; ?></u></b></td>
+      <td align="center"><b><u><?= $dataPengurus['nama']; ?></u></b></td>
     </tr>
     <tr>
-      <td align="center"><?= "NIP. " . $dataPegawai['nip']; ?></td>
+      <td align="center"><?= "NIP. " . $result['nip']; ?></td>
       <td width="20%"></td>
       <td></td>
-      <td align="center"><?= "NIP. " . $dataPegawai1['nip']; ?></td>
+      <td align="center"><?= "NIP. " . $dataPengurus['nip']; ?></td>
     </tr>
   </table>
   <br>
   <br>
   <table align="center">
     <tr>
-      <td align="center">Mengetahui,</td>
+      <td align="center">Mengetahui/Menyetujui,</td>
       <td></td>
       <td></td>
-      <td align="center">Demak, <?= TanggalIndo($dataSpb['tanggal_spb']); ?></td>
+      <td align="center">Yang Menyaksikan,</td>
     </tr>
-    <?php
-    $camat = $conn->query("SELECT * FROM tb_pegawai WHERE jabatan = 'Camat'");
-    $dataPegawai = $camat->fetch_assoc();
-    ?>
-    <?php
-    $pengurus = $conn->query("SELECT * FROM tb_pegawai WHERE jabatan = 'Pengurus Barang'");
-    $dataPegawai1 = $pengurus->fetch_assoc();
-    ?>
     <tr>
       <td align="center">Pengguna Barang</td>
       <td width="40%"></td>
       <td></td>
-      <td align="center">Pengurus Barang</td>
+      <td align="center">Pejabat Penatausaha Barang</td>
     </tr>
     <tr>
       <td height="30%">&nbsp; </td>
@@ -285,16 +285,16 @@ $dataOpd = $opd->fetch_assoc();
     </tr>
 
     <tr>
-      <td align="center" width="30%"><b><u><?= $dataPegawai['nama_pegawai']; ?></u></b></td>
+      <td align="center" width="30%"><b><u><?= $dataPengguna['nama']; ?></u></b></td>
       <td width="20%"></td>
       <td></td>
-      <td align="center"><b><u><?= $dataPegawai1['nama_pegawai']; ?></u></b></td>
+      <td align="center"><b><u><?= $dataTU['nama']; ?></u></b></td>
     </tr>
     <tr>
-      <td align="center"><?= "NIP. " . $dataPegawai['nip']; ?></td>
+      <td align="center"><?= "NIP. " . $dataPengguna['nip']; ?></td>
       <td width="20%"></td>
       <td></td>
-      <td align="center"><?= "NIP. " . $dataPegawai1['nip']; ?></td>
+      <td align="center"><?= "NIP. " . $dataTU['nip']; ?></td>
     </tr>
   </table>
 </body>

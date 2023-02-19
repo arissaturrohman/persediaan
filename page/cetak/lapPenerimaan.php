@@ -1,5 +1,9 @@
 <?php
 
+session_start();
+$jenis = $_SESSION['jenis'];
+$smt = $_SESSION['smt'];
+
 include('../../inc/config.php');
 include('../../inc/tgl_indo.php');
 include('../../inc/romawi.php');
@@ -7,6 +11,11 @@ include('../../inc/bulan.php');
 include('../../vendor/autoload.php');
 
 ob_start();
+
+$instansi = $conn->query("SELECT * FROM tb_instansi WHERE id_user = '$_SESSION[id_user]'");
+$dataOpd = $instansi->fetch_assoc();
+$setting = $conn->query("SELECT * FROM tb_setting WHERE id_user = '$_SESSION[id_user]'");
+$dataSet = $setting->fetch_assoc();
 
 ?>
 
@@ -41,6 +50,10 @@ ob_start();
     .text {
       margin-top: 2px;
     }
+
+    .upper {
+      text-transform: uppercase;
+    }
   </style>
 </head>
 
@@ -50,16 +63,24 @@ ob_start();
       <td rowspan="4"><img src="../../assets/img/logo.png" alt="logo" width="5%"></td>
       <td align="center">
         <h4>PEMERINTAH KABUPATEN DEMAK</h4>
-        <h3>KECAMATAN GAJAH</h3>
-        <p>Jl. Raya Gajah No. 45 Telp 0291-685250 Kode Pos 59581</p>
-        <p>Website : https://kecgajah.demakkab.go.id - Email : office.kec.gajah@gmail.com</p>
+        <h3 class="upper"><?= $dataOpd['nama_instansi']; ?></h3>
+        <p><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></p>
+        <p>Website : <?= $dataOpd['website']; ?> - Email : <?= $dataOpd['email']; ?></p>
       </td>
     </tr>
   </table>
   <hr>
 
   <h5 class="b">BUKU PENERIMAAN BARANG PERSEDIAAN</h5>
-  <h5 class="text">TAHUN ANGGARAN <?= $_SESSION['tahun']; ?></h5>
+  <h5 class="text">SEMESTER
+    <?php
+    if ($smt <= 06) {
+      echo "I (SATU)";
+    } else {
+      echo "II (DUA)";
+    }
+    ?>
+    TAHUN ANGGARAN <?= $_SESSION['tahun']; ?></h5>
   <table border="1" width="100%" cellspacing="0">
     <thead>
       <tr>
@@ -90,7 +111,7 @@ ob_start();
     <tbody>
       <?php
       $no = 1;
-      $sql = $conn->query("SELECT * FROM tb_pembelian_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
+      $sql = $conn->query("SELECT * FROM tb_pembelian_detail WHERE id_user = '$_SESSION[id_user]' AND month(tahun) <= '$smt' AND year(tahun) = '$_SESSION[tahun]' GROUP BY kode_barang");
       foreach ($sql as $key => $value) :
       ?>
         <tr>
@@ -124,7 +145,7 @@ ob_start();
         </tr>
       <?php endforeach; ?>
       <?php
-      $hitung = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pembelian_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
+      $hitung = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pembelian_detail WHERE id_user = '$_SESSION[id_user]' AND month(tahun) <= '$smt' AND year(tahun) = '$_SESSION[tahun]'");
       $dataHitung = $hitung->fetch_assoc();
       ?>
       <tr>
@@ -143,15 +164,23 @@ ob_start();
       <td></td>
       <td></td>
       <td></td>
-      <td>Demak,</td>
+      <td>Demak,
+        <?php
+        if ($smt <= 06) {
+          echo "30 Juni " . date('Y');
+        } else {
+          echo "31 Desember " . date('Y');
+        }
+        ?>
+      </td>
     </tr>
     <?php
-    $camat = $conn->query("SELECT * FROM tb_pegawai WHERE jabatan = 'Camat'");
-    $dataPegawai = $camat->fetch_assoc();
+    $pengguna = $conn->query("SELECT * FROM tb_setting WHERE jabatan = 'Pengguna Barang' AND id_user = '$_SESSION[id_user]'");
+    $dataPengguna = $pengguna->fetch_assoc();
     ?>
     <?php
-    $pengurus = $conn->query("SELECT * FROM tb_pegawai WHERE jabatan = 'Pengurus Barang'");
-    $dataPegawai1 = $pengurus->fetch_assoc();
+    $pengurus = $conn->query("SELECT * FROM tb_setting WHERE jabatan = 'Pengurus Barang' AND id_user = '$_SESSION[id_user]'");
+    $dataPengurus = $pengurus->fetch_assoc();
     ?>
     <tr>
       <td align="center">Pengguna Barang</td>
@@ -173,22 +202,22 @@ ob_start();
     </tr>
 
     <tr>
-      <td align="center" width="20%"><b><u><?= $dataPegawai['nama_pegawai']; ?></u></b></td>
+      <td align="center" width="20%"><b><u><?= $dataPengguna['nama']; ?></u></b></td>
       <td width="60%"></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
-      <td align="center"><b><u><?= $dataPegawai1['nama_pegawai']; ?></u></b></td>
+      <td align="center"><b><u><?= $dataPengurus['nama']; ?></u></b></td>
     </tr>
     <tr>
-      <td align="center"><?= "NIP. " . $dataPegawai['nip']; ?></td>
+      <td align="center"><?= "NIP. " . $dataPengguna['nip']; ?></td>
       <td width="60%"></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
-      <td align="center"><?= "NIP. " . $dataPegawai1['nip']; ?></td>
+      <td align="center"><?= "NIP. " . $dataPengurus['nip']; ?></td>
     </tr>
   </table>
 </body>
@@ -201,7 +230,7 @@ ob_start();
 // require 'vendor/autoload.php';
 
 //Membuat inisialisasi objek mPDF
-$mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'Legal', 'margin_top' => 15, 'margin_bottom' => 25, 'margin_left' => 25, 'margin_right' => 25]);
+$mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'Legal', 'margin_top' => 15, 'margin_bottom' => 25, 'margin_left' => 15, 'margin_right' => 15]);
 
 $mpdf->AddPage('L');
 

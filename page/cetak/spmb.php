@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-echo $jenis = $_SESSION['jenis'];
-echo $spmb = $_SESSION['spmb'];
+$jenis = $_SESSION['jenis'];
+$spmb = $_SESSION['spmb'];
 
 include('../../inc/config.php');
 include('../../inc/tgl_indo.php');
@@ -12,6 +12,10 @@ include('../../vendor/autoload.php');
 
 ob_start();
 
+$instansi = $conn->query("SELECT * FROM tb_instansi WHERE id_user = '$_SESSION[id_user]'");
+$dataOpd = $instansi->fetch_assoc();
+$setting = $conn->query("SELECT * FROM tb_setting WHERE id_user = '$_SESSION[id_user]'");
+$dataSet = $setting->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +53,10 @@ ob_start();
     .isi {
       font-size: 7px;
     }
+
+    .upper {
+      text-transform: uppercase;
+    }
   </style>
 </head>
 
@@ -58,9 +66,9 @@ ob_start();
       <td align="left" rowspan="4" width="10%"><img src="../../assets/img/logo.png" alt="logo" width="8%"></td>
       <td align="center">
         <h4>PEMERINTAH KABUPATEN DEMAK</h4>
-        <h3>KECAMATAN GAJAH</h3>
-        <p>Jl. Raya Gajah No. 45 Telp 0291-685250 Kode Pos 59581</p>
-        <p>Website : https://kecgajah.demakkab.go.id - Email : office.kec.gajah@gmail.com</p>
+        <h3 class="upper"><?= $dataOpd['nama_instansi']; ?></h3>
+        <p><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></p>
+        <p>Website : <?= $dataOpd['website']; ?> - Email : <?= $dataOpd['email']; ?></p>
       </td>
     </tr>
   </table>
@@ -76,19 +84,19 @@ ob_start();
     <tr>
       <td width="20%">Kepada Yth.</td>
       <td width="1%">:</td>
-      <td>Pejabat Penatausaha Barang pada OPD Kecamatan Gajah</td>
+      <td>Pejabat Penatausaha Barang pada OPD <?= $dataOpd['nama_instansi']; ?></td>
     </tr>
     <tr>
       <td width="20%">Alamat</td>
       <td width="1%">:</td>
-      <td>Jl. Raya Gajah No. 45 Telp. 0291-685250 Kode Pos 59581</td>
+      <td><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></td>
     </tr>
   </table>
   <?php
   $jabatan = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$dataSpb[penanggungjawab]'");
   $dataJab = $jabatan->fetch_assoc();
   ?>
-  <p align="left">Mohon dikeluarkan barang dari gudang/tempat penyimpanan barang dan disalurkan barang tersebut untuk <?= $dataJab['jabatan']; ?> Kec. Gajah, sebagaimana daftar dibawah ini :</p>
+  <p align="justify">Mohon dikeluarkan barang dari gudang/tempat penyimpanan barang dan disalurkan barang tersebut untuk <?= $dataJab['jabatan']; ?>, sebagaimana daftar dibawah ini :</p>
   <table border="1" width="100%" cellspacing="0">
     <thead>
       <tr>
@@ -128,7 +136,7 @@ ob_start();
         <th align="center" colspan="6">JUMLAH</th>
         <th align="right">
           <?php
-          $hitungKeluar = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]' GROUP BY no_spb");
+          $hitungKeluar = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]' AND no_spb = '$_SESSION[spmb]' GROUP BY no_spb");
           $dataHitungKeluar = $hitungKeluar->fetch_assoc();
           echo $sisaKeluar = number_format($dataHitungKeluar['total']);
           ?>
@@ -144,7 +152,7 @@ ob_start();
       <td align="center">Demak, <?= TanggalIndo($dataSpb['tanggal_spb']); ?></td>
     </tr>
     <tr>
-      <td align="center"><?= $dataJab['jabatan']; ?> Kec. Gajah</td>
+      <td align="center"><?= $dataJab['jabatan']; ?></td>
     </tr>
     <tr>
       <td height="20%">&nbsp; </td>

@@ -272,6 +272,8 @@
 <!-- Page level plugins -->
 <script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- js untuk select2  -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="assets/js/demo/datatables-demo.js"></script>
@@ -500,6 +502,12 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
     let fileName = $(this).val().split('\\').pop();
     // Ubah "Choose a file" label sesuai dengan nama file yag akan diupload
     $(this).next('.custom-file-label').addClass("selected").html(fileName);
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $("#brg, #spmb").select2();
   });
 </script>
 

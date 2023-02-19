@@ -1,8 +1,7 @@
 <?php
-if ($_POST) {
-  echo $smt = $_POST['cetak'];
-
- }
+session_start();
+$jenis = $_SESSION['jenis'];
+$smt = $_SESSION['smt'];
 
 include('../../inc/config.php');
 include('../../inc/tgl_indo.php');
@@ -11,6 +10,11 @@ include('../../inc/bulan.php');
 include('../../vendor/autoload.php');
 
 ob_start();
+
+$instansi = $conn->query("SELECT * FROM tb_instansi WHERE id_user = '$_SESSION[id_user]'");
+$dataOpd = $instansi->fetch_assoc();
+$setting = $conn->query("SELECT * FROM tb_setting WHERE id_user = '$_SESSION[id_user]'");
+$dataSet = $setting->fetch_assoc();
 
 ?>
 
@@ -194,22 +198,23 @@ ob_start();
       <td></td>
       <td></td>
       <td></td>
-      <?php 
-      if ($smt <= 06) {
-        $tgl = "30 Juni ";
-      } else {
-        $tgl = "31 Desember ";
-      }
-      ?>
-      <td align="center">Demak, <?= $tgl. $_SESSION['tahun']; ?></td>
+      <td>Demak,
+        <?php
+        if ($smt <= 06) {
+          echo "30 Juni " . date('Y');
+        } else {
+          echo "31 Desember " . date('Y');
+        }
+        ?>
+      </td>
     </tr>
     <?php
-    $camat = $conn->query("SELECT * FROM tb_pegawai WHERE jabatan = 'Camat'");
-    $dataPegawai = $camat->fetch_assoc();
+    $pengguna = $conn->query("SELECT * FROM tb_setting WHERE jabatan = 'Pengguna Barang' AND id_user = '$_SESSION[id_user]'");
+    $dataPengguna = $pengguna->fetch_assoc();
     ?>
     <?php
-    $pengurus = $conn->query("SELECT * FROM tb_pegawai WHERE jabatan = 'Pengurus Barang'");
-    $dataPegawai1 = $pengurus->fetch_assoc();
+    $pengurus = $conn->query("SELECT * FROM tb_setting WHERE jabatan = 'Pengurus Barang' AND id_user = '$_SESSION[id_user]'");
+    $dataPengurus = $pengurus->fetch_assoc();
     ?>
     <tr>
       <td align="center">Pengguna Barang</td>
@@ -231,22 +236,22 @@ ob_start();
     </tr>
 
     <tr>
-      <td align="center" width="20%"><b><u><?= $dataPegawai['nama_pegawai']; ?></u></b></td>
+      <td align="center" width="20%"><b><u><?= $dataPengguna['nama']; ?></u></b></td>
       <td width="60%"></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
-      <td align="center"><b><u><?= $dataPegawai1['nama_pegawai']; ?></u></b></td>
+      <td align="center"><b><u><?= $dataPengurus['nama']; ?></u></b></td>
     </tr>
     <tr>
-      <td align="center"><?= "NIP. " . $dataPegawai['nip']; ?></td>
+      <td align="center"><?= "NIP. " . $dataPengguna['nip']; ?></td>
       <td width="60%"></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
-      <td align="center"><?= "NIP. " . $dataPegawai1['nip']; ?></td>
+      <td align="center"><?= "NIP. " . $dataPengurus['nip']; ?></td>
     </tr>
   </table>
 </body>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Feb 2023 pada 18.36
+-- Waktu pembuatan: 19 Feb 2023 pada 17.10
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 7.4.26
 
@@ -40,7 +40,9 @@ CREATE TABLE `tb_barang` (
 --
 
 INSERT INTO `tb_barang` (`id_barang`, `id_kategori`, `kode_barang`, `nama_barang`, `satuan_barang`) VALUES
-(2, 1, '11001', 'HVS 80gr', 'Buah');
+(2, 1, '11001', 'HVS 80gr', 'Buah'),
+(3, 1, '11002', 'Ballpoint Standart', 'Dos'),
+(4, 1, '11003', 'Buku Tulis', 'Buah');
 
 -- --------------------------------------------------------
 
@@ -53,6 +55,9 @@ CREATE TABLE `tb_instansi` (
   `nama_instansi` varchar(100) NOT NULL,
   `alamat_instansi` text NOT NULL,
   `no_telp` varchar(20) NOT NULL,
+  `kd_pos` varchar(10) NOT NULL,
+  `website` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `tahun` date NOT NULL,
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -61,9 +66,9 @@ CREATE TABLE `tb_instansi` (
 -- Dumping data untuk tabel `tb_instansi`
 --
 
-INSERT INTO `tb_instansi` (`id_instansi`, `nama_instansi`, `alamat_instansi`, `no_telp`, `tahun`, `id_user`) VALUES
-(7, 'Kecamatan Gajah', 'Jl. Raya Gajah No. 45 Demak', '(0291) 685250', '2021-07-24', 1),
-(8, 'Kecamatan Mijen', 'Wedung', '089677017239', '2021-07-24', 2);
+INSERT INTO `tb_instansi` (`id_instansi`, `nama_instansi`, `alamat_instansi`, `no_telp`, `kd_pos`, `website`, `email`, `tahun`, `id_user`) VALUES
+(7, 'Kecamatan Gajah', 'Jl. Raya Gajah No. 45 Demak', '(0291) 685250', '59581', 'https://kecgajah.demakkab.go.id', 'office.kec.gajah@gmail.com', '2021-07-24', 1),
+(8, 'Kecamatan Mijen', 'Wedung', '089677017239', '', '', '', '2021-07-24', 2);
 
 -- --------------------------------------------------------
 
@@ -106,7 +111,9 @@ CREATE TABLE `tb_pegawai` (
 --
 
 INSERT INTO `tb_pegawai` (`id_pegawai`, `id_instansi`, `nama_pegawai`, `nip`, `jabatan`, `pangkat`, `id_user`) VALUES
-(1, 7, 'Drs. AGUNG WIDODO, MM', '197204021992031005', 'CAMAT GAJAH', 'Pembina Tk. I (IV/b)', 1);
+(1, 7, 'Drs. AGUNG WIDODO, MM', '197204021992031005', 'Camat Gajah', 'Pembina Tk. I (IV/b)', 1),
+(3, 7, 'HARTINI', '19671010 199009 2 002', 'Pengurus Barang', 'Penata Muda Tk. I (III/b)', 1),
+(4, 7, 'SITI ASLIMAH, S.Sos, MM', '19750128 199703 2 002', 'Kasubag Program Kec. Gajah', 'Penata Tk.I (III/d)', 1);
 
 -- --------------------------------------------------------
 
@@ -134,7 +141,9 @@ CREATE TABLE `tb_pembelian` (
 --
 
 INSERT INTO `tb_pembelian` (`id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal_beli`, `nama_rekanan`, `no_dokumen`, `tanggal_dokumen`, `tahun`) VALUES
-(8, 7, 1, '11001', '10', '68000', '680000', '2023-01-03', 'Toko Anjar', '', '2023-02-01', '2023-01-03');
+(8, 7, 1, '11001', '6', '68000', '680000', '2023-01-03', 'Toko Anjar', '', '2023-02-01', '2023-01-03'),
+(9, 7, 1, '11002', '5', '5000', '50000', '2023-02-01', '', '', '0000-00-00', '2023-02-01'),
+(10, 7, 1, '11003', '4', '6500', '52000', '2023-07-02', '', '', '0000-00-00', '2023-07-02');
 
 -- --------------------------------------------------------
 
@@ -162,7 +171,9 @@ CREATE TABLE `tb_pembelian_detail` (
 --
 
 INSERT INTO `tb_pembelian_detail` (`id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal_beli`, `nama_rekanan`, `no_dokumen`, `tanggal_dokumen`, `tahun`) VALUES
-(8, 7, 1, '11001', '10', '68000', '680000', '2023-01-03', 'Toko Anjar', '', '2023-02-01', '2023-01-03');
+(8, 7, 1, '11001', '10', '68000', '680000', '2023-01-03', 'Toko Anjar', '', '2023-02-01', '2023-01-03'),
+(9, 7, 1, '11002', '10', '5000', '50000', '2023-02-01', '', '', '0000-00-00', '2023-02-01'),
+(10, 7, 1, '11003', '8', '6500', '52000', '2023-07-02', '', '', '0000-00-00', '2023-07-02');
 
 -- --------------------------------------------------------
 
@@ -187,6 +198,49 @@ CREATE TABLE `tb_pengeluaran` (
   `tahun` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `tb_pengeluaran`
+--
+
+INSERT INTO `tb_pengeluaran` (`id_pengeluaran`, `id_instansi`, `id_user`, `id_pembelian`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `penanggungjawab`, `no_spb`, `tanggal_spb`, `trx`, `ket`, `tahun`) VALUES
+(1, 7, 1, 8, '11001', '4', '68000', '272000', '1', '01', '2023-02-05', 'TRX001', '-', '2023-02-05'),
+(2, 7, 1, 9, '11002', '5', '5000', '25000', '1', '01', '2023-02-15', 'TRX001', '-', '2023-02-15'),
+(4, 7, 1, 10, '11003', '2', '6500', '13000', '3', '02', '2023-02-06', 'TRX002', '-', '2023-02-06'),
+(7, 7, 1, 8, '11001', '2', '68000', '136000', '3', '03', '2023-02-07', 'TRX003', 'Saldo Awal', '2023-02-07');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_pengeluaran_detail`
+--
+
+CREATE TABLE `tb_pengeluaran_detail` (
+  `id_pengeluaran` int(11) NOT NULL,
+  `id_instansi` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_pembelian` int(11) NOT NULL,
+  `kode_barang` varchar(20) NOT NULL,
+  `volume` varchar(10) NOT NULL,
+  `harga_satuan` varchar(20) NOT NULL,
+  `jumlah_harga` varchar(20) NOT NULL,
+  `penanggungjawab` varchar(50) NOT NULL,
+  `no_spb` varchar(100) NOT NULL,
+  `tanggal_spb` date NOT NULL,
+  `trx` varchar(50) NOT NULL,
+  `ket` varchar(15) NOT NULL,
+  `tahun` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_pengeluaran_detail`
+--
+
+INSERT INTO `tb_pengeluaran_detail` (`id_pengeluaran`, `id_instansi`, `id_user`, `id_pembelian`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `penanggungjawab`, `no_spb`, `tanggal_spb`, `trx`, `ket`, `tahun`) VALUES
+(1, 7, 1, 8, '11001', '4', '68000', '272000', '1', '01', '2023-02-05', 'TRX001', '-', '2023-02-05'),
+(2, 7, 1, 9, '11002', '5', '5000', '25000', '1', '01', '2023-02-05', 'TRX001', '-', '2023-02-15'),
+(4, 7, 1, 10, '11003', '2', '6500', '13000', '3', '02', '2023-07-06', 'TRX002', '-', '2023-07-06'),
+(6, 7, 1, 8, '11001', '2', '68000', '136000', '3', '03', '2023-02-07', 'TRX003', 'Saldo Awal', '2023-02-07');
+
 -- --------------------------------------------------------
 
 --
@@ -205,6 +259,13 @@ CREATE TABLE `tb_saldo_awal` (
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `tb_saldo_awal`
+--
+
+INSERT INTO `tb_saldo_awal` (`id_saldo_awal`, `id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`) VALUES
+(2, 8, 7, 1, '11001', '4', '68000', '136000', '2023-01-02');
+
 -- --------------------------------------------------------
 
 --
@@ -222,6 +283,38 @@ CREATE TABLE `tb_saldo_awal_detail` (
   `jumlah_harga` varchar(20) NOT NULL,
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_saldo_awal_detail`
+--
+
+INSERT INTO `tb_saldo_awal_detail` (`id_saldo_awal`, `id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`) VALUES
+(2, 8, 7, 1, '11001', '0', '68000', '136000', '2023-01-02');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_setting`
+--
+
+CREATE TABLE `tb_setting` (
+  `id_setting` int(11) NOT NULL,
+  `id_instansi` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `nip` varchar(30) NOT NULL,
+  `jabatan` varchar(50) NOT NULL,
+  `pangkat` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_setting`
+--
+
+INSERT INTO `tb_setting` (`id_setting`, `id_instansi`, `id_user`, `nama`, `nip`, `jabatan`, `pangkat`) VALUES
+(1, 7, 1, 'Drs. AGUNG WIDODO, MM', '19641154411448', 'Pengguna Barang', 'Pembina Tk.I (IV/b)'),
+(2, 7, 1, 'SITI ASLIMAH, S.Sos, MM', '19641154411448', 'Penatausaha Barang', 'Penata Tk.I (III/d)'),
+(3, 7, 1, 'HARTINI', '19641154411448', 'Pengurus Barang', 'Penata Muda Tk. I (I');
 
 -- --------------------------------------------------------
 
@@ -292,6 +385,12 @@ ALTER TABLE `tb_pengeluaran`
   ADD PRIMARY KEY (`id_pengeluaran`);
 
 --
+-- Indeks untuk tabel `tb_pengeluaran_detail`
+--
+ALTER TABLE `tb_pengeluaran_detail`
+  ADD PRIMARY KEY (`id_pengeluaran`);
+
+--
 -- Indeks untuk tabel `tb_saldo_awal`
 --
 ALTER TABLE `tb_saldo_awal`
@@ -302,6 +401,12 @@ ALTER TABLE `tb_saldo_awal`
 --
 ALTER TABLE `tb_saldo_awal_detail`
   ADD PRIMARY KEY (`id_saldo_awal`);
+
+--
+-- Indeks untuk tabel `tb_setting`
+--
+ALTER TABLE `tb_setting`
+  ADD PRIMARY KEY (`id_setting`);
 
 --
 -- Indeks untuk tabel `tb_user`
@@ -317,7 +422,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT untuk tabel `tb_barang`
 --
 ALTER TABLE `tb_barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_instansi`
@@ -335,37 +440,49 @@ ALTER TABLE `tb_kategori`
 -- AUTO_INCREMENT untuk tabel `tb_pegawai`
 --
 ALTER TABLE `tb_pegawai`
-  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pembelian`
 --
 ALTER TABLE `tb_pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pembelian_detail`
 --
 ALTER TABLE `tb_pembelian_detail`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengeluaran`
 --
 ALTER TABLE `tb_pengeluaran`
-  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_pengeluaran_detail`
+--
+ALTER TABLE `tb_pengeluaran_detail`
+  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_saldo_awal`
 --
 ALTER TABLE `tb_saldo_awal`
-  MODIFY `id_saldo_awal` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_saldo_awal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_saldo_awal_detail`
 --
 ALTER TABLE `tb_saldo_awal_detail`
-  MODIFY `id_saldo_awal` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_saldo_awal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_setting`
+--
+ALTER TABLE `tb_setting`
+  MODIFY `id_setting` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user`

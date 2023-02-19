@@ -21,15 +21,15 @@
         <div class="col">
           <select class="form-control form-control-sm" id="smt" name="smt">
             <option selected>Semester</option>
-            <option value="1">1 (Satu)</option>
-            <option value="2">2 (Dua)</option>
+            <option value="06">1 (Satu)</option>
+            <option value="12">2 (Dua)</option>
           </select>
         </div>
       </div>
       <div class="form-row mb-3">
         <div class="col">
           <select class="form-control form-control-sm mb-2" id="spmb" name="spmb">
-            <option>Pilih No SPB</option>
+            <option>No SPB</option>
             <?php
             $noSpb = $conn->query("SELECT * FROM tb_pengeluaran_detail GROUP BY no_spb");
             while ($dataSpb = $noSpb->fetch_assoc()) {
@@ -86,20 +86,27 @@ if (isset($_POST['pilih'])) {
   $spmb = $_POST['spmb'];
   $brg = $_POST['brg'];
 
-  if ($jenis == 1) {
+  if ($jenis == 0) {
+?>
+    <script>
+      alert("Pilih Jenis Laporan Dulu");
+      window.close();
+    </script>
+<?php } elseif ($jenis == 1) {
     $_SESSION['smt'] = $smt;
     $_SESSION['spmb'] = $spmb;
-    header('location: page/cetak/laPenerimaan.php');
+    header('location: page/cetak/lapPenerimaan.php');
   }
+
   if ($jenis == 2) {
     $_SESSION['smt'] = $smt;
     $_SESSION['spmb'] = $spmb;
-    header('location: page/cetak/laPengeluaran.php');
+    header('location: page/cetak/lapPengeluaran.php');
   }
   if ($jenis == 3) {
     $_SESSION['smt'] = $smt;
     $_SESSION['spmb'] = $spmb;
-    header('location: page/cetak/laTerimaKeluar.php');
+    header('location: page/cetak/lapTerimaKeluar.php');
   }
   if ($jenis == 4) {
     $_SESSION['spmb'] = $spmb;
