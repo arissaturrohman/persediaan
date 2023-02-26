@@ -24,7 +24,7 @@
           </div>
           <div class="form-group col-md-6">
             <label for="tanggal_beli">Tanggal Beli</label>
-            <input type="date" class="form-control" id="tanggal_beli" name="tanggal_beli" value="<?= $data['tanggal_beli']; ?>" required>
+            <input type="date" class="form-control" id="tanggal_beli" name="tanggal_beli" value="<?= $data['tanggal']; ?>" required>
           </div>
         </div>
         <?php

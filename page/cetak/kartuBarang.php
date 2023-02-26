@@ -1,9 +1,8 @@
 <?php
 
 session_start();
-$jenis = $_SESSION['jenis'];
+// $jenis = $_SESSION['jenis'];
 $smt = $_SESSION['smt'];
-$spmb = $_SESSION['spmb'];
 $brg = $_SESSION['brg'];
 
 include('../../inc/config.php');
@@ -78,6 +77,90 @@ $dataSet = $setting->fetch_assoc();
     </tr>
   </table>
   <hr>
+  <h5 class="b">KARTU BARANG </h5>
+  <h5 class="text">SEMESTER
+    <?php
+    if ($smt <= 06) {
+      echo "I (SATU)";
+    } else {
+      echo "II (DUA)";
+    }
+    ?>
+    TAHUN ANGGARAN <?= $_SESSION['tahun']; ?></h5>
+  <table>
+    <tr>
+      <td>Kode Barang</td>
+      <td>:</td>
+      <td><?= $brg; ?></td>
+    </tr>
+    <tr>
+      <td>Nama Barang</td>
+      <td>:</td>
+      <td>HVS</td>
+    </tr>
+    <tr>
+      <td>Satuan</td>
+      <td>:</td>
+      <td>Rim</td>
+    </tr>
+  </table>
+  <br>
+  <table border="1" width="100%" cellspacing="0">
+    <thead height="5%">
+      <tr>
+        <th>No</th>
+        <th>Tanggal</th>
+        <th>Masuk</th>
+        <th>Keluar</th>
+        <th>Sisa</th>
+        <th>Keterangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+      $querySaldo = $conn->query("SELECT * FROM tb_saldo_awal WHERE kode_barang = '$brg'");
+      $dataTrx = $querySaldo->fetch_assoc();
+      if ($dataTrx != null) {
+        $saldoAwal = $dataTrx['volume'];
+        $tanggalAwal = $dataTrx['tanggal'];
+      } else {
+        $saldoAwal = 0;
+        $tanggalAwal = '';
+      }
+      echo '
+      <tr>
+      <td>1</td>
+      <td>' . $tanggalAwal . '</td>
+      <td align="right">' . $saldoAwal . '</td>
+      <td></td>
+      <td  align="right">' . $saldoAwal . '</td>
+      <td>Saldo Awal</td>
+      </tr>
+      ';
+
+
+      $no = 2;
+      $queryTrx = $conn->query("SELECT bb.* FROM ( SELECT a.kode_barang, a.volume AS masuk, '' AS keluar, a.regdate,a.tanggal FROM tb_pembelian_detail a UNION SELECT b.kode_barang, '' AS masuk, b.volume AS keluar, b.regdate,b.tanggal FROM tb_pengeluaran_detail b ) AS bb WHERE bb.kode_barang = '" . $brg . "' AND month(bb.tanggal) <= '" . $smt . "' ORDER BY bb.tanggal ASC;");
+      foreach ($queryTrx as $key => $value) {
+        $saldoAwal = $saldoAwal + $value['masuk'] - $value['keluar'];
+
+      ?>
+        <tr>
+          <td><?= $no; ?></td>
+          <td><?= date("d-m-Y", strtotime($value['tanggal'])); ?></td>
+          <td  align="right"><?= $value['masuk']; ?></td>
+          <td  align="right"><?= $value['keluar']; ?></td>
+          <td  align="right"><?= $saldoAwal; ?></td>
+          <td> -</td>
+        </tr>
+
+      <?php
+        $no++;
+      }
+      ?>
+
+    </tbody>
+  </table>
   <table align="center">
     <tr>
       <td align="center">Mengetahui,</td>
@@ -134,6 +217,7 @@ $dataSet = $setting->fetch_assoc();
     </tr>
   </table>
 </body>
+
 </html>
 
 <?php

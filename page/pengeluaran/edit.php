@@ -151,7 +151,7 @@ if (isset($_POST['edit'])) {
     $stokAkhir = $cekVolume + $stok;
     // var_dump($stokAkhir);
     // die;
-    $sql = $conn->query("UPDATE tb_pengeluaran SET id_instansi = '$id_instansi', id_user = '$id_user', id_pembelian = '$id_pembelian', kode_barang = '$kode', volume = '$volume', harga_satuan = '$harga_satuan', jumlah_harga = '$jumlah_harga', penanggungjawab = '$penanggungjawab', no_spb = '$no_spb', tanggal_spb = '$tanggal_spb', trx = '$trx' WHERE id_pengeluaran = '$id_pengeluaran'");
+    $sql = $conn->query("UPDATE tb_pengeluaran SET id_instansi = '$id_instansi', id_user = '$id_user', id_pembelian = '$id_pembelian', kode_barang = '$kode', volume = '$volume', harga_satuan = '$harga_satuan', jumlah_harga = '$jumlah_harga', penanggungjawab = '$penanggungjawab', no_spb = '$no_spb', tanggal = '$tanggal_spb', trx = '$trx' WHERE id_pengeluaran = '$id_pengeluaran'");
 
     if ($stokAwal < $volume) {
       $update_stok = $conn->query("UPDATE tb_pembelian SET volume = '$cekVolume' WHERE id_pembelian = '$id_pembelian'");

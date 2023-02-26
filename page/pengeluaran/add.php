@@ -79,12 +79,12 @@ if (isset($_POST['trx'])) {
               <option value="<?= $data['id_pegawai']; ?>"><?= $data['nama_pegawai']; ?></option>
             
           </select> -->
-            <?php
-            $sql_pegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$_SESSION[penanggungjawab]'");
-            $dataPegawai = $sql_pegawai->fetch_assoc();
-            
+          <?php
+          $sql_pegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$_SESSION[penanggungjawab]'");
+          $dataPegawai = $sql_pegawai->fetch_assoc();
 
-            ?>
+
+          ?>
           <input type="hidden" class="form-control" name="penanggungjawab" value="<?= $_SESSION['penanggungjawab']; ?>" readonly>
           <input type="text" class="form-control" value="<?= $dataPegawai['nama_pegawai']; ?>" readonly>
         </div>
@@ -161,8 +161,8 @@ if (isset($_POST['trx'])) {
                 echo "<td>$data[nama_pegawai]</td>";
               }
               ?>
-              <td><?= "0" . $value['no_spb'] . " / SPB / " . BulanRomawi($value['tanggal_spb']) ?></td>
-              <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
+              <td><?= "0" . $value['no_spb'] . " / SPB / " . BulanRomawi($value['tanggal']) ?></td>
+              <td><?= TanggalIndo($value['tanggal']); ?></td>
               <td>
                 <a href="?page=pengeluaran&action=delete&id=<?= $value['id_pengeluaran']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
               </td>
@@ -204,10 +204,11 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
-    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql2 = $conn->query("INSERT INTO tb_transaksi (id_instansi, id_user, id_pembelian, kode_barang, keluar,  tanggal_trx, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
 
-    if (!$sql && !$sql1) {
+    if (!$sql && !$sql1 && !$sql2) {
       // die();
       echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");
       $conn->close();

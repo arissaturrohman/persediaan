@@ -2,8 +2,8 @@
 if (isset($_POST['trx'])) {
   $trx = $_POST['trx'];
   $penanggungjawab = $_POST['penanggungjawab'];
-  echo $_SESSION['trx'] = $trx;
-  echo $_SESSION['penanggungjawab'] = $penanggungjawab;
+  $_SESSION['trx'] = $trx;
+  $_SESSION['penanggungjawab'] = $penanggungjawab;
   $arr = str_split($trx);
   $no1 =  $arr[4];
   $no2 = $arr[5];
@@ -202,11 +202,13 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
 
-    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal_spb, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
 
-    if (!$sql) {
+    $sql2 = $conn->query("INSERT INTO tb_transaksi (id_instansi, id_user, id_pembelian, kode_barang, saldo_awal, tanggal_trx, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+
+    if (!$sql && !$sql1 && !$sql2) {
       // die();
       echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");
       $conn->close();

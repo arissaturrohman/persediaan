@@ -89,22 +89,6 @@ if ($page == "instansi") {
   if ($action == "") {
     include "page/laporan/laporan.php";
   }
-}  elseif ($page == "lapPenerimaan") {
-  if ($action == "") {
-    include "page/laporan/lapPenerimaan.php";
-  }
-} elseif ($page == "lapPengeluaran") {
-  if ($action == "") {
-    include "page/laporan/lapPengeluaran.php";
-  }
-} elseif ($page == "terimaKeluar") {
-  if ($action == "") {
-    include "page/laporan/terimaKeluar.php";
-  }
-} elseif ($page == "spmb") {
-  if ($action == "") {
-    include "page/laporan/spmb.php";
-  }
 } elseif ($page == "user") {
   if ($action == "") {
     include "page/user/user.php";

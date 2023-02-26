@@ -31,7 +31,7 @@
           <select class="form-control form-control-sm mb-2" id="spmb" name="spmb">
             <option>No SPB</option>
             <?php
-            $noSpb = $conn->query("SELECT * FROM tb_pengeluaran_detail GROUP BY no_spb");
+            $noSpb = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' GROUP BY no_spb");
             while ($dataSpb = $noSpb->fetch_assoc()) {
 
             ?>
@@ -221,6 +221,7 @@ if (isset($_POST['pilih'])) {
       document.getElementById('smt').disabled = false;
       document.getElementById('spmb').disabled = false;
       document.getElementById('brg').disabled = false;
+      window.location.reload();
     }
   }
 </script>

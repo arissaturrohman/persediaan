@@ -143,29 +143,7 @@ if ($_SESSION['level'] == "admin") {
 <!-- Nav Item - Pages Collapse Menu -->
 <!-- <li class="nav-item active"> -->
 <li class="nav-item
-<?php if ($uri_segments[4] == "lapPenerimaan") {
-  echo 'active';
-} elseif ($uri_segments[4] == "lapPengeluaran") {
-  echo 'active';
-} elseif ($uri_segments[4] == "terimaKeluar") {
-  echo 'active';
-} elseif ($uri_segments[4] == "spmb") {
-  echo 'active';
-} elseif ($uri_segments[4] == "sppb") {
-  echo 'active';
-} elseif ($uri_segments[4] == "sbpb") {
-  echo 'active';
-} elseif ($uri_segments[4] == "bast") {
-  echo 'active';
-} elseif ($uri_segments[4] == "kartuBarang") {
-  echo 'active';
-} elseif ($uri_segments[4] == "kartuPersediaan") {
-  echo 'active';
-} elseif ($uri_segments[4] == "rekapPersediaan") {
-  echo 'active';
-} elseif ($uri_segments[4] == "stockOpname") {
-  echo 'active';
-} elseif ($uri_segments[4] == "laporan") {
+<?php if ($uri_segments[4] == "laporan") {
   echo 'active';
 } ?>">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLap" aria-expanded="true" aria-controls="collapseLap">
@@ -174,29 +152,7 @@ if ($_SESSION['level'] == "admin") {
   </a>
   <!-- <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar"> -->
   <div id="collapseLap" class="collapse
-  <?php if ($uri_segments[4] == "lapPenerimaan") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "lapPengeluaran") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "terimaKeluar") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "spmb") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "sppb") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "sbpb") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "bast") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "kartuBarang") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "kartuPersediaan") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "rekapPersediaan") {
-    echo 'show';
-  } elseif ($uri_segments[4] == "stockOpname") {
-    echo 'show';
-  }  elseif ($uri_segments[4] == "laporan") {
+  <?php if ($uri_segments[4] == "laporan") {
     echo 'show';
   } ?>" aria-labelledby="headingLap" data-parent="#accordionSidebar">
     <div class="bg-white py-2 collapse-inner rounded">
@@ -205,50 +161,6 @@ if ($_SESSION['level'] == "admin") {
       <?php if ($uri_segments[4] == "laporan") {
         echo 'active';
       } ?>" href="laporan">Laporan</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "lapPenerimaan") {
-        echo 'active';
-      } ?>" href="lapPenerimaan">Penerimaan</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "lapPengeluaran") {
-        echo 'active';
-      } ?>" href="lapPengeluaran">Pengeluaran</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "terimaKeluar") {
-        echo 'active';
-      } ?>" href="terimaKeluar">Terima & Keluar</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "spmb") {
-        echo 'active';
-      } ?>" href="spmb">SPmB</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "sppb") {
-        echo 'active';
-      } ?>" href="sppb">SPPB</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "sbpb") {
-        echo 'active';
-      } ?>" href="sbpb">SPBP</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "bast") {
-        echo 'active';
-      } ?>" href="bast">BAST</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "kartuBarang") {
-        echo 'active';
-      } ?>" href="kartuBarang">Kartu Barang</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "kartuPersediaan") {
-        echo 'active';
-      } ?>" href="kartuPersediaan">Kartu Persediaan</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "rekapPersediaan") {
-        echo 'active';
-      } ?>" href="rekapPersediaan">Rekap Persediaan</a>
-      <a class="collapse-item 
-      <?php if ($uri_segments[4] == "stockOpname") {
-        echo 'active';
-      } ?>" href="stockOpname">Stock Opname</a>
     </div>
   </div>
 </li>

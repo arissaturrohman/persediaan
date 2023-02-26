@@ -50,7 +50,7 @@ $trx = $huruf . sprintf("%03s", $urutan);
           ?>
             <tr>
               <td><?= $no++; ?></td>
-              <td><?= $bulanTrx = BulanIndo($value['tanggal_spb']); ?></td>
+              <td><?= $bulanTrx = BulanIndo($value['tanggal']); ?></td>
               <td><?= $value['trx']; ?></td>
               <?php $sqlTotal = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran WHERE trx = '$kodeTrx'");
               $datatotal = $sqlTotal->fetch_assoc();
@@ -59,13 +59,24 @@ $trx = $huruf . sprintf("%03s", $urutan);
               <td>
                 <?php
                 if ($ket == '-') {
+                  $queryPegawai = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE trx = '$kodeTrx'");
+                  $dataPegawai = $queryPegawai->fetch_assoc();
                 ?>
-
-                  <a href="?page=pengeluaran&action=add&trx=<?= $value['trx']; ?>" class="btn btn-sm btn-circle btn-info" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-eye"></i></a>
+                  <form action="?page=pengeluaran&action=add&trx=<?= $kodeTrx; ?>" method="POST">
+                    <input type="hidden" name="trx" value="<?= $kodeTrx; ?>">
+                    <input type="hidden" name="penanggungjawab" value="<?= $dataPegawai['penanggungjawab']; ?>">
+                    <button type="submit" name="kirim" class="btn btn-sm btn-circle btn-info" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-eye"></i></button>
+                  </form>
                 <?php
                 } else {
+                  $queryPegawai = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE trx = '$kodeTrx'");
+                  $dataPegawai = $queryPegawai->fetch_assoc();
                 ?>
-                  <a href="?page=pengeluaran&action=import&trx=<?= $value['trx']; ?>" class="btn btn-sm btn-circle btn-info" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-eye"></i></a>
+                  <form action="?page=pengeluaran&action=import&trx=<?= $kodeTrx; ?>" method="post">
+                    <input type="hidden" name="trx" value="<?= $kodeTrx; ?>">
+                    <input type="hidden" name="penanggungjawab" value="<?= $dataPegawai['penanggungjawab']; ?>">
+                    <button type="submit" name="kirim" class="btn btn-sm btn-circle btn-info" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-eye"></i></button>
+                  </form>
 
                 <?php
                 }
