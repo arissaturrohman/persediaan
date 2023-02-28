@@ -17,6 +17,8 @@ ob_start();
 
 $opd = $conn->query("SELECT * FROM tb_instansi WHERE id_user = '$_SESSION[id_user]'");
 $dataOpd = $opd->fetch_assoc();
+$barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$brg'");
+$dataBarang = $barang->fetch_assoc();
 $setting = $conn->query("SELECT * FROM tb_setting WHERE id_user = '$_SESSION[id_user]' AND jabatan = 'Pengurus Barang'");
 $dataSet = $setting->fetch_assoc();
 
@@ -96,12 +98,12 @@ $dataSet = $setting->fetch_assoc();
     <tr>
       <td>Nama Barang</td>
       <td>:</td>
-      <td>HVS</td>
+      <td><?= $dataBarang['nama_barang']; ?></td>
     </tr>
     <tr>
       <td>Satuan</td>
       <td>:</td>
-      <td>Rim</td>
+      <td><?= $dataBarang['satuan_barang']; ?></td>
     </tr>
   </table>
   <br>
@@ -148,9 +150,9 @@ $dataSet = $setting->fetch_assoc();
         <tr>
           <td><?= $no; ?></td>
           <td><?= date("d-m-Y", strtotime($value['tanggal'])); ?></td>
-          <td  align="right"><?= $value['masuk']; ?></td>
-          <td  align="right"><?= $value['keluar']; ?></td>
-          <td  align="right"><?= $saldoAwal; ?></td>
+          <td align="right"><?= $value['masuk']; ?></td>
+          <td align="right"><?= $value['keluar']; ?></td>
+          <td align="right"><?= $saldoAwal; ?></td>
           <td> -</td>
         </tr>
 
