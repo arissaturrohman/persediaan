@@ -155,7 +155,7 @@ if (isset($_POST['trx'])) {
               }
               ?>
               <td><?= "0" . $value['no_spb'] . " / spb / " . BulanRomawi($value['tanggal_spb']) ?></td>
-              <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
+              <td><?= TanggalIndo($value['tanggal']); ?></td>
               <td>
 
 

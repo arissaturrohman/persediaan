@@ -30,6 +30,7 @@ if ($_SESSION['level'] == "admin") {
 <!-- Divider -->
 <hr class="sidebar-divider">
 
+
 <!-- Heading -->
 <div class="sidebar-heading">
   Interface

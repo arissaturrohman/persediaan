@@ -28,15 +28,15 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Yakin Logout?</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-body">Klik tombol <b>Logout</b> untuk keluar dari aplikasi ini. <br> Terimakasih sudah menggunakan aplikasi ini. </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-primary" href="logout.php">Logout</a>
+        <button class="btn btn-sm btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-sm btn-primary" href="logout.php">Logout</a>
       </div>
     </div>
   </div>
@@ -327,6 +327,34 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
 
   });
 </script>
+
+<!-- Sweetalert Reset Password -->
+<script>
+  $(document).ready(function() {
+
+    $('.reset').click(function(e) {
+      e.preventDefault();
+      var resetid = $(this).attr("href");
+      swal({
+          title: "Apakah Yakin Reset Password?",
+          text: "Password default 1234",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willReset) => {
+          if (willReset) {
+
+            document.location.href = resetid;
+          }
+        });
+      return false;
+    });
+
+  });
+</script>
+
+
 
 <script>
   $(function() {

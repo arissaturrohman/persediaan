@@ -31,12 +31,25 @@
               <td><?= $value['level']; ?></td>
               <td>
                 <a href="?page=user&action=edit&id=<?= $value['id_user']; ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-                <a href="?page=user&action=delete&id=<?= $value['id_user']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
-                <a href="?page=user&action=gantiPass&id=<?= $value['id_user']; ?>" class=" btn btn-sm btn-circle btn-warning" data-toggle="tooltip" data-placement="top" title="Ganti Password"><i class="fas fa-cogs"></i></a>
-                <form action="?page=user&action=gantiPass&id=<?= $value['id_user']; ?>" method="post">
-                <input type="text" value="status">
-                  <button type="submit" name="kirim" class=" btn btn-sm btn-circle btn-dark" data-toggle="tooltip" data-placement="top" title="Aktif/Nonaktif"><i class="fas fa-unlock"></i></button>
-                </form>
+                <!-- <a href="?page=user&action=delete&id=<?= $value['id_user']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a> -->
+
+
+                <a href="?page=user&action=reset&id=<?= $value['id_user']; ?>" class="reset btn btn-sm btn-circle btn-warning" data-toggle="tooltip" data-placement="top" title="Reset Password"><i class="fas fa-cogs"></i></a>
+
+
+                <!-- Aktivasi User -->
+
+                <?php
+                $aktif = $conn->query("SELECT * FROM tb_user WHERE id_user = '$_SESSION[id_user]'");
+                $hasil = $aktif->fetch_assoc();
+                if ($hasil['tgl_aktivasi'] < date("Y-m-d")) {
+                  $title = "Nonaktif";
+                } else {
+                  $title = "Aktif";
+                }
+                ?>
+
+                <a href="?page=user&action=aktif&id=<?= $value['id_user']; ?>" class=" btn btn-sm btn-circle btn-dark" data-toggle="tooltip" data-placement="top" title="<?= $title; ?>"><i class="fas fa-unlock"></i></a>
               </td>
             </tr>
           <?php endforeach; ?>

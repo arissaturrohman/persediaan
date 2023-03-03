@@ -139,8 +139,6 @@ $dataSet = $setting->fetch_assoc();
         $saldoAwal = 0;
         $tanggalAwal = '';
         $harga = 0;
-        $hargaSatuan = $dataTrx['harga_satuan'];
-        // $hargaSatuan = 0;
       }
       echo '
       <tr>
@@ -157,15 +155,17 @@ $dataSet = $setting->fetch_assoc();
       </tr>
       ';
       $no = 2;
-      $queryTrx = $conn->query("SELECT a.kode_barang, a.volume AS masuk, 0 AS keluar, a.jumlah_harga AS tambah, 0 AS kurang, a.regdate, a.tanggal FROM tb_pembelian_detail a WHERE a.kode_barang = '$brg' UNION ALL SELECT b.kode_barang, 0 AS masuk, b.volume AS keluar, 0 AS tambah, b.jumlah_harga AS kurang, b.regdate, b.tanggal FROM tb_pengeluaran_detail b WHERE b.kode_barang = '" . $brg . "' AND month(tanggal) <= '" . $smt . "' ORDER BY tanggal ASC;");
+      $queryTrx = $conn->query("SELECT a.kode_barang, a.volume AS masuk, 0 AS keluar, a.harga_satuan AS harga, 0 AS satuan, a.jumlah_harga AS tambah, 0 AS kurang, a.regdate, a.tanggal FROM tb_pembelian_detail a WHERE a.kode_barang = '$brg' UNION ALL SELECT b.kode_barang, 0 AS masuk, b.volume AS keluar, 0 AS harga, b.harga_satuan AS satuan, 0 AS tambah, b.jumlah_harga AS kurang, b.regdate, b.tanggal FROM tb_pengeluaran_detail b WHERE b.kode_barang = '" . $brg . "' AND month(tanggal) <= '" . $smt . "' ORDER BY tanggal ASC;");
 
       foreach ($queryTrx as $value) {
         $saldoAwal = $saldoAwal + $value['masuk'] - $value['keluar'];
         $harga = $harga + $value['tambah'] - $value['kurang'];
 
-        $hargaBrg = $conn->query("SELECT * FROM tb_pembelian_detail WHERE kode_barang = '$brg'");
-        $dataHarga = $hargaBrg->fetch_assoc();
-        $harga_satuan = $dataHarga['harga_satuan'];
+        if ($value['masuk'] > 0) {
+          $harga = $value['harga'];
+        } else {
+          $harga = $value['satuan'];
+        }
         echo '        
         <tr>
           <td>' . $no++ . '</td>
@@ -173,7 +173,7 @@ $dataSet = $setting->fetch_assoc();
           <td align="right">' . $value["masuk"] . '</td>
           <td align="right">' . $value["keluar"] . '</td>
           <td align="right">' . $saldoAwal . '</td>
-          <td align="right">' . number_format($harga_satuan) . '</td>
+          <td align="right">' . number_format($harga) . '</td>
           <td align="right">' . number_format($value["tambah"]) . '</td>
           <td align="right">' . number_format($value["kurang"]) . '</td>
           <td align="right">' . number_format($harga) . '</td>
@@ -184,12 +184,13 @@ $dataSet = $setting->fetch_assoc();
       ?>
     </tbody>
   </table>
+  <br>
   <table align="center">
     <tr>
-      <td align="center">Mengetahui,</td>
-      <td></td>
-      <td></td>
-      <td align="center">Demak,
+      <td width="40%" align="center">Mengetahui,</td>
+      <td width="40%">&nbsp;</td>
+      <td width="40%">&nbsp;</td>
+      <td width="40%" align="center">Demak,
         <?php
         if ($smt <= 06) {
           echo "30 Juni " . date('Y');
@@ -208,35 +209,41 @@ $dataSet = $setting->fetch_assoc();
     $dataTU = $penatausaha->fetch_assoc();
     ?>
     <tr>
-      <td align="center">Pengguna Barang</td>
-      <td width="40%"></td>
-      <td></td>
-      <td align="center">Pengurus Barang</td>
+      <td width="40%" align="center">Pengguna Barang</td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%" align="center">Pengurus Barang</td>
     </tr>
     <tr>
-      <td height="30%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
     </tr>
     <tr>
-      <td height="30%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
     </tr>
     <tr>
-      <td height="30%">&nbsp; </td>
-    </tr>
-    <tr>
-      <td height="30%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
     </tr>
 
     <tr>
-      <td align="center" width="30%"><b><u><?= $dataPengguna['nama']; ?></u></b></td>
-      <td width="20%"></td>
-      <td></td>
-      <td align="center"><b><u><?= $dataPengurus['nama']; ?></u></b></td>
+      <td align="center" width="40%"><b><u><?= $dataPengguna['nama']; ?></u></b></td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%" align="center"><b><u><?= $dataPengurus['nama']; ?></u></b></td>
     </tr>
     <tr>
-      <td align="center"><?= "NIP. " . $dataPengguna['nip']; ?></td>
-      <td width="20%"></td>
-      <td></td>
-      <td align="center"><?= "NIP. " . $dataPengurus['nip']; ?></td>
+      <td width="40%" align="center"><?= "NIP. " . $dataPengguna['nip']; ?></td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%">&nbsp; </td>
+      <td width="40%" align="center"><?= "NIP. " . $dataPengurus['nip']; ?></td>
     </tr>
   </table>
 </body>

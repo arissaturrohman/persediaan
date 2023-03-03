@@ -24,7 +24,7 @@
           <input type="password" class="form-control" id="password" name="password_baru" placeholder="Password Baru" required>
         </div>
         <button type="submit" name="edit" class="btn btn-sm btn-primary">Submit</button>
-        <a href="user" class="btn btn-sm btn-dark">Cancel</a>
+        <a href="./" class="btn btn-sm btn-dark">Cancel</a>
       </form>
     </div>
   </div>

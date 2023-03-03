@@ -76,10 +76,10 @@ if (isset($_POST['login'])) {
                   <?php endif; ?>
                   <form class="user" method="POST">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" name="username" placeholder="Masukkan Username..." autofocus>
+                      <input type="text" class="form-control form-control-user" name="username" placeholder="Masukkan Username" autofocus>
                     </div>
                     <div class="form-group">
-                      <input type="password" name="password" class="form-control form-control-user" placeholder="Password">
+                      <input type="password" name="password" class="form-control form-control-user" placeholder="Masukkan Password">
                     </div>
                     <div class="form-group">
                       <select class="form-control" id="tahun" name="tahun" required>
