@@ -25,6 +25,18 @@
           <label for="telp">No Telp.</label>
           <input type="text" class="form-control" id="telp" name="telp" value="<?= $data['no_telp']; ?>">
         </div>
+        <div class="form-group">
+          <label for="kd_pos">Kode Pos</label>
+          <input type="text" class="form-control" id="kd_pos" name="kd_pos" value="<?= $data['kd_pos']; ?>">
+        </div>
+        <div class="form-group">
+          <label for="web">Website</label>
+          <input type="text" class="form-control" id="web" name="web" value="<?= $data['website']; ?>">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" value="<?= $data['email']; ?>">
+        </div>
         <button type="submit" name="edit" class="btn btn-sm btn-primary">Submit</button>
         <a href="instansi" class="btn btn-sm btn-dark">Cancel</a>
       </form>
@@ -40,8 +52,11 @@ if (isset($_POST['edit'])) {
   $instansi = $_POST['instansi'];
   $alamat = $_POST['alamat'];
   $telp = $_POST['telp'];
+  $kd_pos = $_POST['kd_pos'];
+  $web = $_POST['web'];
+  $email = $_POST['email'];
 
-  $sql = $conn->query("UPDATE tb_instansi SET nama_instansi = '$instansi', alamat_instansi = '$alamat' ,no_telp = '$telp' WHERE id_instansi = '$id'");
+  $sql = $conn->query("UPDATE tb_instansi SET nama_instansi = '$instansi', alamat_instansi = '$alamat' ,no_telp = '$telp', kd_pos = '$kd_pos', website = '$web', email = '$email' WHERE id_instansi = '$id'");
 
   if (!$sql) {
     // die();

@@ -1,4 +1,4 @@
-<h5 class="h5 mb-4 text-gray-800">Data Instansi</h5>
+<h5 class="h5 mb-4 text-gray-800">Data Pegawai</h5>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-header py-3">

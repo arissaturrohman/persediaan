@@ -69,7 +69,7 @@ $dataSet = $setting->fetch_assoc();
       <td align="left" rowspan="4" width="10%"><img src="../../assets/img/logo.png" alt="logo" width="8%"></td>
       <td align="center">
         <h4>PEMERINTAH KABUPATEN DEMAK</h4>
-        <h3 class="upper"><?= $dataOpd['nama_instansi']; ?></h3>
+        <h2 class="upper"><?= $dataOpd['nama_instansi']; ?></h2>
         <p><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></p>
         <p>Website : <?= $dataOpd['website']; ?> - Email : <?= $dataOpd['email']; ?></p>
       </td>
@@ -82,10 +82,10 @@ $dataSet = $setting->fetch_assoc();
   $no_spb = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE no_spb = '$spmb'");
   $dataSpb = $no_spb->fetch_assoc();
   ?>
-  <h5 class="text">Nomor : <?= "0" . $dataSpb['no_spb'] . " / BAST / " . BulanRomawi($dataSpb['tanggal_spb']); ?></h5>
+  <h5 class="text">Nomor : <?= "0" . $dataSpb['no_spb'] . " / BAST / " . BulanRomawi($dataSpb['tanggal']); ?></h5>
   <?php
   // nama hari indo
-  $hari = date($dataSpb['tanggal_spb']);
+  $hari = date($dataSpb['tanggal']);
   $query = $conn->query("SELECT datediff('$hari', CURDATE()) AS Selisih");
   $hasil = $query->fetch_assoc();
   $selisih = $hasil['Selisih'];
@@ -93,10 +93,10 @@ $dataSet = $setting->fetch_assoc();
   $namahari = date("l", $x);
 
   // Tanggal jadi Text
-  $tgl = date('d', strtotime($dataSpb['tanggal_spb']));
+  $tgl = date('d', strtotime($dataSpb['tanggal']));
 
   ?>
-  <p align="justify">Pada hari ini <?= hariIndo($namahari); ?> tanggal <?= terbilang($tgl); ?> bulan <?= BulanIndo($dataSpb['tanggal_spb']); ?> tahun <?= terbilang($_SESSION['tahun']) . " (" . date("d-m-Y", strtotime($dataSpb['tanggal_spb'])) . ")"; ?> bertempat di <?= $dataOpd['nama_instansi']; ?> Kab. Demak, kami yang bertanda tangan dibawah ini:</p>
+  <p align="justify">Pada hari ini <?= hariIndo($namahari); ?> tanggal <?= terbilang($tgl); ?> bulan <?= BulanIndo($dataSpb['tanggal']); ?> tahun <?= terbilang($_SESSION['tahun']) . " (" . date("d-m-Y", strtotime($dataSpb['tanggal'])) . ")"; ?> bertempat di <?= $dataOpd['nama_instansi']; ?> Kab. Demak, kami yang bertanda tangan dibawah ini:</p>
   <table width="100%">
     <tr>
       <td width="5%"></td>
@@ -162,7 +162,7 @@ $dataSet = $setting->fetch_assoc();
   $jabatan = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$dataSpb[penanggungjawab]'");
   $dataJab = $jabatan->fetch_assoc();
   ?>
-  <p align="justify">Kami sepakat menyatakan bahwa telah melakukan serah terima barang dari Pihak I (Kesatu) kepada Pihak II (Kedua), sesuai dengan Surat Permintaan Barang (SPB) Nomor <?= "0" . $dataSpb['no_spb'] . " / SPB / " . BulanRomawi($dataSpb['tanggal_spb']); ?> Tanggal <?= TanggalIndo($dataSpb['tanggal_spb']); ?> yang berupa barang persediaan, sebagaimana daftar dibawah ini :</p>
+  <p align="justify">Kami sepakat menyatakan bahwa telah melakukan serah terima barang dari Pihak I (Kesatu) kepada Pihak II (Kedua), sesuai dengan Surat Permintaan Barang (SPB) Nomor <?= "0" . $dataSpb['no_spb'] . " / SPB / " . BulanRomawi($dataSpb['tanggal']); ?> Tanggal <?= TanggalIndo($dataSpb['tanggal']); ?> yang berupa barang persediaan, sebagaimana daftar dibawah ini :</p>
   <table border="1" width="100%" cellspacing="0">
     <thead>
       <tr>

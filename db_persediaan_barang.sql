@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Feb 2023 pada 18.15
+-- Waktu pembuatan: 05 Mar 2023 pada 17.47
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 7.4.26
 
@@ -41,8 +41,8 @@ CREATE TABLE `tb_barang` (
 
 INSERT INTO `tb_barang` (`id_barang`, `id_kategori`, `kode_barang`, `nama_barang`, `satuan_barang`) VALUES
 (2, 1, '11001', 'HVS 80gr', 'Buah'),
-(3, 1, '11002', 'Ballpoint Standart', 'Dos'),
-(4, 1, '11003', 'Buku Tulis', 'Buah');
+(3, 4, '11002', 'Ballpoint Standart', 'Dos'),
+(4, 3, '11003', 'Buku Tulis', 'Buah');
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,7 @@ CREATE TABLE `tb_instansi` (
 
 INSERT INTO `tb_instansi` (`id_instansi`, `nama_instansi`, `alamat_instansi`, `no_telp`, `kd_pos`, `website`, `email`, `tahun`, `id_user`) VALUES
 (7, 'Kecamatan Gajah', 'Jl. Raya Gajah No. 45 Demak', '(0291) 685250', '59581', 'https://kecgajah.demakkab.go.id', 'office.kec.gajah@gmail.com', '2021-07-24', 1),
-(8, 'Kecamatan Mijen', 'Wedung', '089677017239', '', '', '', '2021-07-24', 2);
+(8, 'Kecamatan Mijen', 'Mijen', '089677017239', '59551', 'https://kecmijen.demakkab.go.id', 'kecmijen@gmail.com', '2021-07-24', 2);
 
 -- --------------------------------------------------------
 
@@ -86,9 +86,9 @@ CREATE TABLE `tb_kategori` (
 --
 
 INSERT INTO `tb_kategori` (`id_kategori`, `kategori`) VALUES
-(1, 'Bahan Pakai Habis'),
-(3, 'Bahan Cetak dan Jilid'),
-(4, 'Bahan Cetak');
+(1, 'Alat Tulis Kantor (ATK)'),
+(2, 'Bahan Cetak'),
+(3, 'Bahan Material');
 
 -- --------------------------------------------------------
 
@@ -133,16 +133,17 @@ CREATE TABLE `tb_pembelian` (
   `nama_rekanan` varchar(100) NOT NULL,
   `no_dokumen` varchar(50) NOT NULL,
   `tanggal_dokumen` date NOT NULL,
-  `tahun` date NOT NULL
+  `tahun` date NOT NULL,
+  `id_kategori` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_pembelian`
 --
 
-INSERT INTO `tb_pembelian` (`id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`, `nama_rekanan`, `no_dokumen`, `tanggal_dokumen`, `tahun`) VALUES
-(1, 7, 1, '11001', '1', '68000', '680000', '2023-02-02', '', '', '0000-00-00', '2023-02-02'),
-(2, 7, 1, '11003', '7', '5000', '50000', '2023-02-03', '', '', '0000-00-00', '2023-02-03');
+INSERT INTO `tb_pembelian` (`id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`, `nama_rekanan`, `no_dokumen`, `tanggal_dokumen`, `tahun`, `id_kategori`) VALUES
+(1, 7, 1, '11001', '0', '68000', '680000', '2023-02-02', '', '', '0000-00-00', '2023-02-02', 1),
+(2, 7, 1, '11003', '7', '5000', '50000', '2023-02-03', '', '', '0000-00-00', '2023-02-03', 1);
 
 -- --------------------------------------------------------
 
@@ -163,16 +164,17 @@ CREATE TABLE `tb_pembelian_detail` (
   `no_dokumen` varchar(50) NOT NULL,
   `tanggal_dokumen` date NOT NULL,
   `tahun` date NOT NULL,
-  `regdate` datetime NOT NULL DEFAULT current_timestamp()
+  `regdate` datetime NOT NULL DEFAULT current_timestamp(),
+  `id_kategori` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_pembelian_detail`
 --
 
-INSERT INTO `tb_pembelian_detail` (`id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`, `nama_rekanan`, `no_dokumen`, `tanggal_dokumen`, `tahun`, `regdate`) VALUES
-(1, 7, 1, '11001', '10', '68000', '680000', '2023-02-02', '', '', '0000-00-00', '2023-02-02', '2023-02-26 23:09:09'),
-(2, 7, 1, '11003', '10', '5000', '50000', '2023-02-03', '', '', '0000-00-00', '2023-02-03', '2023-02-26 23:09:09');
+INSERT INTO `tb_pembelian_detail` (`id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`, `nama_rekanan`, `no_dokumen`, `tanggal_dokumen`, `tahun`, `regdate`, `id_kategori`) VALUES
+(1, 7, 1, '11001', '10', '68000', '680000', '2023-02-02', '', '', '0000-00-00', '2023-02-02', '2023-02-26 23:09:09', 1),
+(2, 7, 1, '11003', '10', '5000', '50000', '2023-02-03', '', '', '0000-00-00', '2023-02-03', '2023-02-26 23:09:09', 1);
 
 -- --------------------------------------------------------
 
@@ -194,19 +196,21 @@ CREATE TABLE `tb_pengeluaran` (
   `tanggal` date NOT NULL,
   `trx` varchar(50) NOT NULL,
   `ket` varchar(15) NOT NULL,
-  `tahun` date DEFAULT NULL
+  `tahun` date DEFAULT NULL,
+  `id_kategori` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_pengeluaran`
 --
 
-INSERT INTO `tb_pengeluaran` (`id_pengeluaran`, `id_instansi`, `id_user`, `id_pembelian`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `penanggungjawab`, `no_spb`, `tanggal`, `trx`, `ket`, `tahun`) VALUES
-(2, 7, 1, 9, '11002', '5', '5000', '25000', '3', '01', '2023-01-02', 'TRX001', 'Saldo Awal', '2023-01-02'),
-(3, 7, 1, 1, '11001', '2', '68000', '136000', '1', '02', '2023-02-06', 'TRX002', '-', '2023-02-06'),
-(4, 7, 1, 2, '11003', '3', '5000', '15000', '1', '02', '2023-02-07', 'TRX002', '-', '2023-02-07'),
-(5, 7, 1, 1, '11001', '5', '68000', '340000', '1', '03', '2023-02-26', 'TRX003', '-', '2023-02-26'),
-(6, 7, 1, 1, '11001', '2', '68000', '136000', '1', '04', '2023-08-03', 'TRX004', '-', '2023-08-03');
+INSERT INTO `tb_pengeluaran` (`id_pengeluaran`, `id_instansi`, `id_user`, `id_pembelian`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `penanggungjawab`, `no_spb`, `tanggal`, `trx`, `ket`, `tahun`, `id_kategori`) VALUES
+(2, 7, 1, 9, '11002', '5', '5000', '25000', '3', '01', '2023-01-02', 'TRX001', 'Saldo Awal', '2023-01-02', 2),
+(3, 7, 1, 1, '11001', '2', '68000', '136000', '1', '02', '2023-02-06', 'TRX002', '-', '2023-02-06', 1),
+(4, 7, 1, 2, '11003', '3', '5000', '15000', '1', '02', '2023-02-07', 'TRX002', '-', '2023-02-07', 1),
+(5, 7, 1, 1, '11001', '5', '68000', '340000', '1', '03', '2023-02-26', 'TRX003', '-', '2023-02-26', 1),
+(6, 7, 1, 1, '11001', '2', '68000', '136000', '1', '04', '2023-08-03', 'TRX004', '-', '2023-08-03', 1),
+(7, 7, 1, 1, '11001', '1', '68000', '68000', '3', '05', '2023-09-04', 'TRX005', '-', '2023-09-04', 1);
 
 -- --------------------------------------------------------
 
@@ -229,19 +233,21 @@ CREATE TABLE `tb_pengeluaran_detail` (
   `trx` varchar(50) NOT NULL,
   `ket` varchar(15) NOT NULL,
   `tahun` date DEFAULT NULL,
-  `regdate` datetime DEFAULT current_timestamp()
+  `regdate` datetime DEFAULT current_timestamp(),
+  `id_kategori` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_pengeluaran_detail`
 --
 
-INSERT INTO `tb_pengeluaran_detail` (`id_pengeluaran`, `id_instansi`, `id_user`, `id_pembelian`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `penanggungjawab`, `no_spb`, `tanggal`, `trx`, `ket`, `tahun`, `regdate`) VALUES
-(2, 7, 1, 9, '11002', '5', '5000', '25000', '3', '01', '2023-01-02', 'TRX001', 'Saldo Awal', '2023-01-02', '2023-02-26 23:09:34'),
-(3, 7, 1, 1, '11001', '2', '68000', '136000', '1', '02', '2023-02-06', 'TRX002', '-', '2023-02-06', '2023-02-26 23:09:34'),
-(4, 7, 1, 2, '11003', '3', '5000', '15000', '1', '02', '2023-02-07', 'TRX002', '-', '2023-02-07', '2023-02-26 23:09:34'),
-(5, 7, 1, 1, '11001', '5', '68000', '340000', '1', '03', '2023-02-26', 'TRX003', '-', '2023-07-26', '2023-07-26 23:09:34'),
-(6, 7, 1, 1, '11001', '2', '68000', '136000', '1', '04', '2023-08-03', 'TRX004', '-', '2023-08-03', '2023-02-27 00:10:47');
+INSERT INTO `tb_pengeluaran_detail` (`id_pengeluaran`, `id_instansi`, `id_user`, `id_pembelian`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `penanggungjawab`, `no_spb`, `tanggal`, `trx`, `ket`, `tahun`, `regdate`, `id_kategori`) VALUES
+(2, 7, 1, 9, '11002', '3', '5000', '15000', '3', '01', '2023-01-02', 'TRX001', 'Saldo Awal', '2023-01-02', '2023-02-26 23:09:34', 2),
+(3, 7, 1, 1, '11001', '2', '68000', '136000', '1', '02', '2023-02-06', 'TRX002', '-', '2023-02-06', '2023-02-26 23:09:34', 1),
+(4, 7, 1, 2, '11003', '3', '5000', '15000', '1', '02', '2023-02-07', 'TRX002', '-', '2023-02-07', '2023-02-26 23:09:34', 1),
+(5, 7, 1, 1, '11001', '5', '68000', '340000', '1', '03', '2023-02-26', 'TRX003', '-', '2023-07-26', '2023-07-26 23:09:34', 1),
+(6, 7, 1, 1, '11001', '2', '68000', '136000', '1', '04', '2023-08-03', 'TRX004', '-', '2023-08-03', '2023-02-27 00:10:47', 1),
+(7, 7, 1, 1, '11001', '1', '68000', '68000', '3', '05', '2023-09-04', 'TRX005', '-', '2023-09-04', '2023-02-28 22:34:02', 1);
 
 -- --------------------------------------------------------
 
@@ -258,15 +264,16 @@ CREATE TABLE `tb_saldo_awal` (
   `volume` varchar(10) NOT NULL,
   `harga_satuan` varchar(20) NOT NULL,
   `jumlah_harga` varchar(20) NOT NULL,
-  `tanggal` date NOT NULL
+  `tanggal` date NOT NULL,
+  `id_kategori` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_saldo_awal`
 --
 
-INSERT INTO `tb_saldo_awal` (`id_saldo_awal`, `id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`) VALUES
-(3, 9, 7, 1, '11002', '5', '5000', '25000', '2023-01-02');
+INSERT INTO `tb_saldo_awal` (`id_saldo_awal`, `id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`, `id_kategori`) VALUES
+(3, 9, 7, 1, '11002', '5', '5000', '25000', '2023-01-02', 2);
 
 -- --------------------------------------------------------
 
@@ -283,15 +290,16 @@ CREATE TABLE `tb_saldo_awal_detail` (
   `volume` varchar(10) NOT NULL,
   `harga_satuan` varchar(20) NOT NULL,
   `jumlah_harga` varchar(20) NOT NULL,
-  `tanggal` date NOT NULL
+  `tanggal` date NOT NULL,
+  `id_kategori` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_saldo_awal_detail`
 --
 
-INSERT INTO `tb_saldo_awal_detail` (`id_saldo_awal`, `id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`) VALUES
-(4, 9, 7, 1, '11002', '0', '5000', '25000', '2023-01-02');
+INSERT INTO `tb_saldo_awal_detail` (`id_saldo_awal`, `id_pembelian`, `id_instansi`, `id_user`, `kode_barang`, `volume`, `harga_satuan`, `jumlah_harga`, `tanggal`, `id_kategori`) VALUES
+(4, 9, 7, 1, '11002', '0', '5000', '25000', '2023-01-02', 2);
 
 -- --------------------------------------------------------
 
@@ -329,16 +337,18 @@ CREATE TABLE `tb_user` (
   `nama_user` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level` varchar(20) NOT NULL
+  `level` varchar(20) NOT NULL,
+  `tgl_aktivasi` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tb_user`
 --
 
-INSERT INTO `tb_user` (`id_user`, `nama_user`, `username`, `password`, `level`) VALUES
-(1, 'Admin', 'admin', '$2y$10$F4/LPUsdSi4KhqirDET2..tJAXXTyI.XYcqZxxhvvLiX/FQumVxeS', 'admin'),
-(2, 'User', 'ngadmin', '$2y$10$SpNSa9YmtzMyv/y8rH/CA.b59eqmNQY.qHpc9BSBuT1.naY949JWu', 'user');
+INSERT INTO `tb_user` (`id_user`, `nama_user`, `username`, `password`, `level`, `tgl_aktivasi`) VALUES
+(1, 'Admin', 'admin', '$2y$10$F4/LPUsdSi4KhqirDET2..tJAXXTyI.XYcqZxxhvvLiX/FQumVxeS', 'admin', '9999-12-31'),
+(2, 'Kecamatan Mijen', 'ngadmin', '$2y$10$27akh4zDida09TGgTC3qeuyfcheSKiVrsTyiIfDbRYELCOwJSZCfi', 'user', '2023-03-05'),
+(3, 'Kecamatan Dempet', 'dempet', '$2y$10$6w15MI6fCtOV1X/cMFzhzOcgzx4Fb5vE.qf02zVHM4RW9v1HifXUm', 'user', '2023-04-05');
 
 --
 -- Indexes for dumped tables
@@ -436,7 +446,7 @@ ALTER TABLE `tb_instansi`
 -- AUTO_INCREMENT untuk tabel `tb_kategori`
 --
 ALTER TABLE `tb_kategori`
-  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pegawai`
@@ -460,13 +470,13 @@ ALTER TABLE `tb_pembelian_detail`
 -- AUTO_INCREMENT untuk tabel `tb_pengeluaran`
 --
 ALTER TABLE `tb_pengeluaran`
-  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengeluaran_detail`
 --
 ALTER TABLE `tb_pengeluaran_detail`
-  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pengeluaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_saldo_awal`
@@ -490,7 +500,7 @@ ALTER TABLE `tb_setting`
 -- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

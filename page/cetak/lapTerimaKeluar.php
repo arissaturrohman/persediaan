@@ -53,6 +53,10 @@ $dataSet = $setting->fetch_assoc();
     .isi {
       font-size: 7px;
     }
+
+    .upper {
+      text-transform: uppercase;
+    }
   </style>
 </head>
 
@@ -62,9 +66,9 @@ $dataSet = $setting->fetch_assoc();
       <td rowspan="4" width="10%"><img src="../../assets/img/logo.png" alt="logo" width="5%"></td>
       <td align="center">
         <h4>PEMERINTAH KABUPATEN DEMAK</h4>
-        <h3>KECAMATAN GAJAH</h3>
-        <p>Jl. Raya Gajah No. 45 Telp 0291-685250 Kode Pos 59581</p>
-        <p>Website : https://kecgajah.demakkab.go.id - Email : office.kec.gajah@gmail.com</p>
+        <h2 class="upper"><?= $dataOpd['nama_instansi']; ?></h2>
+        <p><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></p>
+        <p>Website : <?= $dataOpd['website']; ?> - Email : <?= $dataOpd['email']; ?></p>
       </td>
     </tr>
   </table>
@@ -105,87 +109,92 @@ $dataSet = $setting->fetch_assoc();
     <tbody>
       <?php
       $no = 1;
-      $sql = $conn->query("SELECT * FROM tb_pembelian_detail WHERE month(tahun) <= '$smt'");
+      $sql = $conn->query("SELECT 
+      b.kode_barang, 
+      b.nama_barang, 
+      b.satuan_barang,
+      s.volume_saldo_awal,
+      COALESCE(p.volume_pembelian, 0) AS volume_pembelian,
+      COALESCE(k.volume_pengeluaran, 0) AS volume_pengeluaran,
+      (s.volume_saldo_awal + COALESCE(p.volume_pembelian, 0) - COALESCE(k.volume_pengeluaran, 0)) AS volume_saldo_akhir,
+      s.jumlah_harga AS jumlah_harga_saldo_awal,
+      COALESCE(p.jumlah_harga_pembelian, 0) AS jumlah_harga_pembelian,
+      COALESCE(k.jumlah_harga_pengeluaran, 0) AS jumlah_harga_pengeluaran,
+      (s.jumlah_harga + COALESCE(p.jumlah_harga_pembelian, 0) - COALESCE(k.jumlah_harga_pengeluaran, 0)) AS jumlah_harga_saldo_akhir
+    FROM tb_barang b
+    LEFT JOIN (
+      SELECT kode_barang, SUM(volume) AS volume_saldo_awal, SUM(jumlah_harga) AS jumlah_harga
+      FROM tb_saldo_awal WHERE month(tanggal) <= '$smt'
+      GROUP BY kode_barang
+    ) s ON b.kode_barang = s.kode_barang
+    LEFT JOIN (
+      SELECT kode_barang, SUM(volume) AS volume_pembelian, SUM(jumlah_harga) AS jumlah_harga_pembelian
+      FROM tb_pembelian_detail WHERE month(tahun) <= '$smt'
+      GROUP BY kode_barang
+    ) p ON b.kode_barang = p.kode_barang
+    LEFT JOIN (
+      SELECT kode_barang, SUM(volume) AS volume_pengeluaran, SUM(jumlah_harga) AS jumlah_harga_pengeluaran
+      FROM tb_pengeluaran_detail WHERE month(tahun) <= '$smt'
+      GROUP BY kode_barang
+    ) k ON b.kode_barang = k.kode_barang
+    ORDER BY b.kode_barang ASC;
+    ");
       foreach ($sql as $key => $value) :
+        $tambah = $value['jumlah_harga_saldo_awal'] + $value['jumlah_harga_pembelian'];
+        $sisaVol = $value['volume_saldo_awal'] + $value['volume_pembelian'] - $value['volume_pengeluaran'];
+        $sisaHarga = $value['jumlah_harga_saldo_awal'] + $value['jumlah_harga_pembelian'] - $value['jumlah_harga_pengeluaran'];
+        // Jumlah total volume saldo awal
+        $rowVolSaldo[] = $value['volume_saldo_awal'];
+        $jumlahVolSaldo = array_sum($rowVolSaldo);
+        // Jumlah total harga saldo awal
+        $rowHargaSaldo[] = $value['jumlah_harga_saldo_awal'];
+        $jumlahHargaSaldo = array_sum($rowHargaSaldo);
+        // Jumlah total volume masuk
+        $rowVolMasuk[] = $value['volume_pembelian'];
+        $jumlahMasuk = array_sum($rowVolMasuk);
+        // Jumlah total volume keluar
+        $rowVolKeluar[] = $value['volume_pengeluaran'];
+        $jumlahKeluar = array_sum($rowVolKeluar);
+        // jumlah total sisa volume
+        $rowVol[] = $sisaVol;
+        $jumlahVol = array_sum($rowVol);
+        // jumlah total harga tambah
+        $rowTambah[] = $tambah;
+        $jumlahTambah = array_sum($rowTambah);
+        // jumlah total harga kurang
+        $rowKurang[] = $value['jumlah_harga_pengeluaran'];
+        $jumlahKurang = array_sum($rowKurang);
+        // jumlah total harga saldo
+        $row[] = $sisaHarga;
+        $jumlahSaldo = array_sum($row);
+
       ?>
         <tr>
-          <?php
-          if ($value['volume'] <= 0) {
-            $tampil = "d-none";
-          }
-          ?>
-          <td class="<?= $tampil; ?>"><?= $value['kode_barang']; ?></td>
-          <?php
-          $barang = $conn->query("SELECT * FROM tb_barang WHERE kode_barang = '$value[kode_barang]'");
-          $dataBrg = $barang->fetch_assoc();
-
-          ?>
-          <td><?= $dataBrg['nama_barang']; ?></td>
-          <td><?= $dataBrg['satuan_barang']; ?></td>
-
-          <!-- Jumlah Saldo Awal -->
-          <?php
-          $sqlSaldo = $conn->query("SELECT * FROM tb_saldo_awal WHERE year(tanggal) = '$_SESSION[tahun]' AND month(tanggal) <= '$smt' AND volume > 0 AND kode_barang = '$value[kode_barang]' GROUP BY kode_barang");
-          $dataSaldo = $sqlSaldo->fetch_assoc();
-          $saldo = $dataSaldo['volume'];
-          $harga = $dataSaldo['jumlah_harga'];
-          ?>
-          <td align="right"><?= $saldo; ?></td>
-          <td align="right"><?= number_format($harga); ?></td>
-
-          <?php
-          $sqlTerima = $conn->query("SELECT * FROM tb_pembelian_detail WHERE year(tahun) = '$_SESSION[tahun]' AND month(tahun) <= '$smt' AND volume > 0 AND kode_barang = '$value[kode_barang]'  GROUP BY kode_barang");
-          $dataTerima = $sqlTerima->fetch_assoc();
-          $terima = $dataTerima['volume'];
-          echo "<td align='right'>$dataTerima[volume]</td>";
-
-          ?>
-          <?php
-          $sqlKeluar = $conn->query("SELECT * FROM tb_pengeluaran_detail WHERE year(tahun) = '$_SESSION[tahun]' AND month(tahun) <= '$smt' AND volume > 0 AND kode_barang = '$value[kode_barang]'  GROUP BY kode_barang");
-          $dataKeluar = $sqlKeluar->fetch_assoc();
-          $keluar = $dataKeluar['volume'];
-          echo "<td align='right'>$dataKeluar[volume]</td>";
-          ?>
-          <?php
-          $sisaBrg = ($terima + $saldo) - $keluar;
-          echo "<td align='right'>$sisaBrg</td>";
-          ?>
-          <?php
-          $hitungSaldo = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_saldo_awal_detail WHERE id_user = '$_SESSION[id_user]' AND year(tanggal) = '$_SESSION[tahun]' AND month(tanggal) <= '$smt' AND volume > 0 AND kode_barang = '$value[kode_barang]'");
-          $dataHitungSaldo = $hitungSaldo->fetch_assoc();
-          $sisaSaldo = $dataHitungSaldo['total'];
-          ?>
-          <?php
-          $hitungTerima = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pembelian_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'  AND month(tahun) <= '$smt' AND volume > 0 AND kode_barang = '$value[kode_barang]'");
-          $dataHitungTerima = $hitungTerima->fetch_assoc();
-          $sisaTerima = $dataHitungTerima['total'];
-          ?>
-          <?php
-          $hitungKeluar = $conn->query("SELECT SUM(jumlah_harga) AS total FROM tb_pengeluaran_detail WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]' AND month(tahun) <= '$smt' AND volume > 0 AND kode_barang = '$value[kode_barang]'");
-          $dataHitungKeluar = $hitungKeluar->fetch_assoc();
-          $sisaKeluar = $dataHitungKeluar['total'];
-          ?>
-          <?php
-          $bertambah = $sisaSaldo + $sisaTerima;
-          $berkurang = $sisaKeluar;
-          $sisaHarga = ($sisaSaldo + $sisaTerima) - $sisaKeluar;
-          echo "<td align='right'>" . number_format($bertambah) . "</td>";
-          echo "<td align='right'>" . number_format($berkurang) . "</td>";
-          echo "<td align='right'>" . number_format($sisaHarga) . "</td>";
-          ?>
-          <td>-</td>
+          <td><?= $value['kode_barang']; ?></td>
+          <td><?= $value['nama_barang']; ?></td>
+          <td><?= $value['satuan_barang']; ?></td>
+          <td align="right"><?= number_format($value['volume_saldo_awal']); ?></td>
+          <td align="right"><?= number_format($value['jumlah_harga_saldo_awal']); ?></td>
+          <td align="right"><?= number_format($value['volume_pembelian']); ?></td>
+          <td align="right"><?= number_format($value['volume_pengeluaran']); ?></td>
+          <td align="right"><?= number_format($sisaVol); ?></td>
+          <td align="right"><?= number_format($tambah); ?></td>
+          <td align="right"><?= number_format($value['jumlah_harga_pengeluaran']); ?></td>
+          <td align="right"><?= number_format($sisaHarga); ?></td>
+          <td></td>
         </tr>
-        <?php
-        $array[] = [$sisaHarga][0];
-        ?>
       <?php endforeach; ?>
-      <?php
-      $total = array_sum($array);
-      ?>
       <tr>
-        <th colspan="10" align="right">JUMLAH</th>
-        <th align="right"><?= number_format($total); ?></th>
-        <th colspan="2"></th>
+        <th colspan="3">JUMLAH</th>
+        <th align="right"><?= number_format($jumlahVolSaldo); ?></th>
+        <th align="right"><?= number_format($jumlahHargaSaldo); ?></th>
+        <th align="right"><?= number_format($jumlahMasuk); ?></th>
+        <th align="right"><?= number_format($jumlahKeluar); ?></th>
+        <th align="right"><?= number_format($jumlahVol); ?></th>
+        <th align="right"><?= number_format($jumlahTambah); ?></th>
+        <th align="right"><?= number_format($jumlahKurang); ?></th>
+        <th align="right"><?= number_format($jumlahSaldo); ?></th>
+        <th></th>
       </tr>
     </tbody>
   </table>

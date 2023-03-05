@@ -63,7 +63,7 @@ $dataSet = $setting->fetch_assoc();
       <td rowspan="4"><img src="../../assets/img/logo.png" alt="logo" width="5%"></td>
       <td align="center">
         <h4>PEMERINTAH KABUPATEN DEMAK</h4>
-        <h3 class="upper"><?= $dataOpd['nama_instansi']; ?></h3>
+        <h2 class="upper"><?= $dataOpd['nama_instansi']; ?></h2>
         <p><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></p>
         <p>Website : <?= $dataOpd['website']; ?> - Email : <?= $dataOpd['email']; ?></p>
       </td>
@@ -116,7 +116,7 @@ $dataSet = $setting->fetch_assoc();
       ?>
         <tr>
           <td align="center"><?= $no++; ?></td>
-          <td><?= TanggalIndo($value['tanggal_beli']); ?></td>
+          <td><?= TanggalIndo($value['tanggal']); ?></td>
           <td><?= $value['nama_rekanan']; ?></td>
           <td><?= $value['no_dokumen']; ?></td>
           <?php

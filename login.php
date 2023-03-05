@@ -7,31 +7,35 @@ if (isset($_POST['login'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
   $tahun = $_POST['tahun'];
+  if (empty($tahun)) {
+    $eror = true;
+  } else {
 
-  $sql = $conn->query("SELECT * FROM tb_user WHERE username = '$username'");
+    $sql = $conn->query("SELECT * FROM tb_user WHERE username = '$username'");
 
-  if (mysqli_num_rows($sql) === 1) {
-    $row = mysqli_fetch_assoc($sql);
-    if (password_verify($password, $row['password'])) {
-      $_SESSION['login'] = true;
-      if ($row['level'] == "admin") {
-        $_SESSION['nama'] = $row['nama_user'];
-        $_SESSION['id_user'] = $row['id_user'];
-        $_SESSION['level'] = "admin";
-        $_SESSION['tahun'] = $tahun;
-        header('location: ./');
-        exit();
-      } elseif ($row['level'] == "user") {
-        $_SESSION['nama'] = $row['nama_user'];
-        $_SESSION['id_user'] = $row['id_user'];
-        $_SESSION['level'] = "user";
-        $_SESSION['tahun'] = $tahun;
-        header('location: ./');
-        exit();
+    if (mysqli_num_rows($sql) === 1) {
+      $row = mysqli_fetch_assoc($sql);
+      if (password_verify($password, $row['password'])) {
+        $_SESSION['login'] = true;
+        if ($row['level'] == "admin") {
+          $_SESSION['nama'] = $row['nama_user'];
+          $_SESSION['id_user'] = $row['id_user'];
+          $_SESSION['level'] = "admin";
+          $_SESSION['tahun'] = $tahun;
+          header('location: ./');
+          exit();
+        } elseif ($row['level'] == "user") {
+          $_SESSION['nama'] = $row['nama_user'];
+          $_SESSION['id_user'] = $row['id_user'];
+          $_SESSION['level'] = "user";
+          $_SESSION['tahun'] = $tahun;
+          header('location: ./');
+          exit();
+        }
       }
     }
+    $error = true;
   }
-  $error = true;
 }
 ?>
 
@@ -81,9 +85,12 @@ if (isset($_POST['login'])) {
                     <div class="form-group">
                       <input type="password" name="password" class="form-control form-control-user" placeholder="Masukkan Password">
                     </div>
+                    <?php if (isset($eror)) : ?>
+                    <p style="color:red; font-style:italic; text-align:center;">Pilih tahun terlebih dahulu</p>
+                  <?php endif; ?>
                     <div class="form-group">
                       <select class="form-control" id="tahun" name="tahun" required>
-                        <option>Tahun</option>
+                        <option value="0">Tahun</option>
                         <?php
                         // $no = "001";
                         for ($i = date('Y'); $i >= date('Y') - 1; $i -= 1) {

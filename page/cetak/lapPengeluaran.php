@@ -30,10 +30,8 @@ $dataSet = $setting->fetch_assoc();
   <link rel="shortcut icon" href="../../assets/img/logo.png" type="image/x-icon">
   <!-- <link href="../../assets/css/sb-admin-2.min.css" rel="stylesheet"> -->
   <style>
-    /* table,
-    th,
-    td {
-      border: 1px solid;
+    /* body{
+      font-family: "Poppin";
     } */
 
     h5,
@@ -67,7 +65,7 @@ $dataSet = $setting->fetch_assoc();
       <td rowspan="4" width="10%"><img src="../../assets/img/logo.png" alt="logo" width="5%"></td>
       <td align="center">
         <h4>PEMERINTAH KABUPATEN DEMAK</h4>
-        <h3 class="upper"><?= $dataOpd['nama_instansi']; ?></h3>
+        <h2 class="upper"><?= $dataOpd['nama_instansi']; ?></h2>
         <p><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></p>
         <p>Website : <?= $dataOpd['website']; ?> - Email : <?= $dataOpd['email']; ?></p>
       </td>
@@ -115,9 +113,9 @@ $dataSet = $setting->fetch_assoc();
       ?>
         <tr class="isi">
           <td align="center"><?= $no++; ?></td>
-          <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
-          <td><?= "0" . $value['no_spb'] . " / SPB / " . BulanRomawi($value['tanggal_spb']) ?></td>
-          <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
+          <td><?= date("d-m-Y", strtotime($value['tanggal'])); ?></td>
+          <td><?= "0" . $value['no_spb'] . " / SPB / " . BulanRomawi($value['tanggal']) ?></td>
+          <td><?= date("d-m-Y", strtotime($value['tanggal'])); ?></td>
           <?php
           $p = $value['penanggungjawab'];
           $sqlPegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$p'");
@@ -135,7 +133,7 @@ $dataSet = $setting->fetch_assoc();
           <td><?= $dataBarang['satuan_barang']; ?></td>
           <td align="right"><?= number_format($value['harga_satuan']); ?></td>
           <td align="right"><?= number_format($value['jumlah_harga']); ?></td>
-          <td><?= TanggalIndo($value['tanggal_spb']); ?></td>
+          <td><?= date("d/m/Y", strtotime($value['tanggal'])); ?></td>
           <td></td>
           <td><?= $value['ket']; ?></td>
         </tr>

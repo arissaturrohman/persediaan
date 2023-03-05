@@ -13,6 +13,7 @@
             <th>Nama</th>
             <th>Username</th>
             <th>Level</th>
+            <th>Masa Aktif</th>
             <th width="20%">Opsi</th>
           </tr>
         </thead>
@@ -29,6 +30,7 @@
               <td><?= $value['nama_user']; ?></td>
               <td><?= $value['username']; ?></td>
               <td><?= $value['level']; ?></td>
+              <td><?= TanggalIndo($value['tgl_aktivasi']); ?></td>
               <td>
                 <a href="?page=user&action=edit&id=<?= $value['id_user']; ?>" class="btn btn-sm btn-circle btn-success" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
                 <!-- <a href="?page=user&action=delete&id=<?= $value['id_user']; ?>" name="delete" class=" delete btn btn-sm btn-circle btn-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a> -->

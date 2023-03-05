@@ -19,6 +19,18 @@
           <label for="telp">No Telp.</label>
           <input type="text" class="form-control" id="telp" name="telp" value="<?= $_POST['telp']; ?>">
         </div>
+        <div class="form-group">
+          <label for="kd_pos">Kode Pos</label>
+          <input type="text" class="form-control" id="kd_pos" name="kd_pos" value="<?= $_POST['kd_pos']; ?>">
+        </div>
+        <div class="form-group">
+          <label for="web">Website</label>
+          <input type="text" class="form-control" id="web" name="web" value="<?= $_POST['web']; ?>">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" value="<?= $_POST['email']; ?>">
+        </div>
         <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
         <a href="instansi" class="btn btn-sm btn-dark">Cancel</a>
       </form>
@@ -33,9 +45,12 @@ if (isset($_POST['add'])) {
   $instansi = $_POST['instansi'];
   $alamat = $_POST['alamat'];
   $telp = $_POST['telp'];
+  $kd_pos = $_POST['kd_pos'];
+  $web = $_POST['web'];
+  $email = $_POST['email'];
   $tahun = date("Y-m-d");
 
-  $sql = $conn->query("INSERT INTO tb_instansi (nama_instansi, alamat_instansi,no_telp,tahun, id_user) VALUES ('$instansi','$alamat','$telp','$tahun','$_SESSION[id_user]')");
+  $sql = $conn->query("INSERT INTO tb_instansi (nama_instansi, alamat_instansi,no_telp,kd_pos,website,email,tahun, id_user) VALUES ('$instansi','$alamat','$telp','$kd_pos','$web','$email','$tahun','$_SESSION[id_user]')");
 
   if (!$sql) {
     // die();

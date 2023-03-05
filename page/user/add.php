@@ -40,10 +40,13 @@ if (isset($_POST['add'])) {
   $nama = $_POST['nama'];
   $username = $_POST['username'];
   $level = $_POST['level'];
+  $hariIni = date('Y-m-d');
+  $aktivasi = date('Y-m-d', strtotime('+30 days', strtotime($hariIni)));
+
 
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-  $sql = $conn->query("INSERT INTO tb_user (nama_user, username, password, level) VALUES ('$nama','$username','$password','$level')");
+  $sql = $conn->query("INSERT INTO tb_user (nama_user, username, password, level, tgl_aktivasi) VALUES ('$nama','$username','$password','$level','$aktivasi')");
 
   if (!$sql) {
     // die();

@@ -1,11 +1,31 @@
 <?php
 
+
 $aktif = $conn->query("SELECT * FROM tb_user WHERE  id_user = '$_SESSION[id_user]'");
 $hasil = $aktif->fetch_assoc();
+// $current_date = date('Y-m-d');
+$hitung_hari = strtotime($hasil['tgl_aktivasi']) - strtotime(date('Y-m-d'));
+$selisih_hari = round($hitung_hari / (60 * 60 * 14));
+if ($selisih_hari <= 5 &&  $selisih_hari >= 0 && $hitung_hari != $hasil['tgl_aktivasi']) {
+  if ($selisih_hari == $hitung_hari) {
+    $tgl = '<b>hari ini</b>';
+  } else {
+    $tgl = "dalam <b>".$selisih_hari." hari</b>";
+  }
+?>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <b>Perhatian</b>, masa aktif akun Anda akan berakhir <?= $tgl; ?>. <br> Silahkan hubungi admin untuk perpanjang akun Anda. <br>
+    <strong>WA : 089677017239 (Aris)</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<?php
+}
 if ($hasil['tgl_aktivasi'] < date("Y-m-d")) {
 ?>
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    Masa aktif akun Anda telah berakhir. Untuk sementara tidak dapat menggunakan fasilitas aplikasi ini.<br> Silahkan hubungi admin untuk aktivasi akun Anda. <br>
+    Masa aktif akun Anda telah berakhir sejak tanggal <b><?= TanggalIndo($hasil['tgl_aktivasi']); ?></b>. Untuk sementara tidak dapat menggunakan fasilitas aplikasi ini.<br> Silahkan hubungi admin untuk aktivasi akun Anda. <br>
     <strong>WA : 089677017239</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>

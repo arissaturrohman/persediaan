@@ -28,6 +28,7 @@ if (isset($_POST['trx'])) {
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
+        <input type="hidden" name="kategori" id="kategori">
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="kode">Cari Barang</label>
@@ -188,6 +189,7 @@ if (isset($_POST['add'])) {
   $no_spb = $tampil;
   $ket = 'Saldo Awal';
   $tanggal_spb = $_POST['tanggal_spb'];
+  $kategori = $_POST['kategori'];
 
   $sql_stok = $conn->query("SELECT * FROM tb_saldo_awal_detail WHERE kode_barang = '$kode'");
   $result = $sql_stok->fetch_assoc();
@@ -202,13 +204,13 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun, id_kategori) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb', '$kategori)");
 
-    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun, id_kategori) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb', '$kategori)");
 
-    $sql2 = $conn->query("INSERT INTO tb_transaksi (id_instansi, id_user, id_pembelian, kode_barang, saldo_awal, tanggal_trx, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    // $sql2 = $conn->query("INSERT INTO tb_transaksi (id_instansi, id_user, id_pembelian, kode_barang, saldo_awal, tanggal_trx, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
 
-    if (!$sql && !$sql1 && !$sql2) {
+    if (!$sql && !$sql1) {
       // die();
       echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");
       $conn->close();

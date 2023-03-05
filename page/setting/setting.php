@@ -43,7 +43,12 @@
             <input type="text" class="form-control form-control-sm" id="pangkat" name="pangkat" value="<?= $_POST['pangkat']; ?>">
           </div>
         </div>
-        <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
+        <div class="form-group  row">
+          <div class="col-sm-6 offset-6">
+            <a href="./" class="btn btn-sm btn-dark mx-1 ">Cancel</a>
+            <button type="submit" name="add" class="btn btn-sm btn-primary">Submit</button>
+          </div>
+        </div>
       </form>
     </div>
   </div>
@@ -75,9 +80,9 @@ if (isset($_POST['add'])) {
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
-  <div class="card-header py-3">
+  <!-- <div class="card-header py-3">
     <a href="?page=pegawai&action=add" class="btn btn-sm btn-outline-primary">Tambah</a>
-  </div>
+  </div> -->
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

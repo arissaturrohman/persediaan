@@ -74,7 +74,7 @@
                 <td><?= $data['nama_barang']; ?></td>
                 <td><?= $data['satuan_barang']; ?></td>
                 <td>
-                  <button class="btn btn-sm btn-info" id="beli" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-satuan="<?= $data['satuan_barang']; ?>">
+                  <button class="btn btn-sm btn-info" id="beli" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data['nama_barang']; ?>" data-satuan="<?= $data['satuan_barang']; ?>" data-kategori="<?= $data['id_kategori']; ?>">
                     <i class=" fas fa-check"></i>
                   </button>
                   </span>
@@ -113,7 +113,7 @@
           <tbody>
             <?php
 
-            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0 AND year(tahun) = '$_SESSION[tahun]'");
+            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0 AND year(tahun) = '$_SESSION[tahun]' AND id_user = '$_SESSION[id_user]'");
             while ($data = $sql->fetch_assoc()) {
 
             ?>
@@ -130,7 +130,7 @@
                 <td><?= $data['volume']; ?></td>
 
                 <td>
-                  <button class="btn btn-sm btn-info" id="keluar" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-stok="<?= $data['volume']; ?>">
+                  <button class="btn btn-sm btn-info" id="keluar" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-stok="<?= $data['volume']; ?>" data-kategori="<?= $data_barang['id_kategori']; ?>">
                     <i class=" fas fa-check"></i>
                   </button>
                   </span>
@@ -169,7 +169,7 @@
           <tbody>
             <?php
 
-            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0");
+            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE volume > 0 AND id_user = '$_SESSION[id_user]'");
             while ($data = $sql->fetch_assoc()) {
 
             ?>
@@ -186,7 +186,7 @@
                 <td><?= $data['volume']; ?></td>
 
                 <td>
-                  <button class="btn btn-sm btn-info" id="saldo" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-volume="<?= $data['volume']; ?>">
+                  <button class="btn btn-sm btn-info" id="saldo" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-volume="<?= $data['volume']; ?>" data-kategori=""="<?= $data_barang['id_kategori']; ?>">
                     <i class=" fas fa-check"></i>
                   </button>
                   </span>
@@ -224,7 +224,7 @@
           <tbody>
             <?php
 
-            $sql = $conn->query("SELECT * FROM tb_saldo_awal_detail WHERE volume > 0");
+            $sql = $conn->query("SELECT * FROM tb_saldo_awal_detail WHERE volume > 0 AND id_user = '$_SESSION[id_user]'");
             while ($data = $sql->fetch_assoc()) {
 
             ?>
@@ -241,7 +241,7 @@
                 <td><?= $data['volume']; ?></td>
 
                 <td>
-                  <button class="btn btn-sm btn-info" id="import" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-volume="<?= $data['volume']; ?>">
+                  <button class="btn btn-sm btn-info" id="import" data-idbeli="<?= $data['id_pembelian']; ?>" data-kode="<?= $data['kode_barang']; ?>" data-barang="<?= $data_barang['nama_barang']; ?>" data-satuan="<?= $data_barang['satuan_barang']; ?>" data-harga="<?= $data['harga_satuan']; ?>" data-kategori="<?= $data_barang['id_kategori']; ?>" data-volume="<?= $data['volume']; ?>">
                     <i class=" fas fa-check"></i>
                   </button>
                   </span>
@@ -414,9 +414,11 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       var kode_barang = $(this).data('kode');
       var nama_barang = $(this).data('barang');
       var satuan_barang = $(this).data('satuan');
+      var kategori = $(this).data('kategori');
       $('#kode').val(kode_barang);
       $('#nama_barang').val(nama_barang);
       $('#satuan_barang').val(satuan_barang);
+      $('#kategori').val(kategori);
       $('#kodeModal').modal('hide');
     })
   })
@@ -430,6 +432,7 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       var kode_barang = $(this).data('kode');
       var nama_barang = $(this).data('barang');
       var satuan_barang = $(this).data('satuan');
+      var kategori = $(this).data('kategori');
       var harga_satuan = $(this).data('harga');
       var volume = $(this).data('stok');
       $('#id_pembelian').val(idbeli);
@@ -437,6 +440,7 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       $('#nama_barang').val(nama_barang);
       $('#satuan_barang').val(satuan_barang);
       $('#harga_satuan').val(harga_satuan);
+      $('#kategori').val(kategori);
       $('#stok').val(volume);
       $('#keluarModal').modal('hide');
     })
@@ -451,6 +455,7 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       var kode_barang = $(this).data('kode');
       var nama_barang = $(this).data('barang');
       var satuan_barang = $(this).data('satuan');
+      var kategori = $(this).data('kategori');
       var harga_satuan = $(this).data('harga');
       var volume = $(this).data('volume');
       $('#id_pembelian').val(idbeli);
@@ -458,6 +463,7 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       $('#nama_barang').val(nama_barang);
       $('#satuan_barang').val(satuan_barang);
       $('#harga_satuan').val(harga_satuan);
+      $('#kategori').val(kategori);
       $('#volume').val(volume);
       $('#saldoModal').modal('hide');
     })
@@ -472,6 +478,7 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       var kode_barang = $(this).data('kode');
       var nama_barang = $(this).data('barang');
       var satuan_barang = $(this).data('satuan');
+      var kategori = $(this).data('kategori');
       var harga_satuan = $(this).data('harga');
       var volume = $(this).data('volume');
       $('#id_pembelian').val(idbeli);
@@ -479,6 +486,7 @@ if (isset($_SESSION['status']) && $_SESSION['status'] != "") {
       $('#nama_barang').val(nama_barang);
       $('#satuan_barang').val(satuan_barang);
       $('#harga_satuan').val(harga_satuan);
+      $('#kategori').val(kategori);
       $('#volume').val(volume);
       $('#importModal').modal('hide');
     })

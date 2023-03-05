@@ -14,6 +14,7 @@
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
+        <input type="hidden" name="kategori" id="kategori">
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="kode">Cari Barang</label>
@@ -78,6 +79,7 @@ if (isset($_POST['add'])) {
   $harga_satuan = $_POST['harga_satuan'];
   $jumlah_harga = $_POST['jumlah_harga'];
   $tanggal_input = $_POST['tanggal_input'];
+  $kategori = $_POST['kategori'];
   $tahun = date('Y');
 
   $sql_stok = $conn->query("SELECT * FROM tb_pembelian WHERE kode_barang = '$kode'");
@@ -93,9 +95,9 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_saldo_awal (id_pembelian,id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal) VALUES ('$id_pembelian','$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_input')");
+    $sql = $conn->query("INSERT INTO tb_saldo_awal (id_pembelian,id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal, id_kategori) VALUES ('$id_pembelian','$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_input', '$kategori')");
 
-    $sql1 = $conn->query("INSERT INTO tb_saldo_awal_detail (id_pembelian,id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal) VALUES ('$id_pembelian','$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_input')");
+    $sql1 = $conn->query("INSERT INTO tb_saldo_awal_detail (id_pembelian,id_instansi, id_user, kode_barang, volume, harga_satuan, jumlah_harga, tanggal) VALUES ('$id_pembelian','$id_instansi','$id_user','$kode','$volume','$harga_satuan', '$jumlah_harga', '$tanggal_input', '$kategori)");
 
     if (!$sql && $sql1) {
       echo ("Error description : <span style='color:red;'>" . $conn->error . "</span> Cek lagi bro");

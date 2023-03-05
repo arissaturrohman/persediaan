@@ -72,7 +72,7 @@ $dataSet = $setting->fetch_assoc();
       <td align="left" rowspan="4" width="10%"><img src="../../assets/img/logo.png" alt="logo" width="8%"></td>
       <td align="center">
         <h4>PEMERINTAH KABUPATEN DEMAK</h4>
-        <h3 class="upper"><?= $dataOpd['nama_instansi']; ?></h3>
+        <h2 class="upper"><?= $dataOpd['nama_instansi']; ?></h2>
         <p><?= $dataOpd['alamat_instansi'] . " Telp. " . $dataOpd['no_telp'] . " Kode Pos " . $dataOpd['kd_pos']; ?></p>
         <p>Website : <?= $dataOpd['website']; ?> - Email : <?= $dataOpd['email']; ?></p>
       </td>
