@@ -142,7 +142,7 @@ $dataSet = $setting->fetch_assoc();
 
 
       $no = 2;
-      $queryTrx = $conn->query("SELECT bb.* FROM ( SELECT a.kode_barang, a.volume AS masuk, '' AS keluar, a.regdate,a.tanggal FROM tb_pembelian_detail a UNION SELECT b.kode_barang, '' AS masuk, b.volume AS keluar, b.regdate,b.tanggal FROM tb_pengeluaran_detail b ) AS bb WHERE bb.kode_barang = '" . $brg . "' AND month(bb.tanggal) <= '" . $smt . "' ORDER BY bb.tanggal ASC;");
+      $queryTrx = $conn->query("SELECT bb.* FROM ( SELECT a.kode_barang, a.volume AS masuk, '' AS keluar, a.tanggal FROM tb_pembelian_detail a UNION SELECT b.kode_barang, '' AS masuk, b.volume AS keluar, b.tanggal FROM tb_pengeluaran_detail b ) AS bb WHERE bb.kode_barang = '" . $brg . "' AND month(bb.tanggal) <= '" . $smt . "' ORDER BY bb.tanggal ASC;");
       foreach ($queryTrx as $key => $value) {
         $saldoAwal = $saldoAwal + $value['masuk'] - $value['keluar'];
 

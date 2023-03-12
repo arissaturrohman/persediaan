@@ -1,5 +1,11 @@
 <?php
-include("inc/config.php");
+session_start();
+if (isset($_SESSION['login'])) {
+  header('Location: ./');
+  exit;
+}
+
+require "inc/config.php";
 
 error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
@@ -23,14 +29,14 @@ if (isset($_POST['login'])) {
           $_SESSION['level'] = "admin";
           $_SESSION['tahun'] = $tahun;
           header('location: ./');
-          exit();
+          exit;
         } elseif ($row['level'] == "user") {
           $_SESSION['nama'] = $row['nama_user'];
           $_SESSION['id_user'] = $row['id_user'];
           $_SESSION['level'] = "user";
           $_SESSION['tahun'] = $tahun;
           header('location: ./');
-          exit();
+          exit;
         }
       }
     }
@@ -86,8 +92,8 @@ if (isset($_POST['login'])) {
                       <input type="password" name="password" class="form-control form-control-user" placeholder="Masukkan Password">
                     </div>
                     <?php if (isset($eror)) : ?>
-                    <p style="color:red; font-style:italic; text-align:center;">Pilih tahun terlebih dahulu</p>
-                  <?php endif; ?>
+                      <p style="color:red; font-style:italic; text-align:center;">Pilih tahun terlebih dahulu</p>
+                    <?php endif; ?>
                     <div class="form-group">
                       <select class="form-control" id="tahun" name="tahun" required>
                         <option value="0">Tahun</option>

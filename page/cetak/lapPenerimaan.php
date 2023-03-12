@@ -243,7 +243,7 @@ ob_end_clean();
 $mpdf->WriteHTML(utf8_encode($html));
 
 //Membuat output file
-$content = $mpdf->OutputHttpInline("Laporan Penerimaan.pdf", "I");
+$content = $mpdf->Output("Laporan Penerimaan.pdf", "D");
 // $mpdf->OverWrite('Lap.pdf', 'S');
 // $content = $mpdf->Output("CETAK.pdf", "I");
 

@@ -155,7 +155,7 @@ $dataSet = $setting->fetch_assoc();
       <td width="5%"></td>
       <td></td>
       <td width="1%"></td>
-      <td>Selanjutnya disebut sebagai Pihak II (Kedua atau Yang Menerima,</td>
+      <td>Selanjutnya disebut sebagai Pihak II (Kedua) atau Yang Menerima,</td>
     </tr>
   </table>
   <?php

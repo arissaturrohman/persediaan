@@ -120,7 +120,7 @@ $dataSet = $setting->fetch_assoc();
           $p = $value['penanggungjawab'];
           $sqlPegawai = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$p'");
           $dataNamaPegawai = $sqlPegawai->fetch_assoc();
-          echo "<td>$dataNamaPegawai[nama_pegawai]</td>";
+          echo "<td>$dataNamaPegawai[jabatan]</td>";
           ?>
           <td><?= $value['kode_barang']; ?></td>
           <?php
@@ -134,7 +134,13 @@ $dataSet = $setting->fetch_assoc();
           <td align="right"><?= number_format($value['harga_satuan']); ?></td>
           <td align="right"><?= number_format($value['jumlah_harga']); ?></td>
           <td><?= date("d/m/Y", strtotime($value['tanggal'])); ?></td>
-          <td></td>
+          <?php
+          $q = $value['penanggungjawab'];
+          $sqlJab = $conn->query("SELECT * FROM tb_pegawai WHERE id_pegawai = '$p'");
+          $dataJab = $sqlJab->fetch_assoc();
+          echo "<td>$dataJab[nama_pegawai]</td>";
+          ?>
+          <!-- <td><?= $value['nama_pegawai']; ?></td> -->
           <td><?= $value['ket']; ?></td>
         </tr>
       <?php endforeach; ?>

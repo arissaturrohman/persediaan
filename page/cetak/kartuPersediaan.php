@@ -155,16 +155,16 @@ $dataSet = $setting->fetch_assoc();
       </tr>
       ';
       $no = 2;
-      $queryTrx = $conn->query("SELECT a.kode_barang, a.volume AS masuk, 0 AS keluar, a.harga_satuan AS harga, 0 AS satuan, a.jumlah_harga AS tambah, 0 AS kurang, a.regdate, a.tanggal FROM tb_pembelian_detail a WHERE a.kode_barang = '$brg' UNION ALL SELECT b.kode_barang, 0 AS masuk, b.volume AS keluar, 0 AS harga, b.harga_satuan AS satuan, 0 AS tambah, b.jumlah_harga AS kurang, b.regdate, b.tanggal FROM tb_pengeluaran_detail b WHERE b.kode_barang = '" . $brg . "' AND month(tanggal) <= '" . $smt . "' ORDER BY tanggal ASC;");
+      $queryTrx = $conn->query("SELECT a.kode_barang, a.volume AS masuk, 0 AS keluar, a.harga_satuan AS harga, 0 AS satuan, a.jumlah_harga AS tambah, 0 AS kurang, a.tanggal FROM tb_pembelian_detail a WHERE a.kode_barang = '$brg' UNION ALL SELECT b.kode_barang, 0 AS masuk, b.volume AS keluar, 0 AS harga, b.harga_satuan AS satuan, 0 AS tambah, b.jumlah_harga AS kurang, b.tanggal FROM tb_pengeluaran_detail b WHERE b.kode_barang = '" . $brg . "' AND month(tanggal) <= '" . $smt . "' ORDER BY tanggal ASC;");
 
       foreach ($queryTrx as $value) {
         $saldoAwal = $saldoAwal + $value['masuk'] - $value['keluar'];
         $harga = $harga + $value['tambah'] - $value['kurang'];
 
         if ($value['masuk'] > 0) {
-          $harga = $value['harga'];
+          $satuan = $value['harga'];
         } else {
-          $harga = $value['satuan'];
+          $satuan = $value['satuan'];
         }
 
         echo '        
@@ -174,7 +174,7 @@ $dataSet = $setting->fetch_assoc();
           <td align="right">' . $value["masuk"] . '</td>
           <td align="right">' . $value["keluar"] . '</td>
           <td align="right">' . $saldoAwal . '</td>
-          <td align="right">' . number_format($harga) . '</td>
+          <td align="right">' . number_format($satuan) . '</td>
           <td align="right">' . number_format($value["tambah"]) . '</td>
           <td align="right">' . number_format($value["kurang"]) . '</td>
           <td align="right">' . number_format($harga) . '</td>

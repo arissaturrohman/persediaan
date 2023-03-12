@@ -87,7 +87,7 @@ $dataSet = $setting->fetch_assoc();
     <tr>
       <td width="12%">Dasar</td>
       <td width="1%">:</td>
-      <td>Surat Perintah Penyaluran Barang (SPPB) Nomor <?= "0" . $dataSpb['no_spb'] . " / SPPB / " . BulanRomawi($dataSpb['tanggal']); ?> Tanggal <?= TanggalIndo($dataSpb['tanggal']); ?></td>
+      <td align="justify">Surat Perintah Penyaluran Barang (SPPB) Nomor <?= "0" . $dataSpb['no_spb'] . " / SPPB / " . BulanRomawi($dataSpb['tanggal']); ?> Tanggal <?= TanggalIndo($dataSpb['tanggal']); ?></td>
     </tr>
   </table>
   <?php

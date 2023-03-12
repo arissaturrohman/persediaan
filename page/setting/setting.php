@@ -17,7 +17,15 @@
         <div class="form-group row">
           <label for="pegawai" class="col-sm-2 col-form-label col-form-label-sm">Nama Pegawai</label>
           <div class="col-sm-6">
-            <input type="text" class="form-control form-control-sm" id="pegawai" name="pegawai" value="<?= $_POST['pegawai']; ?>" autofocus>
+          <select class="form-control form-control-sm" name="pegawai">
+              <option>--Pilih--</option>
+              <?php 
+              $sql = $conn->query("SELECT * FROM tb_pegawai");
+              while($dataSql = $sql->fetch_assoc()) :
+              ?>
+              <option value="<?= $dataSql['id_pegawai']; ?>"><?= $dataSql['nama_pegawai']; ?></option>
+              <?php endwhile; ?>
+            </select>
           </div>
         </div>
         <div class="form-group row">
@@ -118,16 +126,7 @@ if (isset($_POST['add'])) {
 
               <td><?= $value['nama']; ?></td>
               <td><?= $value['nip']; ?></td>
-              <?php
-              if ($value['jabatan'] == 1) {
-                $Jab = "Pengguna Barang";
-              } elseif ($value['jabatan'] == 2) {
-                $Jab = "Pengurus Barang";
-              } elseif ($value['jabatan'] == 3) {
-                $Jab = "Penatausaha Barang";
-              }
-              ?>
-              <td><?= $Jab; ?></td>
+              <td><?= $value['jabatan']; ?></td>
               <td><?= $value['pangkat']; ?></td>
               <td>
 

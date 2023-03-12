@@ -17,16 +17,16 @@
             <th>Harga</th>
             <th>Jumlah Harga</th>
             <th>Tanggal Beli</th>
-            <th width="8%">Opsi</th>
+            <th width="10%">Opsi</th>
           </tr>
         </thead>
         <tbody>
           <?php
           if ($_SESSION['level'] == "admin") {
 
-            $sql = $conn->query("SELECT * FROM tb_pembelian WHERE year(tahun) = '$_SESSION[tahun]'");
+            $sql = $conn->query("SELECT * FROM tb_pembelian_detail WHERE year(tahun) = '$_SESSION[tahun]'");
           } else {
-            $sql = $conn->query("SELECT * FROM tb_pembelian  WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
+            $sql = $conn->query("SELECT * FROM tb_pembelian_detail  WHERE id_user = '$_SESSION[id_user]' AND year(tahun) = '$_SESSION[tahun]'");
           }
           $no = 1;
           foreach ($sql as $key => $value) :

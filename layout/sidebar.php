@@ -100,6 +100,8 @@ if ($_SESSION['level'] == "admin") {
   echo 'active';
 } elseif ($uri_segments[4] == "saldo") {
   echo 'active';
+} elseif ($uri_segments[4] == "sisa") {
+  echo 'active';
 } ?>">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
     <i class="fas fa-fw fa-folder"></i>
@@ -113,9 +115,15 @@ if ($_SESSION['level'] == "admin") {
     echo 'show';
   } elseif ($uri_segments[4] == "saldo") {
     echo 'show';
+  } elseif ($uri_segments[4] == "sisa") {
+    echo 'show';
   } ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
     <div class="bg-white py-2 collapse-inner rounded">
       <h6 class="collapse-header">Data Transaksi:</h6>
+      <a class="collapse-item 
+      <?php if ($uri_segments[4] == "saldo") {
+        echo 'active';
+      } ?>" href="saldo">Saldo Awal</a>
       <a class="collapse-item 
       <?php if ($uri_segments[4] == "pembelian") {
         echo 'active';
@@ -125,9 +133,9 @@ if ($_SESSION['level'] == "admin") {
         echo 'active';
       } ?>" href="pengeluaran">Pengeluaran</a>
       <a class="collapse-item 
-      <?php if ($uri_segments[4] == "saldo") {
+      <?php if ($uri_segments[4] == "sisa") {
         echo 'active';
-      } ?>" href="saldo">Saldo Awal</a>
+      } ?>" href="sisa">Sisa Barang</a>
       <!-- <a class="collapse-item active" href="#">Pengeluaran</a> -->
     </div>
   </div>

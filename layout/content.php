@@ -146,7 +146,11 @@ if ($hasil['tgl_aktivasi'] < date("Y-m-d")) {
     } elseif ($action == "add") {
       include "page/saldo/add.php";
     }
-  } else {
+  } elseif ($page == "sisa") {
+    if ($action == "") {
+      include "page/pembelian/sisa.php";
+    }
+  }else {
     include "layout/dashboard.php";
   }
 }

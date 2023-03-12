@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION["login"])) {
+  header("Location: login.php");
+  exit;
+}
 include('inc/config.php');
 include('inc/tgl_indo.php');
 include('inc/terbilang.php');
@@ -6,10 +11,6 @@ include('inc/romawi.php');
 include('inc/bulan.php');
 include('vendor/autoload.php');
 
-if (!isset($_SESSION["login"])) {
-  header("Location: login.php");
-  exit;
-}
 
 error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 

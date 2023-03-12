@@ -15,7 +15,7 @@
             <th>Nama Barang</th>
             <th>Kategori</th>
             <th>Satuan</th>
-            <th width="8%">Opsi</th>
+            <th width="10%">Opsi</th>
           </tr>
         </thead>
         <tbody>

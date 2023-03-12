@@ -28,7 +28,7 @@ if (isset($_POST['trx'])) {
         <input type="hidden" name="id_instansi" value="<?= $data['id_instansi']; ?>">
         <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
         <input type="hidden" name="id_pembelian" id="id_pembelian" value="<?= $_POST['id_pembelian']; ?>">
-        <input type="hidden" name="kategori" id="kategori">
+        <input type="text" name="kategori" id="kategori">
         <div class="form-row">
           <div class="form-group col-md-4">
             <label for="kode">Cari Barang</label>
@@ -155,7 +155,7 @@ if (isset($_POST['trx'])) {
                 echo "<td>$data[nama_pegawai]</td>";
               }
               ?>
-              <td><?= "0" . $value['no_spb'] . " / spb / " . BulanRomawi($value['tanggal_spb']) ?></td>
+              <td><?= "0" . $value['no_spb'] . " / spb / " . BulanRomawi($value['tanggal']) ?></td>
               <td><?= TanggalIndo($value['tanggal']); ?></td>
               <td>
 
@@ -204,11 +204,9 @@ if (isset($_POST['add'])) {
 <?php
   } else {
 
-    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun, id_kategori) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb', '$kategori)");
+    $sql = $conn->query("INSERT INTO tb_pengeluaran (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun, id_kategori) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb', '$kategori')");
 
-    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun, id_kategori) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb', '$kategori)");
-
-    // $sql2 = $conn->query("INSERT INTO tb_transaksi (id_instansi, id_user, id_pembelian, kode_barang, saldo_awal, tanggal_trx, trx, ket, tahun) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb')");
+    $sql1 = $conn->query("INSERT INTO tb_pengeluaran_detail (id_instansi, id_user, id_pembelian, kode_barang, volume, harga_satuan, jumlah_harga, penanggungjawab, no_spb, tanggal, trx, ket, tahun, id_kategori) VALUES ('$id_instansi','$id_user', '$id_pembelian', '$kode','$volume','$harga_satuan', '$jumlah_harga', '$penanggungjawab', '$no_spb', '$tanggal_spb', '$trx', '$ket', '$tanggal_spb', '$kategori')");
 
     if (!$sql && !$sql1) {
       // die();
@@ -218,10 +216,6 @@ if (isset($_POST['add'])) {
       $_SESSION['status'] = "Alhamdulillah";
       $_SESSION['desc'] = "Data berhasil ditambah";
       $_SESSION['link'] = "";
-
-      // $update_barang = $conn->query("UPDATE tb_pembelian SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
-
-      // $update_barang = $conn->query("UPDATE tb_saldo_awal SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
 
       $hapusSaldo = $conn->query("UPDATE tb_saldo_awal_detail SET volume = '$sisa' WHERE id_pembelian = '$id_pembelian'");
     }

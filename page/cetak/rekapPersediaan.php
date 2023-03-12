@@ -120,101 +120,189 @@ $dataSet = $setting->fetch_assoc();
 
       <?php
 
-      $sql = $conn->query("SELECT * FROM tb_kategori");
-      while ($result = $sql->fetch_assoc()) {
-        // var_dump($result);
-        // die;
+      $sqlKategori = $conn->query("SELECT * FROM tb_kategori");
+      while ($resultKategori = $sqlKategori->fetch_assoc()) {
+        $idKategori = $resultKategori['id_kategori'];
+        // var_dump($resultKategori); die;
 
       ?>
         <tr>
-          <td colspan="16" style="background-color: #dcdcdc;"><?= $result['kategori']; ?></td>
+          <td colspan="16" style="background-color: #dcdcdc;"><?= $resultKategori['kategori']; ?></td>
         </tr>
 
         <?php
+        // $sqlRekap = $conn->query("SELECT 
+        //   tb_barang.nama_barang, 
+        //   tb_barang.satuan_barang,
+        //   tb_kategori.kategori,
+        //   tb_kategori.id_kategori,
+        //   subquery.kode_barang, 
+        //   SUM(subquery.volSaldo) AS totalVolSaldo, 
+        //   SUM(subquery.volTerima) AS totalVolTerima, 
+        //   SUM(subquery.volKeluar) AS totalVolKeluar,
+        //   SUM(subquery.volSaldo + subquery.volTerima - subquery.volKeluar) AS sisaVol, 
+        //   SUM(subquery.hargaSaldo) AS totalHargaSaldo,
+        //   subquery.hargaSaldo AS hargaSaldo, 
+        //   subquery.hargaTerima AS hargaTerima, 
+        //   subquery.hargaKeluar AS hargaKeluar, 
+        //   SUM(subquery.jumlahSaldo) AS totalJumlahSaldo, 
+        //   SUM(subquery.jumlahTerima) AS totalJumlahTerima, 
+        //   SUM(subquery.jumlahKeluar) AS totalJumlahKeluar,
+        //   SUM(subquery.jumlahSaldo + subquery.jumlahTerima - subquery.jumlahKeluar) AS saldoAkhir
+        // FROM 
+        //   (SELECT 
+        //     id_kategori, 
+        //     kode_barang, 
+        //     SUM(volume) AS volSaldo, 
+        //     0 AS volTerima, 
+        //     0 AS volKeluar, 
+        //     SUM(jumlah_harga) AS hargaSaldo, 
+        //     harga_satuan AS hargaTerima, 
+        //     harga_satuan AS hargaKeluar, 
+        //     SUM(jumlah_harga) AS jumlahSaldo, 
+        //     0 AS jumlahTerima, 
+        //     0 AS jumlahKeluar 
+        //   FROM 
+        //     tb_saldo_awal WHERE id_kategori = '$idKategori'
+        //   GROUP BY 
+        //   $idKategori, 
+        //     kode_barang 
+        //   UNION 
+        //   SELECT 
+        //     id_kategori, 
+        //     kode_barang, 
+        //     0 AS volSaldo, 
+        //     SUM(volume) AS volTerima, 
+        //     0 AS volKeluar, 
+        //     harga_satuan AS hargaSaldo, 
+        //     harga_satuan AS hargaTerima, 
+        //     harga_satuan AS hargaKeluar, 
+        //     0 AS jumlahSaldo, 
+        //     SUM(jumlah_harga) AS jumlahTerima, 
+        //     0 AS jumlahKeluar 
+        //   FROM 
+        //     tb_pembelian_detail WHERE month(tahun) <= '$smt' AND id_kategori = '$idKategori'
+        //   GROUP BY 
+        //   $idKategori, 
+        //     kode_barang 
+        //   UNION ALL 
+        //   SELECT 
+        //     id_kategori, 
+        //     kode_barang, 
+        //     0 AS volSaldo, 
+        //     0 AS volTerima, 
+        //     SUM(volume) AS volKeluar, 
+        //     harga_satuan AS hargaSaldo, 
+        //     harga_satuan AS hargaTerima, 
+        //     harga_satuan AS hargaKeluar, 
+        //     0 AS jumlahSaldo, 
+        //     0 AS jumlahTerima, 
+        //     SUM(jumlah_harga) AS jumlahKeluar 
+        //   FROM 
+        //     tb_pengeluaran_detail WHERE month(tahun) <= '$smt' AND id_kategori = '$idKategori'
+        //   GROUP BY 
+        //   $idKategori, 
+        //     kode_barang
+        //   ) AS subquery
+        // JOIN tb_barang ON tb_barang.kode_barang = subquery.kode_barang 
+        // JOIN tb_kategori ON tb_kategori.id_kategori = tb_barang.id_kategori
+        // WHERE tb_kategori.id_kategori = tb_barang.id_kategori
+        // GROUP BY 
+        //   tb_barang.nama_barang, 
+        //   tb_barang.satuan_barang,
+        //   subquery.kode_barang
+        //   ORDER BY 
+        //   subquery.kode_barang ASC;");
+
         $sqlRekap = $conn->query("SELECT 
-          tb_barang.nama_barang, 
-          tb_barang.satuan_barang,
-          tb_kategori.kategori,
-          tb_kategori.id_kategori,
-          subquery.kode_barang, 
-          SUM(subquery.volSaldo) AS totalVolSaldo, 
-          SUM(subquery.volTerima) AS totalVolTerima, 
-          SUM(subquery.volKeluar) AS totalVolKeluar, 
-          SUM(subquery.hargaSaldo) AS totalHargaSaldo, 
-          subquery.hargaTerima AS hargaTerima, 
-          subquery.hargaKeluar AS hargaKeluar, 
-          SUM(subquery.jumlahSaldo) AS totalJumlahSaldo, 
-          SUM(subquery.jumlahTerima) AS totalJumlahTerima, 
-          SUM(subquery.jumlahKeluar) AS totalJumlahKeluar,
-          SUM(subquery.jumlahSaldo + subquery.jumlahTerima - subquery.jumlahKeluar) AS saldoAkhir
+        tb_barang.nama_barang, 
+        tb_barang.satuan_barang,
+        tb_kategori.kategori,
+        tb_kategori.id_kategori,
+        subquery.kode_barang, 
+        SUM(subquery.volSaldo) AS totalVolSaldo, 
+        SUM(subquery.volTerima) AS totalVolTerima, 
+        SUM(subquery.volKeluar) AS totalVolKeluar,
+        SUM(subquery.volSaldo + subquery.volTerima - subquery.volKeluar) AS sisaVol, 
+        SUM(subquery.hargaSaldo) AS totalHargaSaldo, 
+        subquery.hargaSaldo AS hargaSaldo, 
+        subquery.hargaTerima AS hargaTerima, 
+        subquery.hargaKeluar AS hargaKeluar, 
+        SUM(subquery.jumlahSaldo) AS totalJumlahSaldo, 
+        SUM(subquery.jumlahTerima) AS totalJumlahTerima, 
+        SUM(subquery.jumlahKeluar) AS totalJumlahKeluar,
+        SUM(subquery.jumlahSaldo + subquery.jumlahTerima - subquery.jumlahKeluar) AS saldoAkhir
+        
+      FROM 
+        (SELECT 
+          id_kategori, 
+          kode_barang, 
+          SUM(volume) AS volSaldo, 
+          0 AS volTerima, 
+          0 AS volKeluar, 
+          SUM(jumlah_harga) AS hargaSaldo, 
+          harga_satuan AS hargaTerima, 
+          harga_satuan AS hargaKeluar, 
+          SUM(jumlah_harga) AS jumlahSaldo, 
+          0 AS jumlahTerima, 
+          0 AS jumlahKeluar 
         FROM 
-          (SELECT 
-            id_kategori, 
-            kode_barang, 
-            SUM(volume) AS volSaldo, 
-            0 AS volTerima, 
-            0 AS volKeluar, 
-            SUM(jumlah_harga) AS hargaSaldo, 
-            NULL AS hargaTerima, 
-            NULL AS hargaKeluar, 
-            SUM(jumlah_harga) AS jumlahSaldo, 
-            0 AS jumlahTerima, 
-            0 AS jumlahKeluar 
-          FROM 
-            tb_saldo_awal WHERE id_kategori = '$result[id_kategori]'
-          GROUP BY 
-            $result[id_kategori], 
-            kode_barang 
-          UNION 
-          SELECT 
-            id_kategori, 
-            kode_barang, 
-            0 AS volSaldo, 
-            SUM(volume) AS volTerima, 
-            0 AS volKeluar, 
-            NULL AS hargaSaldo, 
-            harga_satuan AS hargaTerima, 
-            NULL AS hargaKeluar, 
-            0 AS jumlahSaldo, 
-            SUM(jumlah_harga) AS jumlahTerima, 
-            0 AS jumlahKeluar 
-          FROM 
-            tb_pembelian_detail WHERE month(tahun) <= '$smt' AND id_kategori = '$result[id_kategori]'
-          GROUP BY 
-            $result[id_kategori], 
-            kode_barang 
-          UNION ALL 
-          SELECT 
-            id_kategori, 
-            kode_barang, 
-            0 AS volSaldo, 
-            0 AS volTerima, 
-            SUM(volume) AS volKeluar, 
-            NULL AS hargaSaldo, 
-            NULL AS hargaTerima, 
-            harga_satuan AS hargaKeluar, 
-            0 AS jumlahSaldo, 
-            0 AS jumlahTerima, 
-            SUM(jumlah_harga) AS jumlahKeluar 
-          FROM 
-            tb_pengeluaran_detail WHERE month(tahun) <= '$smt' AND id_kategori = '$result[id_kategori]'
-          GROUP BY 
-            $result[id_kategori], 
-            kode_barang
-          ) AS subquery
-        JOIN tb_barang ON tb_barang.kode_barang = subquery.kode_barang 
-        JOIN tb_kategori ON tb_kategori.id_kategori = tb_barang.id_kategori
-        WHERE tb_kategori.id_kategori = tb_barang.id_kategori
+          tb_saldo_awal WHERE id_kategori = '$idKategori'
         GROUP BY 
-          tb_barang.nama_barang, 
-          tb_barang.satuan_barang,
-          subquery.kode_barang
-          ORDER BY 
-          subquery.kode_barang ASC;");
+        $idKategori, 
+          kode_barang 
+        UNION 
+        SELECT 
+          id_kategori, 
+          kode_barang, 
+          0 AS volSaldo, 
+          SUM(volume) AS volTerima, 
+          0 AS volKeluar, 
+          harga_satuan AS hargaSaldo, 
+          harga_satuan AS hargaTerima, 
+          harga_satuan AS hargaKeluar, 
+          0 AS jumlahSaldo, 
+          SUM(jumlah_harga) AS jumlahTerima, 
+          0 AS jumlahKeluar 
+        FROM 
+          tb_pembelian_detail WHERE month(tahun) <= '$smt' AND id_kategori = '$idKategori'
+        GROUP BY 
+        $idKategori, 
+          kode_barang 
+        UNION ALL 
+        SELECT 
+          id_kategori, 
+          kode_barang, 
+          0 AS volSaldo, 
+          0 AS volTerima, 
+          SUM(volume) AS volKeluar, 
+          harga_satuan AS hargaSaldo, 
+          harga_satuan AS hargaTerima, 
+          harga_satuan AS hargaKeluar, 
+          0 AS jumlahSaldo, 
+          0 AS jumlahTerima, 
+          SUM(jumlah_harga) AS jumlahKeluar 
+        FROM 
+          tb_pengeluaran_detail WHERE month(tahun) <= '$smt' AND id_kategori = '$idKategori'
+        GROUP BY 
+        $idKategori, 
+          kode_barang
+        ) AS subquery
+      JOIN tb_barang ON tb_barang.kode_barang = subquery.kode_barang 
+      JOIN tb_kategori ON tb_kategori.id_kategori = tb_barang.id_kategori
+      WHERE tb_kategori.id_kategori = tb_barang.id_kategori
+      GROUP BY 
+        tb_barang.nama_barang, 
+        tb_barang.satuan_barang,
+        tb_kategori.kategori,
+        tb_kategori.id_kategori
+      ORDER BY 
+        subquery.kode_barang ASC;
+      ");
 
         foreach ($sqlRekap as $key => $value) {
           // while ($value = $sqlRekap->fetch_assoc()) {
-          $sisa = $value['totalVolSaldo'] + $value['totalVolTerima'] - $value['totalVolKeluar'];
+          echo $sisa = $value['totalVolSaldo'] + $value['totalVolTerima'] - $value['totalVolKeluar'];
 
         ?>
 
@@ -225,17 +313,17 @@ $dataSet = $setting->fetch_assoc();
             <td><?= $value['nama_barang']; ?></td>
             <td><?= $value['satuan_barang']; ?></td>
             <td><?= $value['totalVolSaldo']; ?></td>
-            <td><?= number_format($value['hargaKeluar']); ?></td>
+            <td><?= number_format($value['hargaSaldo']); ?></td>
             <td><?= number_format($value['totalJumlahSaldo']); ?></td>
             <!-- Penerimaan -->
             <td><?= $value['totalVolTerima']; ?></td>
-            <td><?= number_format($value['hargaKeluar']); ?></td>
+            <td><?= number_format($value['hargaTerima']); ?></td>
             <td><?= number_format($value['totalJumlahTerima']); ?></td>
             <!-- Pengeluaran -->
             <td><?= $value['totalVolKeluar']; ?></td>
             <td><?= number_format($value['hargaKeluar']); ?></td>
             <td><?= number_format($value['totalJumlahKeluar']); ?></td>
-            <td><?= $sisa; ?></td>
+            <td><?= number_format($value['sisaVol']); ?></td>
             <td><?= number_format($value['hargaKeluar']); ?></td>
             <td><?= number_format($value['saldoAkhir']); ?></td>
             <td> -</td>
