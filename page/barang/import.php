@@ -1,15 +1,23 @@
 <h5 class="h5 mb-4 text-gray-800">Data Barang</h5>
 
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-6">
     <form action="" method="post" enctype="multipart/form-data">
       <div class="form-group">
-        <div class="custom-file">
-          <input type="file" name="fileimport" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Choose file</label>
+
+        <div class="input-group">
+          <div class="custom-file">
+            <input type="file" name="fileimport" class="custom-file-input custom-file-input-sm" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+          </div>
+          <div class="input-group-append">
+            <a href="data.xlsx" class="btn btn-outline-info">Template</a>
+          </div>
         </div>
       </div>
-      <button type="submit" name="import" class="btn btn-dark btn-sm">Import</button>
+      <div class="form-group">
+        <button type="submit" name="import" class="btn btn-dark btn-sm">Import</button>
+      </div>
     </form>
   </div>
 </div>

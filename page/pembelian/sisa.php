@@ -31,7 +31,8 @@
       FROM tb_barang b
       LEFT JOIN tb_saldo_awal_detail sa ON b.kode_barang = sa.kode_barang AND sa.id_user = '$_SESSION[id_user]'
       LEFT JOIN tb_pembelian p ON b.kode_barang = p.kode_barang AND p.id_user = '$_SESSION[id_user]'
-      WHERE (sa.id_user IS NOT NULL OR p.id_user IS NOT NULL) AND (YEAR(sa.tanggal) = '$_SESSION[tahun]' OR YEAR(p.tanggal) = '$_SESSION[tahun]');");
+      WHERE (sa.id_user IS NOT NULL OR p.id_user IS NOT NULL) AND (YEAR(sa.tanggal) = '$_SESSION[tahun]' OR YEAR(p.tanggal) = '$_SESSION[tahun]')
+      GROUP BY kode_barang;");
 
           $no = 1;
           foreach ($sql as $key => $value) :
